@@ -32,10 +32,12 @@ DEBUG = os.environ.get('DEBUG') == 'True'
 
 from socket import gethostname
 ALLOWED_HOSTS = [
-    gethostname(), # For internal OpenShift load balancer security purposes.
-    os.environ.get('OPENSHIFT_APP_DNS'), # Dynamically map to the OpenShift gear name.
-    #'example.com', # First DNS alias (set up in the app)
-    #'www.example.com', # Second DNS alias (set up in the app)
+    # For internal OpenShift load balancer security purposes.
+    gethostname(),
+    # Dynamically map to the OpenShift gear name.
+    os.environ.get('OPENSHIFT_APP_DNS'),
+    # 'example.com', # First DNS alias (set up in the app)
+    # 'www.example.com', # Second DNS alias (set up in the app)
 ]
 
 
@@ -48,6 +50,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'blog',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -87,9 +90,12 @@ WSGI_APPLICATION = 'myproject.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        # GETTING-STARTED: change 'db.sqlite3' to your sqlite3 database:
-        'NAME': os.path.join(DATA_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'backandbeyond',
+        'USER': 'adminekv9pr1',
+        'PASSWORD': 'Wsup79Xy47XN',
+        'HOST': '',
+        'PORT': '',
     }
 }
 
