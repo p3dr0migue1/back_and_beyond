@@ -10,18 +10,20 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+
+
 DJ_PROJECT_DIR = os.path.dirname(__file__)
-BASE_DIR = os.path.dirname(DJ_PROJECT_DIR)
-print 'base dir: '.format(BASE_DIR)
-print os.path.abspath(os.path.join(DJ_PROJECT_DIR, '..', '..'))
+BASE_DIR = os.path.abspath(os.path.join(DJ_PROJECT_DIR, '..', '..'))
 WSGI_DIR = os.path.dirname(BASE_DIR)
 REPO_DIR = os.path.dirname(WSGI_DIR)
 DATA_DIR = os.environ.get('OPENSHIFT_DATA_DIR', BASE_DIR)
-print DATA_DIR
 
 import sys
+
 sys.path.append(os.path.join(REPO_DIR, 'libs'))
+
 import secrets
+
 SECRETS = secrets.getter(os.path.join(DATA_DIR, 'secrets.json'))
 
 # Quick-start development settings - unsuitable for production
@@ -30,22 +32,7 @@ SECRETS = secrets.getter(os.path.join(DATA_DIR, 'secrets.json'))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = SECRETS['secret_key']
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG') == 'True'
-
-from socket import gethostname
-ALLOWED_HOSTS = [
-    # For internal OpenShift load balancer security purposes.
-    gethostname(),
-    # Dynamically map to the OpenShift gear name.
-    os.environ.get('OPENSHIFT_APP_DNS'),
-    # 'example.com', # First DNS alias (set up in the app)
-    # 'www.example.com', # Second DNS alias (set up in the app)
-]
-
-
 # Application definition
-
 INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
@@ -86,21 +73,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'myproject.wsgi.application'
-
-
-# Database
-# https://docs.djangoproject.com/en/1.8/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'backandbeyond',
-        'USER': 'adminekv9pr1',
-        'PASSWORD': 'Wsup79Xy47XN',
-        'HOST': '',
-        'PORT': '',
-    }
-}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
