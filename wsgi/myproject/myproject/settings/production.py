@@ -24,9 +24,9 @@ ALLOWED_HOSTS = [
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'backandbeyond',
-        'USER': 'adminekv9pr1',
-        'PASSWORD': 'Wsup79Xy47XN',
+        'NAME': os.environ.get('PGDATABASE'),
+        'USER': os.environ.get('PGUSER'),
+        'PASSWORD': os.environ.get('OPENSHIFT_POSTGRESQL_DB_PASSWORD'),
         'HOST': '',
         'PORT': '',
     }
