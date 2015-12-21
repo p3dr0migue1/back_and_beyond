@@ -1,0 +1,4 @@
+# pip install -r requirements/base.txt
+Django==1.9
+psycopg2==2.6.1
+markdown==2.6.5
