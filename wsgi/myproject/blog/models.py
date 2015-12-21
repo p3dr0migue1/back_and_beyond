@@ -1,5 +1,8 @@
 from django.db import models
+from django.utils import timezone
 from django.template.defaultfilters import slugify
+
+import markdown
 
 
 class Tag(models.Model):
@@ -25,7 +28,12 @@ class PostsManager(models.Manager):
 class Posts(models.Model):
     title = models.CharField(max_length=200, unique=True)
     slug = models.SlugField(max_length=220, unique=True)
-    text = models.TextField(blank=True, null=True)
+    markdown_text = models.TextField(blank=True, null=True)
+    html_text = models.TextField(blank=True, null=True)
+    date_created = models.DateTimeField(default=timezone.now, blank=True)
+    last_updated = models.DateTimeField()
+    views = models.IntegerField(default=0)
+    likes = models.IntegerField(default=0)
     tags = models.ManyToManyField(Tag, blank=True, through='PostTags')
     objects = PostsManager()
 
@@ -34,7 +42,9 @@ class Posts(models.Model):
     get_tag_names.short_description = "Tags"
 
     def save(self, *args, **kwargs):
+        self.html_text = markdown.markdown(self.markdown_text)
         self.slug = slugify(self.title)
+        self.last_updated = timezone.now()
         super(Posts, self).save(*args, **kwargs)
 
     class Meta:
