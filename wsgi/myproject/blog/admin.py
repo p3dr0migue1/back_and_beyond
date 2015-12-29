@@ -21,7 +21,7 @@ class PostsAdmin(admin.ModelAdmin):
     # readonly_fields = ('date_created', 'last_updated')
     inlines = [PostTagsInline]
 
-    list_display = ('title', 'slug', 'get_tag_names')
+    list_display = ('title', 'slug', 'get_tag_names', 'status')
     # exclude = ('html_content')
 
 
