@@ -11,11 +11,11 @@ DEBUG = True
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.mysql',
         'NAME': os.environ.get('BBDATABASE'),
         'USER': os.environ.get('BBUSER'),
         'PASSWORD': os.environ.get('BBPASSWORD'),
-        'HOST': '',
+        'HOST': 'localhost',
         'PORT': '',
     }
 }
