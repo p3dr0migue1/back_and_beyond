@@ -1,3 +1,17 @@
-#header-title h1{
+body {
     color: #002a00;
+}
+
+/* code snippets */
+p, code {
+    color: #404040;
+}
+
+pre, code {
+    background-color: #deefd4;
+}
+
+pre {
+    border: 1px solid #9acb7d;
+    padding: 2px 0px 2px 4px;
 }
