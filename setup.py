@@ -16,14 +16,14 @@ setup(
     # GETTING-STARTED: set author url (your url):
     url='http://www.python.org/sigs/distutils-sig/',
     # GETTING-STARTED: define required django version:
-    install_requires=[
-        'Django==1.9',
-        'psycopg2==2.6.1',
-        'markdown==2.6.5',
-    ],
-    dependency_links=[
-        'https://pypi.python.org/simple/django/',
-        'https://pypi.python.org/simple/psycopg2/',
-        'https://pypi.python.org/simple/markdown/',
-    ],
+    # install_requires=[
+    #     'Django==1.9',
+    #     'psycopg2==2.6.1',
+    #     'markdown==2.6.5',
+    # ],
+    # dependency_links=[
+    #     'https://pypi.python.org/simple/django/',
+    #     'https://pypi.python.org/simple/psycopg2/',
+    #     'https://pypi.python.org/simple/markdown/',
+    # ],
 )

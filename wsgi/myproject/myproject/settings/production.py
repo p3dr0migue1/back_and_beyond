@@ -23,6 +23,7 @@ ALLOWED_HOSTS = [
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
+        'NAME': os.environ.get('OPENSHIFT_APP_NAME'),
         'USER': os.environ.get('OPENSHIFT_MYSQL_DB_USERNAME'),
         'PASSWORD': os.environ.get('OPENSHIFT_MYSQL_DB_PASSWORD'),
         'HOST': os.environ.get('OPENSHIFT_MYSQL_DB_HOST'),
