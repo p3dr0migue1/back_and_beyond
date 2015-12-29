@@ -1,0 +1,47 @@
+[
+    {
+        "model": "blog.posts",
+        "pk": 1,
+        "fields": {
+            "title": "Postgres",
+            "slug": "postgres",
+            "markdown_text": "#### Change a User's Password\r\n\r\n    ALTER USER davide WITH PASSWORD 'hu8jmn3';",
+            "html_text": "<h4>Change a User's Password</h4>\n<pre><code>ALTER USER davide WITH PASSWORD 'hu8jmn3';\n</code></pre>",
+            "date_created": "2015-12-20T12:27:13Z",
+            "last_updated": "2015-12-20T21:39:07.453Z",
+            "views": 0,
+            "likes": 0,
+            "status": 1
+        }
+    },
+    {
+        "model": "blog.posts",
+        "pk": 2,
+        "fields": {
+            "title": "Jenkins CI",
+            "slug": "jenkins-ci",
+            "markdown_text": "#### To give Jenkins a new port edit the file at:\r\n\r\n    /etc/default/jenkins\r\n\r\nand add the port number you want to the `HTTP_PORT VARIABLE`:\r\n\r\n    # port for HTTP connector (default 8080; disable with -1)\r\n    HTTP_PORT=9090\r\n\r\n\r\nThen you should restart Jenkins with `sudo service jenkins restart`.",
+            "html_text": "<h4>To give Jenkins a new port edit the file at:</h4>\n<pre><code>/etc/default/jenkins\n</code></pre>\n<p>and add the port number you want to the <code>HTTP_PORT VARIABLE</code>:</p>\n<pre><code># port for HTTP connector (default 8080; disable with -1)\nHTTP_PORT=9090\n</code></pre>\n<p>Then you should restart Jenkins with <code>sudo service jenkins restart</code>.</p>",
+            "date_created": "2015-12-22T08:55:55Z",
+            "last_updated": "2015-12-24T19:38:40.982Z",
+            "views": 0,
+            "likes": 0,
+            "status": 1
+        }
+    },
+    {
+        "model": "blog.posts",
+        "pk": 3,
+        "fields": {
+            "title": "Git",
+            "slug": "git",
+            "markdown_text": "#### Changing the default Git remote 'push to' default\r\n\r\nTo change which upstream remote is \"wired\" to your branch, use the git branch command with the upstream configuration flag. Ensure the remote exists first:\r\n\r\n    git remote -v\r\n\r\nSet the preferred remote for the current (checked out) branch:\r\n\r\n    git branch --set-upstream-to <remote-name>\r\n\r\nValidate the branch is setup with the correct upstream remote:\r\n\r\n    git branch -vv",
+            "html_text": "<h4>Changing the default Git remote 'push to' default</h4>\n<p>To change which upstream remote is \"wired\" to your branch, use the git branch command with the upstream configuration flag. Ensure the remote exists first:</p>\n<pre><code>git remote -v\n</code></pre>\n<p>Set the preferred remote for the current (checked out) branch:</p>\n<pre><code>git branch --set-upstream-to &lt;remote-name&gt;\n</code></pre>\n<p>Validate the branch is setup with the correct upstream remote:</p>\n<pre><code>git branch -vv\n</code></pre>",
+            "date_created": "2015-12-24T19:51:21Z",
+            "last_updated": "2015-12-24T20:06:18.077Z",
+            "views": 0,
+            "likes": 0,
+            "status": 1
+        }
+    }
+]
