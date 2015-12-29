@@ -26,6 +26,12 @@ class PostsManager(models.Manager):
 
 
 class Posts(models.Model):
+    POST_STATUS = (
+        (1, 'Draft'),
+        (2, 'Published'),
+        (3, 'Private'),
+        (4, 'Archived'),
+    )
     title = models.CharField(max_length=200, unique=True)
     slug = models.SlugField(max_length=220, unique=True)
     markdown_text = models.TextField(blank=True, null=True)
@@ -34,6 +40,7 @@ class Posts(models.Model):
     last_updated = models.DateTimeField()
     views = models.IntegerField(default=0)
     likes = models.IntegerField(default=0)
+    status = models.IntegerField(choices=POST_STATUS, default=1)
     tags = models.ManyToManyField(Tag, blank=True, through='PostTags')
     objects = PostsManager()
 
