@@ -3,15 +3,19 @@ body {
 }
 
 /* code snippets */
-p, code {
+p {
     color: #404040;
 }
 
+.codehilite pre {
+    background: #F0F0F0 none repeat scroll 0% 0%;
+}
+
 pre, code {
-    background-color: #deefd4;
+    padding: 5px;
+    font-size: 15px;
 }
 
 pre {
-    border: 1px solid #9acb7d;
-    padding: 2px 0px 2px 4px;
+    border: 1px solid #CCCCCC;
 }
