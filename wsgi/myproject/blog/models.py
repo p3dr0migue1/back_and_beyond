@@ -49,8 +49,10 @@ class Posts(models.Model):
     get_tag_names.short_description = "Tags"
 
     def save(self, *args, **kwargs):
-        self.html_text = markdown.markdown(self.markdown_text,
-                                           ["markdown.extensions.extra"])
+        self.html_text = markdown.markdown(
+            self.markdown_text,
+            ["markdown.extensions.extra", "codehilite"]
+        )
         self.slug = slugify(self.title)
         self.last_updated = timezone.now()
         super(Posts, self).save(*args, **kwargs)
