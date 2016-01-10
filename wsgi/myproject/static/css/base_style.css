@@ -1,21 +1,87 @@
+/*reset elements margin and padding*/
+html, body, h1, h2, h3, h4, h5, p, ul, ol, li, span, pre, code, div, img {
+    margin: 0;
+    padding: 0;
+}
+
 body {
-    color: #002a00;
+    color: #3E4349;
+    line-height: 1.4;
+    font-size: 17px;
+    font-family: "Georgia",serif;
 }
 
-/* code snippets */
+
+#main {
+    width: 80%;
+    float: left;
+}
+
+/*side navigation*/
+#side-nav {
+    width: 20%;
+    float: right;
+}
+
+#tags-block {
+    padding-left: 15px;
+}
+
+span.widget-title, #tags-block ul a {
+    color: #444444;
+    border-bottom: 1px dotted #999999;
+}
+
+#tags-block ul {
+    list-style-type: square;
+    margin-left: 20px;
+}
+
+#tags-block ul a {
+    text-decoration: none
+}
+
+/*main*/
+h1 {
+    font-family: 'Abril FatFace';
+    font-size: 63px;
+    font-style: normal;
+    font-weight: 400;
+}
+
+h2 {
+    margin-bottom: 15px;
+    font-style: normal;
+    font-weight: 200;
+}
+
+/*post block*/
+.post-block {
+    margin: 1.5em 0em 1.5em;
+    padding-bottom: 15px;
+}
+
+span.post-date {
+    float: right;
+    font-size: 12px;
+    font-weight: normal;
+}
+
 p {
-    color: #404040;
+    margin-bottom: 10px;
 }
 
+span.tags {
+    font-size: 12px;
+}
+
+/*code snippets*/
 .codehilite pre {
     background: #F0F0F0 none repeat scroll 0% 0%;
 }
 
 pre, code {
     padding: 5px;
-    font-size: 15px;
-}
-
-pre {
-    border: 1px solid #CCCCCC;
+    margin: 10px 0px;
+    font-size: 16px;
 }

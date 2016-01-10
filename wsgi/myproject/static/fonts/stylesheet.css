@@ -1,0 +1,22 @@
+@font-face {
+    font-family: 'Abril FatFace';
+    src: url('abrilfatface-regular-webfont.eot');
+    src: url('abrilfatface-regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('abrilfatface-regular-webfont.woff2') format('woff2'),
+         url('abrilfatface-regular-webfont.woff') format('woff'),
+         url('abrilfatface-regular-webfont.ttf') format('truetype'),
+         url('abrilfatface-regular-webfont.svg#abril_fatfaceregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'Alice';
+    src:url('Alice.ttf.woff') format('woff'),
+        url('Alice.ttf.svg#Alice') format('svg'),
+        url('Alice.ttf.eot'),
+        url('Alice.ttf.eot?#iefix') format('embedded-opentype'); 
+    font-weight: normal;
+    font-style: normal;
+}
