@@ -8,7 +8,7 @@
             "markdown_text": "#### Change a User's Password\r\n\r\n    ALTER USER davide WITH PASSWORD 'hu8jmn3';",
             "html_text": "<h4>Change a User's Password</h4>\n<pre><code>ALTER USER davide WITH PASSWORD 'hu8jmn3';\n</code></pre>",
             "date_created": "2015-12-20T12:27:13Z",
-            "last_updated": "2015-12-20T21:39:07.453Z",
+            "last_updated": "2015-12-20T21:39:07Z",
             "views": 0,
             "likes": 0,
             "status": 1
@@ -20,13 +20,13 @@
         "fields": {
             "title": "Jenkins CI",
             "slug": "jenkins-ci",
-            "markdown_text": "#### To give Jenkins a new port edit the file at:\r\n\r\n    /etc/default/jenkins\r\n\r\nand add the port number you want to the `HTTP_PORT VARIABLE`:\r\n\r\n    # port for HTTP connector (default 8080; disable with -1)\r\n    HTTP_PORT=9090\r\n\r\n\r\nThen you should restart Jenkins with `sudo service jenkins restart`.",
-            "html_text": "<h4>To give Jenkins a new port edit the file at:</h4>\n<pre><code>/etc/default/jenkins\n</code></pre>\n<p>and add the port number you want to the <code>HTTP_PORT VARIABLE</code>:</p>\n<pre><code># port for HTTP connector (default 8080; disable with -1)\nHTTP_PORT=9090\n</code></pre>\n<p>Then you should restart Jenkins with <code>sudo service jenkins restart</code>.</p>",
+            "markdown_text": "#### To give Jenkins a new port edit the file at:\r\n\r\n    /etc/default/jenkins\r\n\r\nand add the port number you want to the `HTTP_PORT VARIABLE`:\r\n\r\n    # port for HTTP connector (default 8080; disable with -1)\r\n    HTTP_PORT=9090\r\n\r\nThen you should restart Jenkins with `sudo service jenkins restart`.\r\n\r\n#### Upgrade Jenkins\r\nOnce installed, you can upgrade to the later version of Jenkins by running:\r\n\r\n    sudo apt-get update\r\n    sudo apt-get install jenkins\r\n\r\n#### Login to Jenkins box\r\n\r\n    sudo su - jenkins\r\n\r\nSwitches you to Jenkins home directory `/var/lib/jenkins`",
+            "html_text": "<h4>To give Jenkins a new port edit the file at:</h4>\n<pre><code>/etc/default/jenkins\n</code></pre>\n<p>and add the port number you want to the <code>HTTP_PORT VARIABLE</code>:</p>\n<pre><code># port for HTTP connector (default 8080; disable with -1)\nHTTP_PORT=9090\n</code></pre>\n<p>Then you should restart Jenkins with <code>sudo service jenkins restart</code>.</p>\n<h4>Upgrade Jenkins</h4>\n<p>Once installed, you can upgrade to the later version of Jenkins by running:</p>\n<pre><code>sudo apt-get update\nsudo apt-get install jenkins\n</code></pre>\n<h4>Login to Jenkins box</h4>\n<pre><code>sudo su - jenkins\n</code></pre>\n<p>Switches you to Jenkins home directory <code>/var/lib/jenkins</code></p>",
             "date_created": "2015-12-22T08:55:55Z",
-            "last_updated": "2015-12-24T19:38:40.982Z",
+            "last_updated": "2015-12-30T13:53:41Z",
             "views": 0,
             "likes": 0,
-            "status": 1
+            "status": 2
         }
     },
     {
@@ -35,10 +35,55 @@
         "fields": {
             "title": "Git",
             "slug": "git",
-            "markdown_text": "#### Changing the default Git remote 'push to' default\r\n\r\nTo change which upstream remote is \"wired\" to your branch, use the git branch command with the upstream configuration flag. Ensure the remote exists first:\r\n\r\n    git remote -v\r\n\r\nSet the preferred remote for the current (checked out) branch:\r\n\r\n    git branch --set-upstream-to <remote-name>\r\n\r\nValidate the branch is setup with the correct upstream remote:\r\n\r\n    git branch -vv",
-            "html_text": "<h4>Changing the default Git remote 'push to' default</h4>\n<p>To change which upstream remote is \"wired\" to your branch, use the git branch command with the upstream configuration flag. Ensure the remote exists first:</p>\n<pre><code>git remote -v\n</code></pre>\n<p>Set the preferred remote for the current (checked out) branch:</p>\n<pre><code>git branch --set-upstream-to &lt;remote-name&gt;\n</code></pre>\n<p>Validate the branch is setup with the correct upstream remote:</p>\n<pre><code>git branch -vv\n</code></pre>",
+            "markdown_text": "#### Changing the default Git remote 'push to' default\r\n\r\nTo change which upstream remote is \"wired\" to your branch, use the git branch command with the upstream configuration flag. Ensure the remote exists first:\r\n\r\n    git remote -v\r\n\r\nSet the preferred remote for the current (checked out) branch:\r\n\r\n    git branch --set-upstream-to <remote-name>\r\n\r\nValidate the branch is setup with the correct upstream remote:\r\n\r\n    git branch -vv\r\n\r\n#### Difference between master branch and the current branch\r\n\r\n    git diff master current_branch_name",
+            "html_text": "<h4>Changing the default Git remote 'push to' default</h4>\n<p>To change which upstream remote is \"wired\" to your branch, use the git branch command with the upstream configuration flag. Ensure the remote exists first:</p>\n<pre><code>git remote -v\n</code></pre>\n<p>Set the preferred remote for the current (checked out) branch:</p>\n<pre><code>git branch --set-upstream-to &lt;remote-name&gt;\n</code></pre>\n<p>Validate the branch is setup with the correct upstream remote:</p>\n<pre><code>git branch -vv\n</code></pre>\n<h4>Difference between master branch and the current branch</h4>\n<pre><code>git diff master current_branch_name\n</code></pre>",
             "date_created": "2015-12-24T19:51:21Z",
-            "last_updated": "2015-12-24T20:06:18.077Z",
+            "last_updated": "2015-12-30T13:58:28Z",
+            "views": 0,
+            "likes": 0,
+            "status": 2
+        }
+    },
+    {
+        "model": "blog.posts",
+        "pk": 4,
+        "fields": {
+            "title": "MySQL",
+            "slug": "mysql",
+            "markdown_text": "<div markdown=\"1\" class=\"post\">\r\n#### Install MySQL\r\nFirst update your system:\r\n    \r\n    sudo apt-get update\r\n    sudo apt-get upgrade\r\n\r\nNext install MySQL:\r\n\r\n     sudo apt-get install mysql-server\r\n\r\nDuring the installation process, you will be prompted to set a password for the MySQL root user as shown below. Choose a strong password and keep it in a safe place for future reference.\r\n\r\nMySQL will bind to localhost (127.0.0.1) by default. \r\n\r\nRun the mysql_secure_installation script to address several security concerns in a default MySQL installation.\r\n\r\n    sudo mysql_secure_installation\r\n\r\nYou will be given the choice to change the MySQL root password, remove anonymous user accounts, disable root logins outside of localhost, and remove test databases. It is recommended that you answer yes to these options. You can read more about the script in in the [MySQL Reference Manual](https://dev.mysql.com/doc/refman/5.5/en/mysql-secure-installation.html).\r\n\r\n#### Login to MySQL\r\nTo log in to MySQL as the root user:\r\n\r\n    mysql -u root -p\r\n\r\nWhen prompted, enter the root password you assigned when the mysql_secure_installation script was run.\r\n\r\nYou\u2019ll then be presented with the MySQL monitor prompt:\r\n\r\n#### Create a Database and a Database User\r\nIn the example below, `myprojectdb` is the name of the database, `myprojectuser` is the user, and `password` is the user\u2019s password.\r\n\r\n    CREATE DATABASE myprojectdb;\r\n    CREATE USER myprojectuser@localhost IDENTIFIED BY 'password';\r\n\r\nGive our database user, access rights to the database created:\r\n\r\n    GRANT ALL PRIVILEGES ON myprojectdb.* TO myprojectuser@localhost;\r\n\r\nFlush the changes so that they will be available during the current session:\r\n\r\n    FLUSH PRIVILEGES;\r\n\r\nExit the SQL prompt to get back to your regular shell session:\r\n\r\n    exit\r\n\r\n#### Re-Install MySQL\r\nFirst remove MySQL:\r\n\r\n    sudo apt-get remove --purge mysql-server mysql-client mysql-common\r\n    sudo apt-get autoremove\r\n    sudo apt-get autoclean\r\n\r\nThen re-install:\r\n\r\n    sudo apt-get update\r\n    sudo apt-get install mysql-server\r\n    sudo mysql_install_db\r\n    sudo /usr/bin/mysql_secure_installation\r\n\r\n#### Update database user name\r\n\r\n    UPDATE mysql.user SET user='newusername' WHERE user='root';\r\n    FLUSH PRIVILEGES;\r\n\r\n#### Display all users that can access database 'X'\r\n\r\nConnect to the MySQL instance as a root/admin user and enter the following command:\r\n\r\n    SELECT user FROM mysql.db WHERE db='database_name';\r\n\r\n#### Display the structure of a table\r\n\r\nIf you If you want to find out about the structure of a table, the `DESCRIBE` statement is useful; it displays information about each of a table's columns:\r\n\r\n    DESCRIBE tablename;\r\n\r\nFor more information see [here](http://dev.mysql.com/doc/refman/5.7/en/getting-information.html)\r\n\r\n#### Get database table sizes\r\n\r\nHere is a super simple SQL query to determine the size of all tables in a given database:\r\n\r\n    SELECT TABLE_NAME as `TABLE`, round(((data_length + index_length) / 1024 / 1024), 2) `Size in MB` \r\n    FROM information_schema.TABLES \r\n    WHERE table_schema = \"my_database_name\" \r\n    AND table_name = \"my_table_name\";\r\n\r\n</div>",
+            "html_text": "<div class=\"post\">\n<h4>Install MySQL</h4>\n<p>First update your system:</p>\n<pre><code>sudo apt-get update\nsudo apt-get upgrade\n</code></pre>\n<p>Next install MySQL:</p>\n<pre><code> sudo apt-get install mysql-server\n</code></pre>\n<p>During the installation process, you will be prompted to set a password for the MySQL root user as shown below. Choose a strong password and keep it in a safe place for future reference.</p>\n<p>MySQL will bind to localhost (127.0.0.1) by default. </p>\n<p>Run the mysql_secure_installation script to address several security concerns in a default MySQL installation.</p>\n<pre><code>sudo mysql_secure_installation\n</code></pre>\n<p>You will be given the choice to change the MySQL root password, remove anonymous user accounts, disable root logins outside of localhost, and remove test databases. It is recommended that you answer yes to these options. You can read more about the script in in the <a href=\"https://dev.mysql.com/doc/refman/5.5/en/mysql-secure-installation.html\">MySQL Reference Manual</a>.</p>\n<h4>Login to MySQL</h4>\n<p>To log in to MySQL as the root user:</p>\n<pre><code>mysql -u root -p\n</code></pre>\n<p>When prompted, enter the root password you assigned when the mysql_secure_installation script was run.</p>\n<p>You\u2019ll then be presented with the MySQL monitor prompt:</p>\n<h4>Create a Database and a Database User</h4>\n<p>In the example below, <code>myprojectdb</code> is the name of the database, <code>myprojectuser</code> is the user, and <code>password</code> is the user\u2019s password.</p>\n<pre><code>CREATE DATABASE myprojectdb;\nCREATE USER myprojectuser@localhost IDENTIFIED BY 'password';\n</code></pre>\n<p>Give our database user, access rights to the database created:</p>\n<pre><code>GRANT ALL PRIVILEGES ON myprojectdb.* TO myprojectuser@localhost;\n</code></pre>\n<p>Flush the changes so that they will be available during the current session:</p>\n<pre><code>FLUSH PRIVILEGES;\n</code></pre>\n<p>Exit the SQL prompt to get back to your regular shell session:</p>\n<pre><code>exit\n</code></pre>\n<h4>Re-Install MySQL</h4>\n<p>First remove MySQL:</p>\n<pre><code>sudo apt-get remove --purge mysql-server mysql-client mysql-common\nsudo apt-get autoremove\nsudo apt-get autoclean\n</code></pre>\n<p>Then re-install:</p>\n<pre><code>sudo apt-get update\nsudo apt-get install mysql-server\nsudo mysql_install_db\nsudo /usr/bin/mysql_secure_installation\n</code></pre>\n<h4>Update database user name</h4>\n<pre><code>UPDATE mysql.user SET user='newusername' WHERE user='root';\nFLUSH PRIVILEGES;\n</code></pre>\n<h4>Display all users that can access database 'X'</h4>\n<p>Connect to the MySQL instance as a root/admin user and enter the following command:</p>\n<pre><code>SELECT user FROM mysql.db WHERE db='database_name';\n</code></pre>\n<h4>Display the structure of a table</h4>\n<p>If you If you want to find out about the structure of a table, the <code>DESCRIBE</code> statement is useful; it displays information about each of a table's columns:</p>\n<pre><code>DESCRIBE tablename;\n</code></pre>\n<p>For more information see <a href=\"http://dev.mysql.com/doc/refman/5.7/en/getting-information.html\">here</a></p>\n<h4>Get database table sizes</h4>\n<p>Here is a super simple SQL query to determine the size of all tables in a given database:</p>\n<pre><code>SELECT TABLE_NAME as `TABLE`, round(((data_length + index_length) / 1024 / 1024), 2) `Size in MB` \nFROM information_schema.TABLES \nWHERE table_schema = \"my_database_name\" \nAND table_name = \"my_table_name\";\n</code></pre>\n</div>",
+            "date_created": "2015-12-30T08:52:30Z",
+            "last_updated": "2016-01-07T13:51:18Z",
+            "views": 0,
+            "likes": 0,
+            "status": 2
+        }
+    },
+    {
+        "model": "blog.posts",
+        "pk": 5,
+        "fields": {
+            "title": "Python",
+            "slug": "python",
+            "markdown_text": "#### Get the first and last day of the month function\r\n\r\n    import datetime\r\n\r\n    # requires python-dateutil (http://labix.org/python-dateutil)\r\n    from dateutil.relativedelta import relativedelta\r\n\r\n    def get_month_day_range(date):\r\n        \"\"\"\r\n        For a date 'date' returns the start and end date for the month of 'date'.\r\n        Month with 31 days:\r\n        >>> date = datetime.date(2011, 7, 27)\r\n        >>> get_month_day_range(date)\r\n        (datetime.date(2011, 7, 1), datetime.date(2011, 7, 31))\r\n        Month with 28 days:\r\n        >>> date = datetime.date(2011, 2, 15)\r\n        >>> get_month_day_range(date)\r\n        (datetime.date(2011, 2, 1), datetime.date(2011, 2, 28))\r\n        \"\"\"\r\n        last_day = date + relativedelta(day=1, months=+1, days=-1)\r\n        first_day = date + relativedelta(day=1)\r\n        return first_day, last_day\r\n\r\n    if __name__ == \"__main__\":\r\n        import doctest\r\n        doctest.testmod()\r\n\r\nSee original [here](https://gist.github.com/waynemoore/1109153)",
+            "html_text": "<h4>Get the first and last day of the month function</h4>\n<pre><code>import datetime\n\n# requires python-dateutil (http://labix.org/python-dateutil)\nfrom dateutil.relativedelta import relativedelta\n\ndef get_month_day_range(date):\n    \"\"\"\n    For a date 'date' returns the start and end date for the month of 'date'.\n    Month with 31 days:\n    &gt;&gt;&gt; date = datetime.date(2011, 7, 27)\n    &gt;&gt;&gt; get_month_day_range(date)\n    (datetime.date(2011, 7, 1), datetime.date(2011, 7, 31))\n    Month with 28 days:\n    &gt;&gt;&gt; date = datetime.date(2011, 2, 15)\n    &gt;&gt;&gt; get_month_day_range(date)\n    (datetime.date(2011, 2, 1), datetime.date(2011, 2, 28))\n    \"\"\"\n    last_day = date + relativedelta(day=1, months=+1, days=-1)\n    first_day = date + relativedelta(day=1)\n    return first_day, last_day\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()\n</code></pre>\n<p>See original <a href=\"https://gist.github.com/waynemoore/1109153\">here</a></p>",
+            "date_created": "2016-01-04T08:45:56Z",
+            "last_updated": "2016-01-04T08:52:26Z",
+            "views": 0,
+            "likes": 0,
+            "status": 2
+        }
+    },
+    {
+        "model": "blog.posts",
+        "pk": 6,
+        "fields": {
+            "title": "Ubuntu",
+            "slug": "ubuntu",
+            "markdown_text": "#### How to disable overlay scrollbars\r\n\r\nInstall Ubuntu tweak from Ubuntu Software Center, click on Scrolling and select Legacy other than Overlay.",
+            "html_text": "<h4>How to disable overlay scrollbars</h4>\n<p>Install Ubuntu tweak from Ubuntu Software Center, click on Scrolling and select Legacy other than Overlay.</p>",
+            "date_created": "2016-01-04T09:20:47Z",
+            "last_updated": "2016-01-04T09:22:53Z",
             "views": 0,
             "likes": 0,
             "status": 1

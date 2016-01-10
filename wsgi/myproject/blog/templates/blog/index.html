@@ -1,12 +1,36 @@
 {% extends "base.html" %}
 
+{% block header %}
+    <div id="header-title">
+        <h1>Back &amp; Beyond</h1>
+    </div>
+{% endblock header %}
+
 {% block content %}
     {% if posts %}
         {% for post in posts %}
-            <h2>{{ post.title }}</h2>
-            {{ post.html_text|safe }}
+            <div class="post-block">
+                <h2>{{ post.title }} <span class="post-date">{{ post.date_created|date:'d M Y' }}</span></h2>
+                {{ post.html_text|safe }}
+                <div class="post-footer">
+                    <span class="tags">tags: {{ post.tags__tag.name }}</span>
+                </div>
+            </div>
         {% endfor %}
     {% else %}
         <h4>No posts to display yet..</h4>
     {% endif %}
 {% endblock content %}
+
+{% block side_nav %}
+    {% if tags %}
+        <div id="tags-block">
+            <span class="widget-title">tags:</span>
+            <ul>
+            {% for t_obj in tags %}
+                <li><a href="#">{{ t_obj.tag__name }}</a> {{ t_obj.tag__count }}</li>
+            {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+{% endblock side_nav %}

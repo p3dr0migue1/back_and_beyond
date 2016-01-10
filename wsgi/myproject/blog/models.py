@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Count
 from django.utils import timezone
 from django.template.defaultfilters import slugify
 
@@ -67,6 +68,11 @@ class Posts(models.Model):
 class PostTags(models.Model):
     post = models.ForeignKey(Posts)
     tag = models.ForeignKey(Tag)
+
+    @classmethod
+    def get_tags_associated_with_posts(cls):
+        return cls.objects.values('tag__name', 'tag__slug').annotate(
+            Count('tag'))
 
     def __str__(self):
         return '{}'.format(self.tag.name)

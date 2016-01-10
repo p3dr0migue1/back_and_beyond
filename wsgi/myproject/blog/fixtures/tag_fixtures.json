@@ -14,5 +14,37 @@
             "name": "Git",
             "slug": "git"
         }
+    },
+    {
+        "model": "blog.tag",
+        "pk": 3,
+        "fields": {
+            "name": "MySQL",
+            "slug": "mysql"
+        }
+    },
+    {
+        "model": "blog.tag",
+        "pk": 4,
+        "fields": {
+            "name": "Jenkins CI",
+            "slug": "jenkins-ci"
+        }
+    },
+    {
+        "model": "blog.tag",
+        "pk": 5,
+        "fields": {
+            "name": "Python",
+            "slug": "python"
+        }
+    },
+    {
+        "model": "blog.tag",
+        "pk": 6,
+        "fields": {
+            "name": "Ubuntu",
+            "slug": "ubuntu"
+        }
     }
 ]
