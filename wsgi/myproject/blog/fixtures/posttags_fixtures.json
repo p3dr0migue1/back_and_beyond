@@ -12,7 +12,7 @@
         "pk": 2,
         "fields": {
             "post": 2,
-            "tag": 1
+            "tag": 4
         }
     },
     {
@@ -21,6 +21,30 @@
         "fields": {
             "post": 3,
             "tag": 2
+        }
+    },
+    {
+        "model": "blog.posttags",
+        "pk": 4,
+        "fields": {
+            "post": 4,
+            "tag": 3
+        }
+    },
+    {
+        "model": "blog.posttags",
+        "pk": 5,
+        "fields": {
+            "post": 5,
+            "tag": 5
+        }
+    },
+    {
+        "model": "blog.posttags",
+        "pk": 6,
+        "fields": {
+            "post": 6,
+            "tag": 6
         }
     }
 ]
