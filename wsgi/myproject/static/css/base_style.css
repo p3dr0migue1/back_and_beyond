@@ -14,13 +14,13 @@ body {
 
 #main {
     width: 80%;
-    float: left;
+    float: right;
 }
 
 /*side navigation*/
 #side-nav {
     width: 20%;
-    float: right;
+    float: left;
 }
 
 #tags-block {
