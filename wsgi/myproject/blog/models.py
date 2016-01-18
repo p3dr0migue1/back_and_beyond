@@ -49,6 +49,10 @@ class Posts(models.Model):
         return ", ".join([cat.name for cat in self.tags.all()])
     get_tag_names.short_description = "Tags"
 
+    @classmethod
+    def get_posts_in_tag(cls, tag):
+        return cls.objects.filter(tags__name=tag)
+
     def save(self, *args, **kwargs):
         self.html_text = markdown.markdown(
             self.markdown_text,
@@ -71,8 +75,9 @@ class PostTags(models.Model):
 
     @classmethod
     def get_tags_associated_with_posts(cls):
-        return cls.objects.values('tag__name', 'tag__slug').annotate(
-            Count('tag'))
+        return cls.objects.filter(post__status=2)\
+                          .values('tag__name', 'tag__slug')\
+                          .annotate(Count('tag'))
 
     def __str__(self):
         return '{}'.format(self.tag.name)

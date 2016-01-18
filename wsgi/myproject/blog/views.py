@@ -17,3 +17,10 @@ def index(request):
     context = {'tags': get_associated_tags(), 'posts': posts}
 
     return render(request, 'blog/index.html', context)
+
+
+def posts_in_tag(request, tag_slug):
+    posts = Posts.get_posts_in_tag(tag_slug)
+    context = {'tags': get_associated_tags(), 'posts': posts}
+
+    return render(request, 'blog/posts_in_tag.html', context)

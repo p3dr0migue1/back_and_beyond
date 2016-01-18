@@ -10,7 +10,11 @@
 <body>
     <div id="main">
         <div id="header">
-            {% block header %}{% endblock header %}
+            {% block header %}
+                <div id="header-title">
+                    <h1>Back &amp; Beyond</h1>
+                </div>
+            {% endblock header %}
         </div>
         <div id="content">
             {% block content %}{% endblock content %}
