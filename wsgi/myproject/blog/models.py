@@ -51,7 +51,7 @@ class Posts(models.Model):
 
     @classmethod
     def get_posts_in_tag(cls, tag):
-        return cls.objects.filter(tags__name=tag)
+        return cls.objects.filter(tags__slug=tag)
 
     def save(self, *args, **kwargs):
         self.html_text = markdown.markdown(
