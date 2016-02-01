@@ -21,6 +21,7 @@ body {
 #side-nav {
     width: 20%;
     float: left;
+    padding: 67px 0px 0px 0px;
 }
 
 #tags-block {
