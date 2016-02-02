@@ -22,7 +22,7 @@
             <span class="widget-title">tags:</span>
             <ul>
             {% for t_obj in tags %}
-                <li><a href="{{ t_obj.tag__slug }}">{{ t_obj.tag__name }}</a> {{ t_obj.tag__count }}</li>
+                <li><a href="{% url 'blog:posts_in_tag' t_obj.tag__slug %}">{{ t_obj.tag__name }}</a> {{ t_obj.tag__count }}</li>
             {% endfor %}
             </ul>
         </div>
