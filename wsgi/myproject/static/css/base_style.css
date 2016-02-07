@@ -4,13 +4,20 @@ html, body, h1, h2, h3, h4, h5, p, ul, ol, li, span, pre, code, div, img {
     padding: 0;
 }
 
+html {
+    overflow-y: scroll;
+}
+
 body {
     color: #3E4349;
     line-height: 1.4;
     font-size: 17px;
-    /*font-family: "Georgia",serif;*/
+    font-family: 'Trebuchet MS', sans-serif;
 }
 
+p {
+    font-size: 19px;
+}
 
 #main {
     width: 80%;
@@ -50,10 +57,21 @@ h1 {
     font-weight: 400;
 }
 
+h1 a {
+    text-decoration: none;
+    color: #0072aa;
+}
+
 h2 {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     font-style: normal;
     font-weight: 200;
+    color: #444444;
+}
+
+h2 a:hover {
+    color: #00B0E4;
+    text-decoration: underline;
 }
 
 /*post block*/
@@ -64,7 +82,7 @@ h2 {
 
 span.post-date {
     float: right;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: normal;
 }
 
@@ -79,10 +97,13 @@ span.tags {
 /*code snippets*/
 .codehilite pre {
     background: #F0F0F0 none repeat scroll 0% 0%;
+    border-top: 1px solid #909090;
+    border-bottom: 1px solid #909090;
 }
+
 
 pre, code {
     padding: 5px;
     margin: 10px 0px;
-    font-size: 16px;
+    font-size: 13.5px;
 }
