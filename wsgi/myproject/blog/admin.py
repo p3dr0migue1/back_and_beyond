@@ -21,8 +21,16 @@ class PostsAdmin(admin.ModelAdmin):
     # readonly_fields = ('date_created', 'last_updated')
     inlines = [PostTagsInline]
 
-    list_display = ('title', 'slug', 'get_tag_names', 'status')
-    # exclude = ('html_content')
+    fieldsets = (
+        (None, {
+            'fields': ('title', 'slug', 'markdown_text', 'date_created',
+                       'last_updated', 'status')
+        }),
+        ('HTML Content', {
+            'classes': ('collapse',),
+            'fields': ('html_text',),
+        }),
+    )
 
 
 admin.site.register(Tag, TagsAdmin)
