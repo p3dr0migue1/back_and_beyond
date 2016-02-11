@@ -28,9 +28,12 @@
 {% endblock content %}
 
 {% block side_nav %}
+    <ul>
+        <li><a href="/admin/blog/posts/add/">Create new post</a></li>
+    </ul>
     {% if tags %}
         <div id="tags-block">
-            <span class="widget-title">tags:</span>
+            <span class="widget-title">Tags:</span>
             <ul>
             {% for t_obj in tags %}
                 <li><a href="{% url 'blog:posts_in_tag' t_obj.tag__slug %}">{{ t_obj.tag__name }}</a> {{ t_obj.tag__count }}</li>
