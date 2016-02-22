@@ -89,6 +89,14 @@ h3 {
     padding: 0px 20px 15px 0px;
 }
 
+.post-content {
+    margin: 0em 1em 0em 1em;
+}
+
+.post-content p {
+    margin: 0em 0.3em 0em 0.3em;
+}
+
 span.post-date {
     float: right;
     font-size: 14px;
@@ -116,6 +124,7 @@ span.edit {
     background: #F0F0F0 none repeat scroll 0% 0%;
     border-top: 1px solid #909090;
     border-bottom: 1px solid #909090;
+    margin: 2em 0em;
 }
 
 
