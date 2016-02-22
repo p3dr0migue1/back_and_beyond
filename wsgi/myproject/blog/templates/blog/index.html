@@ -6,7 +6,9 @@
             {% for post in posts %}
                 <div class="post-block">
                     <h2>{{ post.title }} <span class="post-date">{{ post.date_created|date:'d M Y' }}</span></h2>
-                    {{ post.html_text|safe }}
+                    <div class="post-content">
+                        {{ post.html_text|safe }}
+                    </div>
                     <div class="post-footer">
                         {% if post.tags.all %}
                             <span class="tags">Tags:
@@ -25,6 +27,20 @@
             <h4>No posts to display yet..</h4>
         {% endif %}
     {% endblock posts %}
+
+    <div class="pagination">
+        <span class="step-links">
+            {% if posts.has_previous %}
+                <a href="?page={{ posts.previous_page_number }}">previous</a>
+            {% endif %}
+            <span class="current">
+                Page {{ posts.number }} of {{ posts.paginator.num_pages }}.
+            </span>
+            {% if posts.has_next %}
+                <a href="?page={{ posts.next_page_number }}">next</a>
+            {% endif %}
+        </span>
+    </div>
 {% endblock content %}
 
 {% block side_nav %}
