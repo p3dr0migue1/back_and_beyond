@@ -45,7 +45,6 @@ def index(request):
     post_list = Posts.objects.order_by('-date_created').filter(status=2)
     posts = pagination(request, post_list)
 
-    import ipdb; ipdb.set_trace()
     context = {'tags': get_associated_tags(), 'posts': posts}
 
     return render(request, 'blog/index.html', context)
@@ -53,9 +52,10 @@ def index(request):
 
 @login_required
 def posts_in_tag(request, tag_slug):
-    post_list = Posts.get_posts_in_tag(tag_slug)
-    posts = Base()
-    posts.pagination(post_list, 5, request)
+    post_list = Posts.get_posts_in_tag(tag_slug)\
+                     .order_by('-date_created')\
+                     .filter(status=2)
+    posts = pagination(request, post_list)
     context = {'tags': get_associated_tags(), 'posts': posts}
 
     return render(request, 'blog/posts_in_tag.html', context)
