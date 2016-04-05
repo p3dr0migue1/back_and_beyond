@@ -8,12 +8,17 @@ html {
     overflow-y: scroll;
 }
 
+body, html {
+    height: 100%;
+}
+
 body {
     color: #3E4349;
     background-color: #F0F0F0;
     line-height: 1.4;
     font-size: 17px;
-    font-family: "Lucida Grande", "Bitstream Vera Sans", "Verdana";
+    /*font-family: "Lucida Grande", "Bitstream Vera Sans", "Verdana";*/
+    font-family: 'Trebuchet MS', sans-serif;
 }
 
 h1, h2, h3, h4 {
@@ -31,6 +36,7 @@ p {
 
 #main {
     width: 75%;
+    min-height: 100%;
     float: right;
     background-color: #FFFFFF;
     margin-right: 2em;
@@ -89,12 +95,25 @@ h3 {
     padding: 0px 20px 15px 0px;
 }
 
-.post-content, .post-footer {
+.post-content ul {
+    padding-left: 1em;
+    margin-top: 1em;
+}
+
+.post-content ul li {
+    font-size: 18px;
+}
+
+.post-footer {
+    margin: 1em 1em 0em 1em
+}
+
+.post-content {
     margin: 0em 1em 0em 1em;
 }
 
 .post-content p {
-    margin: 0em 0.3em 0em 0.3em;
+    margin: 1em 0.3em 0em 0em;
 }
 
 span.post-date {
@@ -126,10 +145,19 @@ span.edit {
     margin: 2em 0em;
 }
 
+code {
+    background-color: #F9F2F4;
+    color: #C7254E;
+    border-radius: 4px;
+    font-size: 15px;
+}
+
+pre {
+    font-size: 14px;
+}
 
 pre, code {
     padding: 5px;
     margin: 10px 0px;
-    font-size: 13.5px;
     line-height: 1.7;
 }
