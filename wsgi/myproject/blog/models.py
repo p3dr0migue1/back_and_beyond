@@ -73,6 +73,9 @@ class PostTags(models.Model):
     post = models.ForeignKey(Posts)
     tag = models.ForeignKey(Tag)
 
+    class Meta:
+        verbose_name_plural = "post tags"
+
     @classmethod
     def get_tags_associated_with_posts(cls):
         return cls.objects.filter(post__status=2)\

@@ -17,6 +17,7 @@ class PostTagsInline(admin.TabularInline):
 
 
 class PostsAdmin(admin.ModelAdmin):
+    list_display = ('title', 'date_created', 'status')
     prepopulated_fields = {'slug': ('title',)}
     # readonly_fields = ('date_created', 'last_updated')
     inlines = [PostTagsInline]
