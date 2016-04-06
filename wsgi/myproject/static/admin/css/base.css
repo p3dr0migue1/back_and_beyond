@@ -33,7 +33,7 @@ a img {
 }
 
 a.section:link, a.section:visited {
-    color: #fff;
+    color: #484848;
     text-decoration: none;
 }
 
@@ -511,11 +511,12 @@ input[type=button][disabled].default {
 .module h2, .module caption, .inline-group h2 {
     margin: 0;
     padding: 8px;
-    font-weight: 400;
+    font-weight: 600;
     font-size: 13px;
     text-align: left;
-    background: #79aec8;
+    background: #F0F0F0;
     color: #fff;
+    border: 1px solid #CCCCCC;
 }
 
 .module caption,
@@ -818,14 +819,16 @@ table#change-history tbody th {
     width: auto;
     height: 40px;
     padding: 10px 40px;
-    background: #417690;
+    /*background: #417690;*/
+    background: #F0F0F0;
     line-height: 40px;
-    color: #ffc;
+    color: #484848;
     overflow: hidden;
+    border-bottom: 1px solid #CCCCCC;
 }
 
 #header a:link, #header a:visited {
-    color: #fff;
+    color: #484848;
 }
 
 #header a:focus , #header a:hover {
@@ -839,13 +842,13 @@ table#change-history tbody th {
 #branding h1 {
     padding: 0;
     margin: 0 20px 0 0;
-    font-weight: 300;
+    font-weight: 600;
     font-size: 24px;
-    color: #f5dd5d;
+    color: #484848;
 }
 
 #branding h1, #branding h1 a:link, #branding h1 a:visited {
-    color: #f5dd5d;
+    color: #484848;
 }
 
 #branding h2 {
@@ -922,7 +925,7 @@ table#change-history tbody th {
     background: none;
     padding: 16px;
     margin-bottom: 16px;
-    border-bottom: 1px solid #eaeaea;
+    /*border-bottom: 1px solid #eaeaea;*/
     font-size: 18px;
     color: #333;
 }

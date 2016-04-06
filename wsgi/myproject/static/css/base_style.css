@@ -63,15 +63,15 @@ p {
 
 /*main*/
 h1 {
-    /*font-family: 'Abril FatFace';*/
+    font-family: "Roboto","Lucida Grande","DejaVu Sans","Bitstream Vera Sans",Verdana,Arial,sans-serif;
     font-size: 63px;
     font-style: normal;
-    font-weight: 400;
 }
 
 h1 a {
     text-decoration: none;
-    color: #0072aa;
+    color: #292929;
+    letter-spacing: -4px;
 }
 
 h2 {
