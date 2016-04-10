@@ -14,16 +14,16 @@ body, html {
 
 body {
     color: #3E4349;
-    background-color: #F0F0F0;
+    /*background-color: #F0F0F0;*/
     line-height: 1.4;
     font-size: 17px;
     /*font-family: "Lucida Grande", "Bitstream Vera Sans", "Verdana";*/
-    font-family: 'Trebuchet MS', sans-serif;
+    /*font-family: 'Trebuchet MS', sans-serif;*/
 }
 
-h1, h2, h3, h4 {
+/*h1, h2, h3, h4 {
     font-family: 'Trebuchet MS', sans-serif;
-}
+}*/
 
 a {
     color: #03c;
@@ -38,7 +38,7 @@ p {
     width: 75%;
     min-height: 100%;
     float: right;
-    background-color: #FFFFFF;
+    background-color: #FFFFF5;
     margin-right: 2em;
     padding-left: 1em;
     border-left: 3px solid #AAAAAA;
@@ -146,7 +146,7 @@ span.edit {
 }
 
 code {
-    background-color: #F9F2F4;
+    background-color: #FFCA92;
     color: #C7254E;
     border-radius: 4px;
     font-size: 15px;
