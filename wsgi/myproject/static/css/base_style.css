@@ -14,7 +14,7 @@ body, html {
 
 body {
     color: #3E4349;
-    /*background-color: #F0F0F0;*/
+    background-color: #ECECEC;
     line-height: 1.4;
     font-size: 17px;
     /*font-family: "Lucida Grande", "Bitstream Vera Sans", "Verdana";*/
@@ -38,7 +38,7 @@ p {
     width: 75%;
     min-height: 100%;
     float: right;
-    background-color: #FFFFF5;
+    background-color: #FFFFFF;
     margin-right: 2em;
     padding-left: 1em;
     border-left: 3px solid #AAAAAA;
@@ -87,6 +87,10 @@ h2 a:hover {
 
 h3 {
     margin: 1.5em 0em 0.3em 0em;
+    background-color: #70A070;
+    color: #FFFFFF;
+    border: 1px solid #609060;
+    padding: 0em 0em 0em 0.2em;
 }
 
 /*post block*/
@@ -138,9 +142,13 @@ span.edit {
     float: right;
 }
 
+p, .codehilite {
+    padding: 0em 0em 0em 0.5em
+}
+
 /*code snippets*/
 .codehilite pre {
-    background: #F0F0F0 none repeat scroll 0% 0%;
+    background: #FFFFFF none repeat scroll 0% 0%;
     border: 1px solid #909090;
     margin: 2em 0em;
 }
@@ -149,7 +157,7 @@ code {
     background-color: #FFCA92;
     color: #C7254E;
     border-radius: 4px;
-    font-size: 15px;
+    font-size: 14px;
 }
 
 pre {
