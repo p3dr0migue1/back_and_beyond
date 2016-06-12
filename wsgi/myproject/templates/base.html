@@ -8,20 +8,9 @@
 <link rel="stylesheet" type="text/css" href="{% static 'css/codehilite.css' %}" />
 <link rel="stylesheet" type="text/css" href="{% static 'fonts/stylesheet.css' %}" />
 <body>
-    <div id="main">
-        <div id="header">
-            {% block header %}
-                <div id="header-title">
-                    <h1><a href="{% url 'blog:index' %}">Back &amp; Beyond</a></h1>
-                </div>
-            {% endblock header %}
-        </div>
-        <div id="content">
-            {% block content %}{% endblock content %}
-        </div>
-   </div>
-    <div id="side-nav">
-        {% block side_nav %}{% endblock side_nav %}
+    <div id="page">
+        {% block app_content %}
+        {% endblock app_content %}
     </div>
 </body>
 </html>

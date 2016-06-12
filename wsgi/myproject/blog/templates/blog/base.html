@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+<div class="page-head">
+    {% block header %}
+        <h1><a href="{% url 'blog:index' %}">/back/&amp;/beyond</a></h1>
+    {% endblock header %}
+</div>
+
+<div class="page-content">
+        {% block content %}{% endblock content %}
+</div>
+
+{% include "blog/includes/navbar.html" %}
+
+{% endblock app_content %}
+
