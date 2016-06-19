@@ -1,0 +1,68 @@
+/* ========== reset elements margin and padding ========== */
+html, body, h1, h2, h3, h4, h5, p, ul, ol, li, span, pre, code, div, img {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    overflow-y: scroll;
+}
+
+h1 {
+    color: #333333;
+    font-family: "Georgia", "FreeSerif", serif;
+    font-style: italic;
+}
+
+#login-page {
+    display: block;
+    margin: 2% 4%;
+}
+
+.page-head {
+  display: block;
+  width: 100%;
+  clear: both;
+}
+
+.page-head h1 {
+    margin: .7em auto;
+    font-family: Georgia, "Times New Roman", Times, serif;
+    font-size: 2.8em;
+    text-align: center;
+}
+
+.page-head h1 a {
+    text-decoration: none;
+    color: #292929;
+    letter-spacing: 0px;
+}
+
+/* ========== login form ========== */
+#login_form {
+    width: 300px;
+    margin: 4em auto;
+    display: block;
+}
+
+.credentials {
+    margin-bottom: 8px;
+}
+
+#login_form label {
+    float: left;
+    width: 80px;
+    padding: 5px 0px;
+}
+
+#login_form input#username,
+#login_form input#password {
+    width: 70.5%;
+    padding: 5px 3px;
+    border: 1px solid #8e8e8e;
+}
+
+#login_form input#login_button {
+    width: 100%;
+    padding: 5px 0px;
+}
