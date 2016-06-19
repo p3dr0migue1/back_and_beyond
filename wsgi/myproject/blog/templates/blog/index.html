@@ -6,10 +6,7 @@
             {% if posts %}
                 {% for post in posts %}
                     <article class="post">
-                        <h2>{{ post.title }} <span class="post-date">{{ post.date_created|date:'d M Y' }}</span></h2>
-                        <div class="post-content">
-                            {{ post.html_text|safe }}
-                        </div>
+                        <h2><a href="{% url 'blog:view-post' post.slug %}">{{ post.title }}</a><span class="post-date"> {{ post.date_created|date:'d M Y' }}</span></h2>
                         <div class="post-footer">
                             {% if post.tags.all %}
                                 <span class="tags">Tags:
@@ -17,7 +14,6 @@
                                     <a href="{% url 'blog:posts_in_tag' tag.slug  %}">{{ tag.name }}</a>{% if not forloop.last %}, {% endif %}
                                 {% endfor %}
                                 </span>
-                                <span class="edit"><a href="/admin/blog/posts/{{ post.id }}/change/">Edit post</a></span>
                             {% else %}
                                 <span class="tags">No Tags assign to this post.</span>
                             {% endif %}
@@ -26,7 +22,7 @@
                 {% endfor %}
             {% else %}
                 <article class="post">
-                    <h4>No posts to display yet..</h4>
+                    <h3>No posts to display yet..</h3>
                 </article>
             {% endif %}
         {% endblock posts %}
