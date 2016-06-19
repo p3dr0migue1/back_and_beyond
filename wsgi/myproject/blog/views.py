@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import login as django_login
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.views.generic import DetailView
 from django.conf import settings
 
 
@@ -19,8 +21,8 @@ def custom_login(request):
 
 
 def pagination(request, object_list):
-    # show 5 posts per page
-    paginator = Paginator(object_list, 5)
+    # show 7 posts per page
+    paginator = Paginator(object_list, 7)
     page = request.GET.get('page')
 
     try:
@@ -59,3 +61,16 @@ def posts_in_tag(request, tag_slug):
     context = {'tags': get_associated_tags(), 'posts': posts}
 
     return render(request, 'blog/posts_in_tag.html', context)
+
+
+class ViewPost(LoginRequiredMixin, DetailView):
+    model = Posts
+    template_name = 'blog/post_detail.html'
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        context = self.get_context_data(
+            post=self.object,
+            tags=get_associated_tags()
+        )
+        return self.render_to_response(context)

@@ -1,0 +1,28 @@
+{% extends "blog/base.html" %}
+
+{% block content %}
+
+{% if post %}
+    <article class="post">
+        <h2>{{ post.title }} <span class="post-date"> {{ post.date_created|date:'d M Y' }}</span></h2>
+        <div class="post-content">
+            {{ post.html_text|safe }}
+        </div>
+        <div class="post-footer">
+            {% if post.tags.all %}
+                <span class="tags">Tags:
+                {% for tag in post.tags.all %}
+                    <a href="{% url 'blog:posts_in_tag' tag.slug  %}">{{ tag.name }}</a>{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+                </span>
+                <span class="edit"><a href="#">Edit post</a></span>
+            {% else %}
+                <span class="tags">No Tags assign to this post.</span>
+            {% endif %}
+        </div>
+    </article>
+{% else %}
+    <p>fuck</p>
+{% endif %}
+
+{% endblock content %}
