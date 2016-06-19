@@ -8,10 +8,17 @@
 </div>
 
 <div class="page-content">
-        {% block content %}{% endblock content %}
+    {% block content %}
+    {% endblock content %}
 </div>
+<aside class="page-sidebar">
+    {% include "blog/includes/navbar.html" %}
+</aside>
 
-{% include "blog/includes/navbar.html" %}
-
+<footer>
+    <div id="credits">
+        <p>Made by Pedro Curado</p>
+    </div>
+</footer>
 {% endblock app_content %}
 

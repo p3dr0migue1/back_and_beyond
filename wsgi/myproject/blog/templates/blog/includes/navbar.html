@@ -1,21 +1,19 @@
-<aside class="page-sidebar">
+<nav class="widget">
+    <h3>Site</h3>
+    <ul>
+        <li><a href="{% url 'blog:logout' %}">Logout</a>
+        <li><a href="/admin/blog/posts/add/">Create new post</a></li>
+    </ul>
+</nav>
+{% if tags %}
     <nav class="widget">
-        <h3>Site</h3>
-        <ul>
-            <li><a href="/admin/blog/posts/add/">Create new post</a></li>
-        </ul>
+        <h3>Tags</h3>
+        <div id="tags-block">
+            <ul>
+            {% for t_obj in tags %}
+                <li><a href="{% url 'blog:posts_in_tag' t_obj.tag__slug %}">{{ t_obj.tag__name }}</a> {{ t_obj.tag__count }}</li>
+            {% endfor %}
+            </ul>
+        </div>
     </nav>
-    {% if tags %}
-        <nav class="widget">
-            <h3>Tags</h3>
-            <div id="tags-block">
-                <span class="widget-title">Tags:</span>
-                <ul>
-                {% for t_obj in tags %}
-                    <li><a href="{% url 'blog:posts_in_tag' t_obj.tag__slug %}">{{ t_obj.tag__name }}</a> {{ t_obj.tag__count }}</li>
-                {% endfor %}
-                </ul>
-            </div>
-        </nav>
-    {% endif %}
-</aside>
+{% endif %}
