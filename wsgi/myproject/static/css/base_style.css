@@ -79,7 +79,7 @@ a:hover {
     display: block;
     margin-left: 1%;
     margin-right: 1%;
-    width: 28%;
+    width: 20%;
     float: left;
 }
 
@@ -98,7 +98,7 @@ a:hover {
 }
 
 .page-content .post {
-    margin: 0em 0em 2.5em;
+    margin: 0em 0em 0.5em;
     padding: 0px 20px 15px 0px;
 }
 
@@ -126,7 +126,7 @@ a:hover {
     float: right;
     margin-left: 1%;
     margin-right: 1%;
-    width: 68%;
+    width: 75%;
 }
 
 .post .post-content {
@@ -156,6 +156,32 @@ a:hover {
 
 .post-footer span.edit {
     float: right;
+}
+
+#id_title {
+    width: 400px;
+}
+
+#id_markdown_text {
+    width: 700px;
+    height: 400px;
+}
+
+#id_title,
+#id_markdown_text,
+#id_status,
+#tagslist {
+    margin: 5px 0px 20px;
+}
+
+#tagslist {
+    width: 200px;
+}
+
+#tagslist {
+    overflow: scroll;
+    height: 250px;
+    border: 1px solid #989898;
 }
 
 /* code snippets */
