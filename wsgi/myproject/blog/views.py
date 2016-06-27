@@ -3,11 +3,12 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import login as django_login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.views.generic import DetailView
+from django.views.generic import DetailView, FormView
 from django.conf import settings
 
 
 from .models import Posts, PostTags
+from .forms import PostsForm
 
 
 def get_associated_tags():
@@ -22,7 +23,7 @@ def custom_login(request):
 
 def pagination(request, object_list):
     # show 7 posts per page
-    paginator = Paginator(object_list, 7)
+    paginator = Paginator(object_list, 10)
     page = request.GET.get('page')
 
     try:
@@ -74,3 +75,13 @@ class ViewPost(LoginRequiredMixin, DetailView):
             tags=get_associated_tags()
         )
         return self.render_to_response(context)
+
+
+class NewPost(LoginRequiredMixin, FormView):
+    template_name = 'blog/post_new.html'
+    form_class = PostsForm
+
+    def get(self, request, *args, **kwargs):
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        return self.render_to_response(self.get_context_data(form=form))

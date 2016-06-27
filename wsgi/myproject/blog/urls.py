@@ -1,7 +1,7 @@
 from django.conf.urls import url
 from django.contrib.auth import views as auth_views
 
-from .views import index, posts_in_tag, custom_login, ViewPost
+from .views import index, posts_in_tag, custom_login, ViewPost, NewPost
 
 
 app_name = 'blog'
@@ -10,6 +10,7 @@ urlpatterns = [
     url(r'^tag/(?P<tag_slug>[\w\-]+)/$',
         posts_in_tag, name='posts_in_tag'
         ),
+    url(r'^new-post/$', NewPost.as_view(), name="new-post"),
     url(r'^post/(?P<slug>[\w\-]+)/$',
         ViewPost.as_view(), name="view-post"
         ),
