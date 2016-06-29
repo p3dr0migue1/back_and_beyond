@@ -2,7 +2,7 @@
     <h3>Site</h3>
     <ul>
         <li><a href="{% url 'blog:logout' %}">Logout</a>
-        <li><a href="/admin/blog/posts/add/">Create new post</a></li>
+        <li><a href="{% url 'blog:new-post' %}">Create new post</a></li>
     </ul>
 </nav>
 {% if tags %}

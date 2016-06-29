@@ -1,7 +1,7 @@
 {% extends "blog/base.html" %}
 
 {% block content %}
-    <h1>New post</h1>
+    <h1>Editing Post: {{ posts.title }}</h1>
     <form method="POST" class="post-form">
         {% csrf_token %}
         {% for field in form %}
@@ -11,6 +11,6 @@
         </div>
         {% endfor %}
         <button type="submit" class="save btn btn-default">Save</button>
-        <a href="{% url 'blog:index' %}" class="cancel">Cancel</a>
+        <a href="{% url 'blog:view-post' posts.slug %}" class="cancel">Cancel</a>
     </form>
 {% endblock %}
