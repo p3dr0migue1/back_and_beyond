@@ -7,7 +7,7 @@ from django.views.generic import DetailView, FormView, UpdateView
 from django.conf import settings
 
 
-from .models import Posts, PostTags, Tag
+from .models import Posts, PostTags
 from .forms import PostsForm
 
 
@@ -84,6 +84,24 @@ class NewPost(LoginRequiredMixin, FormView):
     def get(self, request, *args, **kwargs):
         form_class = self.get_form_class()
         form = self.get_form(form_class)
+        return self.render_to_response(self.get_context_data(form=form))
+
+    def post(self, *args, **kwargs):
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+
+        if form.is_valid():
+            tags = form.cleaned_data['tags']
+            post = form.save(commit=False)
+            post.save()
+
+            for tag in tags:
+                PostTags.objects.create(post=post, tag=tag)
+            return redirect('blog:view-post', slug=post.slug)
+        else:
+            return self.form_invalid(form)
+
+    def form_invalid(self, form):
         return self.render_to_response(self.get_context_data(form=form))
 
 
