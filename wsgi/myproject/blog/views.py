@@ -3,11 +3,11 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import login as django_login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.views.generic import DetailView, FormView
+from django.views.generic import DetailView, FormView, UpdateView
 from django.conf import settings
 
 
-from .models import Posts, PostTags
+from .models import Posts, PostTags, Tag
 from .forms import PostsForm
 
 
@@ -84,4 +84,37 @@ class NewPost(LoginRequiredMixin, FormView):
     def get(self, request, *args, **kwargs):
         form_class = self.get_form_class()
         form = self.get_form(form_class)
+        return self.render_to_response(self.get_context_data(form=form))
+
+
+class EditPost(LoginRequiredMixin, UpdateView):
+    model = Posts
+    template_name = 'blog/post_edit.html'
+    form_class = PostsForm
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+
+        return self.render_to_response(self.get_context_data(form=form))
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+
+        if form.is_valid():
+            tags = form.cleaned_data['tags']
+            post = form.save(commit=False)
+            post.save()
+
+            post.tags.clear()
+            for tag in tags:
+                PostTags.objects.create(post=post, tag=tag)
+            return redirect('blog:view-post', slug=post.slug)
+        else:
+            return self.form_invalid(form)
+
+    def form_invalid(self, form):
         return self.render_to_response(self.get_context_data(form=form))

@@ -15,7 +15,7 @@
                     <a href="{% url 'blog:posts_in_tag' tag.slug  %}">{{ tag.name }}</a>{% if not forloop.last %}, {% endif %}
                 {% endfor %}
                 </span>
-                <span class="edit"><a href="#">Edit post</a></span>
+                <span class="edit"><a href="{% url 'blog:edit-post' post.id %}">Edit post</a></span>
             {% else %}
                 <span class="tags">No Tags assign to this post.</span>
             {% endif %}
