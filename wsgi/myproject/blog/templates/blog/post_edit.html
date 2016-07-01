@@ -8,6 +8,7 @@
         <div class="{{ field.name }}">
             <label>{{ field.label }}</label>
             {{ field }}
+            {{ field.errors }}
         </div>
         {% endfor %}
         <button type="submit" class="save btn btn-default">Save</button>
