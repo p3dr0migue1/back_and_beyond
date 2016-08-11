@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <title>Back &amp; Beyond</title>
+</head>
+<link rel="stylesheet" type="text/css" href="{% static 'css/base_style.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'blog/css/style.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'fonts/stylesheet.css' %}" />
+<body>
+    <div id="page">
+    <h1>New tag</h1>
+    <form method="POST" class="tag-form">
+        {% csrf_token %}
+        {% for field in form %}
+        <div class="{{ field.name }}">
+            <label>{{ field.label }}</label>
+            {{ field }}
+            {{ field.errors }}
+        </div>
+        {% endfor %}
+        <button type="submit" class="save btn btn-default">Save</button>
+        <a href="#" onclick="window.close();return false;" class="cancel">Cancel</a>
+    </form>
+    </div>
+</body>
+</html>

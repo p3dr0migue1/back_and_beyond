@@ -1,4 +1,9 @@
 {% extends "base.html" %}
+{% load static %}
+
+{% block extra_links %}
+<link rel="stylesheet" type="text/css" href="{% static 'blog/css/style.css' %}" />
+{% endblock extra_links %}
 
 {% block app_content %}
 <div class="page-head">
@@ -22,3 +27,6 @@
 </footer>
 {% endblock app_content %}
 
+{% block js %}
+<script src="{% static 'blog/js/RelatedObjectLookup.js' %}"></script>
+{% endblock js %}

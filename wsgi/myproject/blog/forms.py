@@ -7,11 +7,17 @@ class PostsForm(forms.ModelForm):
 
     class Meta:
         model = Posts
-        fields = ('title', 'markdown_text', 'status', 'tags')
+        fields = ("title", "markdown_text", "status", "tags")
 
     def __init__(self, *args, **kwargs):
         super(PostsForm, self).__init__(*args, **kwargs)
-        self.fields['tags'] = forms.ModelMultipleChoiceField(
-            widget=forms.CheckboxSelectMultiple(attrs={'id': 'tagslist'}),
+        self.fields["tags"] = forms.ModelMultipleChoiceField(
+            widget=forms.CheckboxSelectMultiple(attrs={"id": "tagslist"}),
             queryset=Tag.objects.all()
         )
+
+
+class TagsForm(forms.ModelForm):
+    class Meta:
+        model = Tag
+        fields = ("name", )
