@@ -12,8 +12,8 @@ class PostsForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(PostsForm, self).__init__(*args, **kwargs)
         self.fields["tags"] = forms.ModelMultipleChoiceField(
-            widget=forms.CheckboxSelectMultiple(attrs={"id": "tagslist"}),
-            queryset=Tag.objects.all()
+            widget=forms.CheckboxSelectMultiple(attrs={"id": "id_tags"}),
+            queryset=Tag.objects.all().order_by('name')
         )
 
 
