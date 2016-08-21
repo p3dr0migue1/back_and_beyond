@@ -6,13 +6,12 @@
 {% endblock extra_links %}
 
 {% block app_content %}
-<div class="page-head">
-    {% block header %}
-        <h1><a href="{% url 'blog:index' %}">/back/&amp;/beyond</a></h1>
-    {% endblock header %}
-</div>
-
 <div class="page-content">
+    <div class="page-head">
+        {% block header %}
+            <h1><a href="{% url 'blog:index' %}">/back/&amp;/beyond</a></h1>
+        {% endblock header %}
+    </div>
     {% block content %}
     {% endblock content %}
 </div>
@@ -28,5 +27,6 @@
 {% endblock app_content %}
 
 {% block js %}
+<script src="{% static 'blog/js/jquery-3.1.0.min.js' %}"></script>
 <script src="{% static 'blog/js/RelatedObjectLookup.js' %}"></script>
 {% endblock js %}
