@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import login as django_login
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -7,8 +7,8 @@ from django.views.generic import DetailView, FormView, UpdateView
 from django.conf import settings
 
 
-from .models import Posts, PostTags
-from .forms import PostsForm
+from .models import Posts, PostTags, Tag
+from .forms import PostsForm, TagsForm
 
 
 def get_associated_tags():
@@ -103,6 +103,61 @@ class NewPost(LoginRequiredMixin, FormView):
 
     def form_invalid(self, form):
         return self.render_to_response(self.get_context_data(form=form))
+
+
+class NewTag(LoginRequiredMixin, FormView):
+    template_name = "blog/tag_new.html"
+    form_class = TagsForm
+
+    def get(self, request, *args, **kwargs):
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        return self.render_to_response(self.get_context_data(form=form))
+
+    def post(self, *args, **kwargs):
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+
+        if form.is_valid():
+            form.save()
+            return redirect("blog:index")
+        else:
+            return self.form_invalid(form)
+
+    def form_invalid(self, form):
+        return self.render_to_response(self.get_context_data(form=form))
+
+
+class NewTagPopUp(LoginRequiredMixin, FormView):
+    template_name = "blog/tag_popup.html"
+    form_class = TagsForm
+
+    def get(self, request, *args, **kwargs):
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+
+        if form.is_valid():
+            tag_name = form.cleaned_data["name"]
+            tag_obj = Tag(name=tag_name)
+            tag_obj.save()
+            return handle_pop_add(tag_obj)
+        else:
+            return self.form_invalid(form)
+
+    def form_invalid(self, form):
+        return self.render_to_response(self.get_context_data(form=form))
+
+
+def handle_pop_add(new_object):
+    dismiss_popup = ('<script type="text/javascript">'
+                     'opener.dismissAddAnotherPopup(window, "{}", "{}");'
+                     '</script>'.format(new_object._get_pk_val(), new_object))
+    return HttpResponse(dismiss_popup)
 
 
 class EditPost(LoginRequiredMixin, UpdateView):

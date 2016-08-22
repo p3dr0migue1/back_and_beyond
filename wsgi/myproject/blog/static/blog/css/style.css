@@ -4,7 +4,6 @@
 }
 
 .page-content .post {
-    margin: 0em 0em 0.5em;
     padding: 0px 20px 15px 0px;
 }
 
@@ -93,7 +92,7 @@
 .title,
 .markdown_text,
 .status,
-#tagslist {
+#id_tags {
     margin: 5px 0px 20px;
 }
 
@@ -101,11 +100,11 @@
     display: block;
 }
 
-#tagslist {
+#id_tags {
     width: 200px;
 }
 
-#tagslist {
+#id_tags {
     overflow: auto;
     height: 160px;
     border: 1px solid #989898;

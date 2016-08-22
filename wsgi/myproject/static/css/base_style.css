@@ -42,7 +42,7 @@ h5 a:hover, h6 a:hover {
 }
 
 a {
-    color: #0645ad;
+    color: #183691;
     text-decoration: none;
 }
 
@@ -63,7 +63,7 @@ a:hover {
 }
 
 .page-head h1 {
-    margin: .7em auto;
+    margin: 0em auto .7em;
     font-size: 2.8em;
     text-align: center;
 }
@@ -83,8 +83,12 @@ a:hover {
     float: left;
 }
 
+.widget {
+    margin-bottom: 2em;
+}
+
 .widget ul li {
-    margin: .5em 2em;
+    margin: 0em 0em 0em 2em;
     font-size: 1em;
     letter-spacing: 0.2em;
     text-decoration: none;

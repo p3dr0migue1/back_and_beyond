@@ -5,13 +5,16 @@
     <title>Back &amp; Beyond</title>
 </head>
 <link rel="stylesheet" type="text/css" href="{% static 'css/base_style.css' %}" />
-<link rel="stylesheet" type="text/css" href="{% static 'blog/css/style.css' %}" />
 <link rel="stylesheet" type="text/css" href="{% static 'css/codehilite.css' %}" />
 <link rel="stylesheet" type="text/css" href="{% static 'fonts/stylesheet.css' %}" />
+{% block extra_links %}
+{% endblock extra_links %}
 <body>
     <div id="page">
         {% block app_content %}
         {% endblock app_content %}
     </div>
+{% block js %}
+{% endblock js %}
 </body>
 </html>

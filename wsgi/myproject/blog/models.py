@@ -80,7 +80,8 @@ class PostTags(models.Model):
     def get_tags_associated_with_posts(cls):
         return cls.objects.filter(post__status=2)\
                           .values('tag__name', 'tag__slug')\
-                          .annotate(Count('tag'))
+                          .annotate(Count('tag'))\
+                          .order_by('tag__name')
 
     def __str__(self):
         return '{}'.format(self.tag.name)

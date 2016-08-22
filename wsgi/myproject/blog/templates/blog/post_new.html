@@ -6,7 +6,11 @@
         {% csrf_token %}
         {% for field in form %}
         <div class="{{ field.name }}">
-            <label>{{ field.label }}</label>
+            {% if field.label == 'Tags' %}
+                <label>{{ field.label }} <span><a href="{% url 'blog:new-tag-popup' %}?_to_field=id" id="add_{{ field.auto_id }}" onclick="return showAddAnotherTagPopup(this);">+ Create new tag</a></span></label>
+            {% else %}
+                <label>{{ field.label }}</label>
+            {% endif %}
             {{ field }}
             {{ field.errors }}
         </div>
