@@ -14,7 +14,7 @@ body {
     font-family: helvetica, arial, freesans, clean, sans-serif;
     font-size: 95%;
     letter-spacing: .1em;
-    line-height: 1.4;
+    line-height: 1.5;
 }
 
 section, aside,
@@ -25,13 +25,12 @@ article {
 h1, h2, h3,
 h4, h5, h6 {
     color: #333333;
-    font-family: "Georgia", "FreeSerif", serif;
+    font-family: monospace;
 }
 
 h1 a, h2 a,
 h3 a, h4 a,
 h5 a, h6 a {
-    color: inherit;
     text-decoration: inherit;
 }
 
@@ -109,8 +108,7 @@ a:hover {
 
 code {
     background-color: #FFCA92;
-    color: #C7254E;
-    border-radius: 4px;
+    color: #0F0F0F;
 }
 
 pre, code {
@@ -118,7 +116,7 @@ pre, code {
 }
 
 pre, code {
-    padding: 5px;
+    padding: 3px;
     margin: 10px 0px;
 }
 

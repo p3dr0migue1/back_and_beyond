@@ -8,8 +8,8 @@
 }
 
 .post h2 {
-    font-style: normal;
     margin-bottom: 5px;
+    font-size: 24px;
 }
 
 .post h2 a {
@@ -41,9 +41,17 @@
 }
 
 .post-content p,
-.post-content ul,
-.post-content ul li {
+.post-content ul {
     margin-bottom: 15px;
+}
+
+.post-content ul {
+    padding-left: 3em;
+    list-style-type: square;
+}
+
+.post-content ul li {
+    margin-bottom: 5px;
 }
 
 .post-content h3 {
