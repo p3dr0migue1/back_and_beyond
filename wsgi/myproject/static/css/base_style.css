@@ -97,12 +97,11 @@ a:hover {
 
 /* code snippets */
 .post .codehilite pre {
-    background: #f8f8f8 none repeat scroll 0% 0%;
-    border: 1px solid #CCCCCC;
+    background: #272822;
+    border: 1px solid #272822;
     margin: 2em 0em;
     width: auto;
     overflow: auto;
-    line-height: normal;
     letter-spacing: normal;
 }
 
@@ -112,7 +111,7 @@ code {
 }
 
 pre, code {
-    font-size: 13px;
+    font-size: 15px;
 }
 
 pre, code {

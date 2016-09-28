@@ -8,12 +8,6 @@ html {
     overflow-y: scroll;
 }
 
-h1 {
-    color: #333333;
-    font-family: "Georgia", "FreeSerif", serif;
-    font-style: italic;
-}
-
 #login-page {
     display: block;
     margin: 2% 4%;
@@ -26,8 +20,9 @@ h1 {
 }
 
 .page-head h1 {
+    color: #333333;
     margin: .7em auto;
-    font-family: Georgia, "Times New Roman", Times, serif;
+    font-family: monospace;
     font-size: 2.8em;
     text-align: center;
 }
@@ -57,12 +52,14 @@ h1 {
 
 #login_form input#username,
 #login_form input#password {
-    width: 70.5%;
+    width: 67.2%;
     padding: 5px 3px;
-    border: 1px solid #8e8e8e;
+    border: 1px solid #808080;
+    margin-left: 10px;
 }
 
 #login_form input#login_button {
     width: 100%;
     padding: 5px 0px;
+    border: 1px solid #808080;
 }
