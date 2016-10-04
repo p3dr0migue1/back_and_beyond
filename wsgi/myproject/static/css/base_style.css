@@ -11,10 +11,7 @@ html {
 body {
     background-color: white;
     color: #101010;
-    font-family: helvetica, arial, freesans, clean, sans-serif;
-    font-size: 95%;
-    letter-spacing: .1em;
-    line-height: 1.5;
+    font-family: sans-serif;
 }
 
 section, aside,
@@ -25,7 +22,6 @@ article {
 h1, h2, h3,
 h4, h5, h6 {
     color: #333333;
-    font-family: monospace;
 }
 
 h1 a, h2 a,
@@ -41,8 +37,7 @@ h5 a:hover, h6 a:hover {
 }
 
 a {
-    color: #183691;
-    text-decoration: none;
+    color: #0000EE;
 }
 
 a:hover {

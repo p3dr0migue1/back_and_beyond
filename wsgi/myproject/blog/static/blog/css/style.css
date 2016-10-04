@@ -7,19 +7,6 @@
     padding: 0px 20px 15px 0px;
 }
 
-.post h2 {
-    margin-bottom: 5px;
-    font-size: 24px;
-}
-
-.post h2 a {
-    color: #A91864;
-}
-
-.post h2 a:hover {
-    border-bottom: 2px solid #A91864;
-}
-
 .post span.post-date {
     float: right;
     font-size: 14px;
@@ -57,11 +44,6 @@
 .post-content h3 {
     margin: 30px 0px 15px;
     font-size: 20px;
-}
-
-.post-footer span.tags,
-.post-footer span.edit {
-    font-size: 13px;
 }
 
 .post-footer span.tags {
