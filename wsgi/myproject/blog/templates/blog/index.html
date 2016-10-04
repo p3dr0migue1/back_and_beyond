@@ -6,7 +6,7 @@
             {% if posts %}
                 {% for post in posts %}
                     <article class="post">
-                        <h2><a href="{% url 'blog:view-post' post.slug %}">{{ post.title }}</a><span class="post-date"> {{ post.date_created|date:'d M Y' }}</span></h2>
+                        <a href="{% url 'blog:view-post' post.slug %}">{{ post.title }}</a><span class="post-date"> {{ post.date_created|date:'d M Y' }}</span>
                         <div class="post-footer">
                             {% if post.tags.all %}
                                 <span class="tags">Tags:
