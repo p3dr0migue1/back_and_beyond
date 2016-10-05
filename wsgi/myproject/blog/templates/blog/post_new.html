@@ -1,7 +1,7 @@
 {% extends "blog/base.html" %}
 
 {% block content %}
-    <h1>New post</h1>
+    <h3>New post</h3>
     <form method="POST" class="post-form">
         {% csrf_token %}
         {% for field in form %}
