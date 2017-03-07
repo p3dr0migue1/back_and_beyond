@@ -1,5 +1,5 @@
 """
-Django settings for myproject project.
+Django settings for back_and_beyond project.
 
 For more information on this file, see
 https://docs.djangoproject.com/en/1.8/topics/settings/
@@ -10,6 +10,8 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import sys
+import secrets
 
 
 DJ_PROJECT_DIR = os.path.dirname(__file__)
@@ -18,11 +20,7 @@ WSGI_DIR = os.path.dirname(BASE_DIR)
 REPO_DIR = os.path.dirname(WSGI_DIR)
 DATA_DIR = os.environ.get('OPENSHIFT_DATA_DIR', BASE_DIR)
 
-import sys
-
 sys.path.append(os.path.join(REPO_DIR, 'libs'))
-
-import secrets
 
 SECRETS = secrets.getter(os.path.join(DATA_DIR, 'secrets.json'))
 
@@ -53,8 +51,8 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-# GETTING-STARTED: change 'myproject' to your project name:
-ROOT_URLCONF = 'myproject.urls'
+# GETTING-STARTED: change 'back_and_beyond' to your project name:
+ROOT_URLCONF = 'back_and_beyond.urls'
 
 TEMPLATES = [
     {
@@ -71,7 +69,7 @@ TEMPLATES = [
         },
     },
 ]
-WSGI_APPLICATION = 'myproject.wsgi.application'
+WSGI_APPLICATION = 'back_and_beyond.wsgi.application'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/

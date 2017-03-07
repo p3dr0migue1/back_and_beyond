@@ -6,7 +6,7 @@ if __name__ == "__main__":
     if 'DEVELOPMENT_SETTINGS' in os.environ.keys():
         settings_file = os.environ.get('DEVELOPMENT_SETTINGS')
     else:
-        settings_file = "myproject.settings.production"
+        settings_file = "back_and_beyond.settings.production"
 
     os.environ.setdefault(
         "DJANGO_SETTINGS_MODULE", settings_file)
