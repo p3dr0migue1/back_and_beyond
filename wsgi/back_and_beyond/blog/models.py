@@ -42,7 +42,7 @@ class Posts(models.Model):
     views = models.IntegerField(default=0)
     likes = models.IntegerField(default=0)
     status = models.IntegerField(choices=POST_STATUS, default=1)
-    tags = models.ManyToManyField(Tag, blank=True, through='PostTags')
+    tags = models.ManyToManyField(Tag, through='PostTags')
     objects = PostsManager()
 
     def get_tag_names(self):

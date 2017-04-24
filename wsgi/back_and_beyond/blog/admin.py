@@ -14,6 +14,7 @@ class TagsAdmin(admin.ModelAdmin):
 class PostTagsInline(admin.TabularInline):
     model = models.PostTags
     extra = 1
+    min_num = 1
 
 
 class PostsAdmin(admin.ModelAdmin):
