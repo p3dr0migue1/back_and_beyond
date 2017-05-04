@@ -18,19 +18,15 @@ class PostTagsInline(admin.TabularInline):
 
 
 class PostsAdmin(admin.ModelAdmin):
-    list_display = ('title', 'date_created', 'status')
+    list_display = ('title', 'status', 'date_created', 'last_updated')
     prepopulated_fields = {'slug': ('title',)}
-    # readonly_fields = ('date_created', 'last_updated')
+    readonly_fields = ('date_created', 'last_updated')
     inlines = [PostTagsInline]
 
     fieldsets = (
         (None, {
-            'fields': ('title', 'slug', 'markdown_text', 'date_created',
+            'fields': ('title', 'slug', 'content', 'date_created',
                        'last_updated', 'status')
-        }),
-        ('HTML Content', {
-            'classes': ('collapse',),
-            'fields': ('html_text',),
         }),
     )
 
