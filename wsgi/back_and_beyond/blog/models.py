@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models import Count
-from django.utils import timezone
+from django.core.urlresolvers import reverse
+from django.utils.safestring import mark_safe
 from django.template.defaultfilters import slugify
 
 import markdown
@@ -22,8 +23,8 @@ class Tag(models.Model):
 
 
 class PostsManager(models.Manager):
-    def by_slug(self, post_slug):
-        return self.get(slug=post_slug)
+    def get_posts_in_tag(self, tag):
+        return self.filter(tags__slug=tag)
 
 
 class Posts(models.Model):
@@ -35,10 +36,9 @@ class Posts(models.Model):
     )
     title = models.CharField(max_length=200, unique=True)
     slug = models.SlugField(max_length=220, unique=True)
-    markdown_text = models.TextField(blank=True, null=True)
-    html_text = models.TextField(blank=True, null=True)
-    date_created = models.DateTimeField(default=timezone.now, blank=True)
-    last_updated = models.DateTimeField()
+    content = models.TextField(blank=True, null=True)
+    date_created = models.DateTimeField(auto_now=False, auto_now_add=True)
+    last_updated = models.DateTimeField(auto_now=True, auto_now_add=False)
     views = models.IntegerField(default=0)
     likes = models.IntegerField(default=0)
     status = models.IntegerField(choices=POST_STATUS, default=1)
@@ -49,21 +49,26 @@ class Posts(models.Model):
         return ", ".join([cat.name for cat in self.tags.all()])
     get_tag_names.short_description = "Tags"
 
-    @classmethod
-    def get_posts_in_tag(cls, tag):
-        return cls.objects.filter(tags__slug=tag)
-
-    def save(self, *args, **kwargs):
-        self.html_text = markdown.markdown(
-            self.markdown_text,
+    def get_markdown(self):
+        content = self.content
+        markdown_text = markdown.markdown(
+            content,
             ["markdown.extensions.extra", "codehilite"]
         )
+        return mark_safe(markdown_text)
+
+    def get_absolute_url(self):
+        return reverse("blog:view-post", kwargs={"slug": self.slug})
+
+    def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
-        self.last_updated = timezone.now()
         super(Posts, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name_plural = "Posts"
+        # if two posts are created at the same time display
+        # first the post that was updated first
+        ordering = ["-date_created", "-last_updated"]
 
     def __str__(self):
         return self.title
