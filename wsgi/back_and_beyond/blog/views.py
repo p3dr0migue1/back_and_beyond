@@ -3,9 +3,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import login as django_login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.views.generic import DetailView, FormView, UpdateView
+from django.views.generic import DetailView, FormView, UpdateView, TemplateView
 from django.conf import settings
-
 
 from .models import Posts, PostTags, Tag
 from .forms import PostsForm, TagsForm
@@ -169,7 +168,6 @@ class EditPost(LoginRequiredMixin, UpdateView):
         self.object = self.get_object()
         form_class = self.get_form_class()
         form = self.get_form(form_class)
-
         return self.render_to_response(self.get_context_data(form=form))
 
     def post(self, request, *args, **kwargs):
@@ -191,3 +189,7 @@ class EditPost(LoginRequiredMixin, UpdateView):
 
     def form_invalid(self, form):
         return self.render_to_response(self.get_context_data(form=form))
+
+
+class AivaCountDown(TemplateView):
+    template_name = "blog/aiva_countdown.html"
