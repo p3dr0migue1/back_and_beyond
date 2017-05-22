@@ -1,0 +1,21 @@
+#page {
+    text-align: center;
+    width: 900px;
+    margin: 2em auto;
+}
+
+#page .title {
+    font-size: 50px;
+}
+
+#page .message {
+    font-size: 35px;
+}
+
+#page .counter {
+    margin: 4em 0em;
+}
+
+#page .counter h3 {
+    font-size: 45px;
+}
