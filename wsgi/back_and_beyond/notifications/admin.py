@@ -3,6 +3,6 @@ from .models import Notifications
 
 
 class NotificationsAdmin(admin.ModelAdmin):
-    list_display = ('title', 'message')
+    list_display = ('title', 'message', 'deadline', 'last_updated')
 
 admin.site.register(Notifications, NotificationsAdmin)
