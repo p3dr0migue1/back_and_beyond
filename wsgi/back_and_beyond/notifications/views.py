@@ -4,7 +4,7 @@ from .models import Notifications
 
 
 class NotificationsView(ListView):
-    template_name = 'notifications/aiva_countdown.html'
+    template_name = 'notifications/index.html'
     model = Notifications
 
     def get_context_data(self, **kwargs):
