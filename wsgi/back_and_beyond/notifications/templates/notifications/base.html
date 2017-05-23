@@ -7,20 +7,18 @@
 <link rel="stylesheet" href="{% static 'bootstrap-3.3.7/css/bootstrap.min.css' %}">
 <link rel="stylesheet" href="{% static 'notifications/css/style.css' %}" />
 <body>
-    <div id="page">
-      {% for notification in object_list %}
-        <h3 class="title">{{ notification.title }}</h3>
-        <div class="counter"><h3></h3></div>
-        <p class="message">{{ notification.message }}</p>
-      {% endfor %}
-    </div>
+{% block content %}
+{% endblock content %}
 <script src="{% static 'jquery-3.2.1/jquery-3.2.1.slim.min.js' %}"></script>
 <script src="{% static 'bootstrap-3.3.7/js/bootstrap.min.js' %}"></script>
 <script src="{% static 'jquery.countdown-2.1.0/jquery.countdown.js' %}"></script>
 <script type="text/javascript">
   $(function() {
-      $('.counter h3').countdown('2017/05/24 18:00:00', function(event) {
-        $(this).html(event.strftime('%d Days %H:%M:%S'));
+      var deadline = $('#page').find('.deadline');
+          deadline = deadline.attr('data-deadline');
+
+      $('.counter h3').countdown(deadline, function(event) {
+        $(this).html(event.strftime('%-D Day%!D %H:%M:%S'));
       });
     });
 </script>

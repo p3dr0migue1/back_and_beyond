@@ -1,0 +1,12 @@
+{% extends "notifications/base.html" %}
+
+{% block content %}
+<div id="page">
+  {% for notification in object_list %}
+    <h3 class="title">{{ notification.title }}</h3>
+    <span class="deadline" data-deadline="{{ notification.deadline|date:'Y/m/d H:i:s' }}" hidden></span>
+    <div class="counter"><h3></h3></div>
+    <p class="message">{{ notification.message }}</p>
+  {% endfor %}
+</div>
+{% endblock content %}
