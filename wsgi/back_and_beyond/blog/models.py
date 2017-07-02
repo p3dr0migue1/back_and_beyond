@@ -1,7 +1,6 @@
 from django.db import models
 from django.db.models import Count
 from django.core.urlresolvers import reverse
-from django.utils.safestring import mark_safe
 from django.template.defaultfilters import slugify
 
 import markdown
@@ -36,7 +35,8 @@ class Posts(models.Model):
     )
     title = models.CharField(max_length=200, unique=True)
     slug = models.SlugField(max_length=220, unique=True)
-    content = models.TextField(blank=True, null=True)
+    html_content = models.TextField(blank=True, null=True)
+    markdown_content = models.TextField(blank=True, null=True)
     date_created = models.DateTimeField(auto_now=False, auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True, auto_now_add=False)
     views = models.IntegerField(default=0)
@@ -49,18 +49,14 @@ class Posts(models.Model):
         return ", ".join([cat.name for cat in self.tags.all()])
     get_tag_names.short_description = "Tags"
 
-    def get_markdown(self):
-        content = self.content
-        markdown_text = markdown.markdown(
-            content,
-            ["markdown.extensions.extra", "codehilite"]
-        )
-        return mark_safe(markdown_text)
-
     def get_absolute_url(self):
         return reverse("blog:view-post", kwargs={"slug": self.slug})
 
     def save(self, *args, **kwargs):
+        self.html_content = markdown.markdown(
+            self.markdown_content,
+            ["markdown.extensions.extra", "codehilite"]
+        )
         self.slug = slugify(self.title)
         super(Posts, self).save(*args, **kwargs)
 

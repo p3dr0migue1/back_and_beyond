@@ -7,7 +7,7 @@ class PostsForm(forms.ModelForm):
 
     class Meta:
         model = Posts
-        fields = ("title", "content", "tags", "status")
+        fields = ("title", "markdown_content", "tags", "status")
 
     def __init__(self, *args, **kwargs):
         super(PostsForm, self).__init__(*args, **kwargs)
