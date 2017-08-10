@@ -3,7 +3,7 @@
     clear: both;
 }
 
-.widget > h3, .post-content h3 {
+.tags > h3, .post-content h3 {
     color: #FF0000;
 }
 
@@ -21,9 +21,25 @@
 }
 
 .page-content {
-    display: block;
+    margin: 2em 0em;
+}
+
+.page-content .posts {
+    width: 60%;
+    display: inline-block;
+}
+
+.page-content .tags_menu {
     float: right;
-    width: 75%;
+    width: 25%;
+    padding: 0em 0em 0em 3em;
+}
+
+.page-content .tags_menu ul li {
+    list-style-type: square;
+    font-variant: all-petite-caps;
+    font-size: 1.2em;
+    letter-spacing: 0.2em;
 }
 
 .post-form {
@@ -79,7 +95,7 @@
 .save,
 #id_title,
 #id_status,
-#id_markdown_text {
+#id_content {
     border-radius: unset;
     border: 1px solid #8A8A8A;
 }
@@ -114,4 +130,9 @@
 
 .save {
     padding: 3px 10px;
+}
+
+textarea#id_content {
+    width: 800px;
+    height: 500px;
 }

@@ -1,20 +1,8 @@
-<nav class="widget">
-    <h3>Site</h3>
+<nav class="menu">
     <ul>
-        <li><a href="{% url 'blog:logout' %}">Logout</a>
-        <li><a href="{% url 'blog:new-tag' %}">Create new tag</a></li>
         <li><a href="{% url 'blog:new-post' %}">Create new post</a></li>
+        <li><a href="{% url 'blog:new-tag' %}">Create new tag</a></li>
+        <li><a href="{% url 'blog:logout' %}">Logout</a>
     </ul>
 </nav>
-{% if tags %}
-    <nav class="widget">
-        <h3>Tags</h3>
-        <div id="tags-block">
-            <ul>
-            {% for t_obj in tags %}
-                <li><a href="{% url 'blog:posts_in_tag' t_obj.tag__slug %}">{{ t_obj.tag__name }}</a> {{ t_obj.tag__count }}</li>
-            {% endfor %}
-            </ul>
-        </div>
-    </nav>
-{% endif %}
+

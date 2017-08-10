@@ -14,8 +14,7 @@ body {
     font-family: sans-serif;
 }
 
-section, aside,
-article {
+aside, article {
     display: block;
 }
 
@@ -47,18 +46,21 @@ a:hover {
 /* ========== page ========== */
 #page, #login-page {
     display: block;
-    margin: 2% 12%;
+    margin: 2% 8%;
 }
 
 .page-head {
   display: block;
   width: 100%;
-  clear: both;
+  overflow: hidden;
 }
 
-.page-head h1 {
+.header {
+    display: inline-block;
+}
+
+.header h1 {
     margin: 0em auto .7em;
-    text-align: center;
 }
 
 .page-head h1 a {
@@ -68,23 +70,20 @@ a:hover {
 }
 
 /* ========== page sidebar ========== */
-.page-sidebar {
-    display: block;
-    width: 24%;
-    float: left;
+.nav {
+    float: right;
+
 }
 
-.widget {
+.menu {
     margin-bottom: 2em;
 }
 
-.widget ul li {
+.menu ul li {
     margin: 0em 0em 0em 2em;
-    font-size: 1em;
     letter-spacing: 0.2em;
-    text-decoration: none;
-    font-variant: small-caps;
-    list-style-type: square;
+    font-variant: unicase;
+    display: inline-block;
 }
 
 /* code snippets */

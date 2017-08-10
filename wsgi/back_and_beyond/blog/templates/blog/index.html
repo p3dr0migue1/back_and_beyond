@@ -1,7 +1,7 @@
 {% extends "blog/base.html" %}
 
 {% block content %}
-    <section class="content">
+    <section class="posts">
         {% block posts %}
             {% if posts %}
                 {% for post in posts %}
@@ -27,6 +27,17 @@
             {% endif %}
         {% endblock posts %}
     </section>
+
+    {% if tags %}
+        <nav class="tags_menu">
+            <h3>Tags</h3>
+            <ul>
+            {% for t_obj in tags %}
+                <li><a href="{% url 'blog:posts_in_tag' t_obj.tag__slug %}">{{ t_obj.tag__name }}</a> {{ t_obj.tag__count }}</li>
+            {% endfor %}
+            </ul>
+        </nav>
+    {% endif %}
 
     <div class="pagination">
         <span class="step-links">
