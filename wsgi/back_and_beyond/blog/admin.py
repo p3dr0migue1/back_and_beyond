@@ -25,8 +25,8 @@ class PostsAdmin(admin.ModelAdmin):
 
     fieldsets = (
         (None, {
-            'fields': ('title', 'slug', 'markdown_content', 'html_content',
-                       'date_created', 'last_updated', 'status')
+            'fields': ('title', 'slug', 'content', 'date_created',
+                       'last_updated', 'status')
         }),
     )
 
