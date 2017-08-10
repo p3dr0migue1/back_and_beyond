@@ -3,8 +3,6 @@ from django.db.models import Count
 from django.core.urlresolvers import reverse
 from django.template.defaultfilters import slugify
 
-import markdown
-
 
 class Tag(models.Model):
     name = models.CharField(max_length=100, unique=True)
@@ -35,8 +33,7 @@ class Posts(models.Model):
     )
     title = models.CharField(max_length=200, unique=True)
     slug = models.SlugField(max_length=220, unique=True)
-    html_content = models.TextField(blank=True, null=True)
-    markdown_content = models.TextField(blank=True, null=True)
+    content = models.TextField(blank=True, null=True)
     date_created = models.DateTimeField(auto_now=False, auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True, auto_now_add=False)
     views = models.IntegerField(default=0)
@@ -53,10 +50,6 @@ class Posts(models.Model):
         return reverse("blog:view-post", kwargs={"slug": self.slug})
 
     def save(self, *args, **kwargs):
-        self.html_content = markdown.markdown(
-            self.markdown_content,
-            ["markdown.extensions.extra", "codehilite"]
-        )
         self.slug = slugify(self.title)
         super(Posts, self).save(*args, **kwargs)
 
