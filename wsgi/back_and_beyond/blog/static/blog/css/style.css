@@ -11,13 +11,27 @@
     margin-top: 1.5em;
 }
 
-.page-content .post {
+.posts .post {
     padding: 0px 20px 15px 0px;
+    margin: 0em 0em 2em 0em;
+}
+
+.posts .post h2 {
+    font-weight: normal;
+}
+
+.post h2 a {
+    color: #C70038;
+}
+
+.post_footer {
+    margin-top: 0.5em;
 }
 
 .post span.post-date {
-    float: right;
+    /*float: right;*/
     font-size: 14px;
+    margin-right: 0.5em;
 }
 
 .page-content {
@@ -25,7 +39,7 @@
 }
 
 .page-content .posts {
-    width: 60%;
+    width: 70%;
     display: inline-block;
 }
 
@@ -35,11 +49,19 @@
     padding: 0em 0em 0em 3em;
 }
 
+.page-content .tags_menu ul {
+    padding: 0.5em 0em 0em 1.5em;
+}
+
 .page-content .tags_menu ul li {
     list-style-type: square;
     font-variant: all-petite-caps;
     font-size: 1.2em;
     letter-spacing: 0.2em;
+}
+
+.page-content .tags_menu ul li a {
+    color: #C70038;
 }
 
 .post-form {
