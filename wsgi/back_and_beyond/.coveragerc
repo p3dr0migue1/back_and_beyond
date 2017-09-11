@@ -1,7 +1,0 @@
-[run]
-include =
-    # include project and applications only
-    ./*
-omit =
-    # omit migration folders
-    *migrations*
