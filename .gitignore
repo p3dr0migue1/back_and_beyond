@@ -96,3 +96,6 @@ ENV/
 
 # mkdocs documentation
 /site
+
+# keep environment variables out of version control
+.env

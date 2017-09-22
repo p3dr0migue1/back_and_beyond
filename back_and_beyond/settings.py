@@ -22,7 +22,7 @@ PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = "alsdfja8fwu4r034r8ure8g'234345373754987987"
 
-DEBUG = True
+DEBUG = bool(os.environ.get('DEBUG', 'False'))
 
 # Application definition
 INSTALLED_APPS = (
@@ -64,13 +64,10 @@ TEMPLATES = [
         },
     },
 ]
-WSGI_APPLICATION = 'back_and_beyond.wsgi.application'
 
+WSGI_APPLICATION = 'back_and_beyond.wsgi.application'
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+    'default': dj_database_url.config(default=os.environ.get('JAWSDB_URL'))
 }
 
 # Change 'default' database configuration with $DATABASE_URL.
