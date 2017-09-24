@@ -10,13 +10,3 @@
     font-style: normal;
 
 }
-
-@font-face {
-    font-family: 'Alice';
-    src:url('Alice.ttf.woff') format('woff'),
-        url('Alice.ttf.svg#Alice') format('svg'),
-        url('Alice.ttf.eot'),
-        url('Alice.ttf.eot?#iefix') format('embedded-opentype'); 
-    font-weight: normal;
-    font-style: normal;
-}
