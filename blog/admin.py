@@ -1,5 +1,3 @@
-import models
-
 from django.contrib import admin
 from .models import Tag, Posts, PostTags
 
@@ -12,7 +10,7 @@ class TagsAdmin(admin.ModelAdmin):
 
 
 class PostTagsInline(admin.TabularInline):
-    model = models.PostTags
+    model = PostTags
     extra = 1
     min_num = 1
 
