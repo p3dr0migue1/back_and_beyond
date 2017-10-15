@@ -14,16 +14,20 @@
         {% endblock header %}
         <form id="login_form" method="post" action="/login/">
             {% csrf_token %}
+
+            {{ form.non_field_errors }}
             <div class="credentials">
-                <label>Username:</label>
-                <input type="text" name="username" id="username"/>
+                {{ form.username.errors }}
+                <label for="{{ form.username.id_for_label }}">Username:</label>
+                {{ form.username }}
             </div>
             <div class="credentials">
-                <label>Password:</label>
-                <input type="password" name="password" id="password"/>
+                {{ form.password.errors }}
+                <label for="{{ form.password.id_for_label }}">Password:</label>
+                {{ form.password }}
             </div>
-            <input type="submit" name="submit" id="login_button" value="Login" />
             <input type="hidden" name="next" value="{{ next }}" />
+            <button>Login</button>
         </form>
     </div>
 </body>

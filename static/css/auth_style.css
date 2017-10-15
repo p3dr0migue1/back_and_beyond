@@ -44,21 +44,33 @@ html {
     margin-bottom: 8px;
 }
 
+#login_form .nonfield {
+    color: #FF0000;
+    list-style: none;
+    margin-bottom: 1em;
+    line-height: 150%;
+}
+
+#login_form .errorlist {
+    color: #FF0000;
+    list-style: none;
+    margin: 1em 0em 0.5em;
+}
+
 #login_form label {
     float: left;
     width: 80px;
     padding: 5px 0px;
 }
 
-#login_form input#username,
-#login_form input#password {
-    width: 67.2%;
+#login_form input {
+    width: 66.5%;
     padding: 5px 3px;
     border: 1px solid #808080;
     margin-left: 10px;
 }
 
-#login_form input#login_button {
+#login_form button {
     width: 100%;
     padding: 5px 0px;
     border: 1px solid #808080;
