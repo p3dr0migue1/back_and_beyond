@@ -105,36 +105,21 @@ class NewPost(LoginRequiredMixin, FormView):
 
 
 class NewTag(LoginRequiredMixin, FormView):
-    template_name = "blog/tag_new.html"
     form_class = TagsForm
+    success_url = "/"
+    template_name = "blog/tag_new.html"
 
-    def get(self, request, *args, **kwargs):
-        form_class = self.get_form_class()
-        form = self.get_form(form_class)
-        return self.render_to_response(self.get_context_data(form=form))
-
-    def post(self, *args, **kwargs):
-        form_class = self.get_form_class()
-        form = self.get_form(form_class)
-
-        if form.is_valid():
-            form.save()
-            return redirect("blog:index")
-        else:
-            return self.form_invalid(form)
+    def form_valid(self, form):
+        form.save()
+        return super(NewTag, self).form_valid(form)
 
     def form_invalid(self, form):
-        return self.render_to_response(self.get_context_data(form=form))
+        return super(NewTag, self).form_invalid(form)
 
 
 class NewTagPopUp(LoginRequiredMixin, FormView):
-    template_name = "blog/tag_popup.html"
     form_class = TagsForm
-
-    def get(self, request, *args, **kwargs):
-        form_class = self.get_form_class()
-        form = self.get_form(form_class)
-        return render(request, self.template_name, {'form': form})
+    template_name = "blog/tag_popup.html"
 
     def post(self, request, *args, **kwargs):
         form_class = self.get_form_class()
@@ -149,7 +134,7 @@ class NewTagPopUp(LoginRequiredMixin, FormView):
             return self.form_invalid(form)
 
     def form_invalid(self, form):
-        return self.render_to_response(self.get_context_data(form=form))
+        return super(NewTagPopUp, self).form_invalid(form)
 
 
 def handle_pop_add(new_object):
