@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import login as django_login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core.urlresolvers import reverse
 from django.views.generic import DetailView, FormView, UpdateView
 from django.conf import settings
 
@@ -79,29 +80,22 @@ class ViewPost(LoginRequiredMixin, DetailView):
 class NewPost(LoginRequiredMixin, FormView):
     template_name = 'blog/post_new.html'
     form_class = PostsForm
+    success_url = None
 
-    def get(self, request, *args, **kwargs):
-        form_class = self.get_form_class()
-        form = self.get_form(form_class)
-        return self.render_to_response(self.get_context_data(form=form))
 
-    def post(self, *args, **kwargs):
-        form_class = self.get_form_class()
-        form = self.get_form(form_class)
+    def form_valid(self, form):
+        tags = form.cleaned_data['tags']
+        post = form.save(commit=False)
+        post.save()
 
-        if form.is_valid():
-            tags = form.cleaned_data['tags']
-            post = form.save(commit=False)
-            post.save()
+        for tag in tags:
+            PostTags.objects.create(post=post, tag=tag)
 
-            for tag in tags:
-                PostTags.objects.create(post=post, tag=tag)
-            return redirect('blog:view-post', slug=post.slug)
-        else:
-            return self.form_invalid(form)
+        self.success_url = reverse('blog:view-post', kwargs={'slug': post.slug})
+        return super(NewPost, self).form_valid(form)
 
     def form_invalid(self, form):
-        return self.render_to_response(self.get_context_data(form=form))
+        return super(NewPost, self).form_invalid(form)
 
 
 class NewTag(LoginRequiredMixin, FormView):
@@ -121,17 +115,11 @@ class NewTagPopUp(LoginRequiredMixin, FormView):
     form_class = TagsForm
     template_name = "blog/tag_popup.html"
 
-    def post(self, request, *args, **kwargs):
-        form_class = self.get_form_class()
-        form = self.get_form(form_class)
-
-        if form.is_valid():
-            tag_name = form.cleaned_data["name"]
-            tag_obj = Tag(name=tag_name)
-            tag_obj.save()
-            return handle_pop_add(tag_obj)
-        else:
-            return self.form_invalid(form)
+    def form_valid(self, form):
+        tag_name = form.cleaned_data["name"]
+        tag_obj = Tag(name=tag_name)
+        tag_obj.save()
+        return handle_pop_add(tag_obj)
 
     def form_invalid(self, form):
         return super(NewTagPopUp, self).form_invalid(form)
