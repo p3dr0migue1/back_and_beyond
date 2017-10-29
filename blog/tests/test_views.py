@@ -4,8 +4,8 @@ from django.contrib.sessions.middleware import SessionMiddleware
 from django.core.urlresolvers import reverse
 from django.test import Client
 
-from .models import Posts, Tag
-from .views import index, NewPost, NewTag
+from ..models import Tag, Posts, PostTags
+from ..views import index, NewPost, NewTag
 
 
 class TestTags(TestCase):
@@ -27,7 +27,6 @@ class TestTags(TestCase):
     def test_new_tag_created(self):
         form_addr = reverse('blog:new-tag')
         params = {'name': 'Europe Holidays'}
-        expected_post_title = params['name']
 
         self.client.login(username='pedro', password='admin')
         response = self.client.post(form_addr, params)
@@ -44,6 +43,18 @@ class TestTags(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertFormError(response, 'form', 'name', 'This field is required.')
+
+    def test_new_tag_popup_created(self):
+        form_addr = reverse('blog:new-tag-popup')
+        params = {'name': 'Weekend Escapades'}
+
+        self.client.login(username='pedro', password='admin')
+        response = self.client.post(form_addr, params)
+
+        self.assertTrue(Tag.objects.filter(name=params['name']).exists())
+        self.assertTrue(response.status_code, 200)
+        # ToDo
+        # mock assert handle_pop_add is called
 
     def test_new_tag_popup_name_required(self):
         form_addr = reverse('blog:new-tag-popup')
@@ -118,9 +129,60 @@ class TestPosts(TestCase):
         self.assertFalse('Dont tell anyone' in response.content)
         self.assertContains(response, '<article class="post">', count=2)
 
-    def test_new_post_page_rendering(self):
-        request = self.factory.get('new-post')
-        request.user = self.user
-        response = NewPost.as_view()(request)
+    def test_new_post_page(self):
+        page_url = reverse('blog:new-post')
+
+        self.client.login(username='pedro', password='admin')
+        response = self.client.get(page_url)
 
         self.assertTrue(response.status_code, 200)
+
+    def test_create_a_new_post(self):
+        tag = Tag.objects.create(name='Magazine')
+        page_url = reverse('blog:new-post')
+        form_content = {
+            'title': 'Time out!',
+            'content': 'This is a draft post!',
+            'tags': tag.id,
+            'status': 1,
+        }
+
+        self.client.login(username='pedro', password='admin')
+
+        response = self.client.post(page_url, form_content)
+
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, '/post/time-out/')
+        self.assertTrue(Posts.objects.filter(title=form_content['title']).exists())
+
+    def test_tags_is_required_in_creating_a_new_post(self):
+        page_url = reverse('blog:new-post')
+        form_content = {
+            'title': 'Time out!',
+            'content': 'This is a draft post!',
+        }
+
+        self.client.login(username='pedro', password='admin')
+
+        response = self.client.post(page_url, form_content)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertFormError(response, 'form', 'tags', 'This field is required.')
+        self.assertFalse(Posts.objects.filter(title=form_content['title']).exists())
+
+    def test_view_post(self):
+        tag = Tag.objects.create(name='Cryptocurrency')
+        post = Posts.objects.create(
+            title='The Future of Cryptocurrency',
+            content='Lorem ipsum content',
+            status=2,)
+        post_tags = PostTags.objects.create(post=post, tag=tag)
+        page_url = reverse('blog:view-post', kwargs={'slug': post.slug})
+
+        # login
+        self.client.login(username='pedro', password='admin')
+        response = self.client.get(page_url)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.request['PATH_INFO'], page_url)
+        self.assertContains(response, 'The Future of Cryptocurrency')
