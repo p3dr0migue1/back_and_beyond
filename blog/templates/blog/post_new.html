@@ -1,6 +1,7 @@
 {% extends "blog/base.html" %}
 
 {% block content %}
+{% spaceless %}
     <h3>New post</h3>
     <form method="POST" class="post-form">
         {% csrf_token %}
@@ -18,4 +19,5 @@
         <button type="submit" class="save btn btn-default">Save</button>
         <a href="{% url 'blog:index' %}" class="cancel">Cancel</a>
     </form>
+{% endspaceless %}
 {% endblock %}
