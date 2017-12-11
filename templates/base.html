@@ -11,6 +11,14 @@
 {% endblock extra_links %}
 <body>
     <div id="page">
+        <div class="page-head">
+            <div class="header">
+                {% block header %}
+                    <h1><a href="{% url 'blog:index' %}">/back/&amp;/beyond</a></h1>
+                {% endblock header %}
+            </div>
+            {% include "includes/navbar.html" %}
+        </div>
         {% block app_content %}
         {% endblock app_content %}
     </div>
