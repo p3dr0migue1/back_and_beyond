@@ -6,26 +6,16 @@
 {% endblock extra_links %}
 
 {% block app_content %}
-<div class="page-head">
-    <div class="header">
-        {% block header %}
-            <h1><a href="{% url 'blog:index' %}">/back/&amp;/beyond</a></h1>
-        {% endblock header %}
+    <div class="page-content">
+        {% block content %}
+        {% endblock content %}
     </div>
-    <aside class="nav">
-        {% include "blog/includes/navbar.html" %}
-    </aside>
-</div>
-<div class="page-content">
-    {% block content %}
-    {% endblock content %}
-</div>
 
-<footer>
-    <div id="credits">
-        <p>Made by Pedro Curado</p>
-    </div>
-</footer>
+    <footer>
+        <div id="credits">
+            <p>Made by Pedro Curado</p>
+        </div>
+    </footer>
 {% endblock app_content %}
 
 {% block js %}
