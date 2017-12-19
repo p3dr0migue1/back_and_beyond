@@ -21,3 +21,7 @@ class TagsForm(forms.ModelForm):
     class Meta:
         model = Tag
         fields = ("name", )
+
+
+class SearchForm(forms.Form):
+    query = forms.CharField()

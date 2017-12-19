@@ -1,7 +1,7 @@
 from django.conf.urls import url
 from django.contrib.auth import views as auth_views
 
-from .views import (index, posts_in_tag, custom_login, ViewPost,
+from .views import (index, posts_in_tag, post_search, custom_login, ViewPost,
                     NewPost, EditPost, NewTag, NewTagPopUp)
 
 
@@ -18,5 +18,6 @@ urlpatterns = [
     url(r"^post/edit/(?P<pk>[0-9]+)/$", EditPost.as_view(), name="edit-post"),
 
     url(r"^login/$", custom_login, name="login"),
-    url(r"^logout/$", auth_views.logout_then_login, name="logout")
+    url(r"^logout/$", auth_views.logout_then_login, name="logout"),
+    url(r'^search/$', post_search, name='post_search'),
 ]

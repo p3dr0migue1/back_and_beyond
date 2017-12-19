@@ -24,6 +24,11 @@ class PostsManager(models.Manager):
         return self.filter(tags__slug=tag)
 
 
+class PublishedManager(models.Manager):
+    def get_queryset(self):
+        return super(PublishedManager, self).get_queryset().filter(status=2)
+
+
 class Posts(models.Model):
     POST_STATUS = (
         (1, 'Draft'),
@@ -41,6 +46,7 @@ class Posts(models.Model):
     status = models.IntegerField(choices=POST_STATUS, default=1)
     tags = models.ManyToManyField(Tag, through='PostTags')
     objects = PostsManager()
+    published = PublishedManager()
 
     def get_tag_names(self):
         return ", ".join([cat.name for cat in self.tags.all()])

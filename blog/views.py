@@ -7,8 +7,10 @@ from django.core.urlresolvers import reverse
 from django.views.generic import DetailView, FormView, UpdateView
 from django.conf import settings
 
+from haystack.query import SearchQuerySet
+
 from .models import Posts, PostTags, Tag
-from .forms import PostsForm, TagsForm
+from .forms import PostsForm, TagsForm, SearchForm
 
 
 def get_associated_tags():
@@ -62,6 +64,27 @@ def posts_in_tag(request, tag_slug):
     context = {'tags': get_associated_tags(), 'posts': posts}
 
     return render(request, 'blog/posts_in_tag.html', context)
+
+
+def post_search(request):
+    form = SearchForm()
+
+    if 'query' in request.GET:
+        form = SearchForm(request.GET)
+        # import ipdb; ipdb.set_trace()
+        if form.is_valid():
+            cd = form.cleaned_data
+            results = SearchQuerySet().models(Posts).filter(content=cd['query']).load_all()
+
+            # count total results
+            total_results = results.count()
+        return render(request,
+                      'blog/main.html',
+                      {'form': form,
+                       'cd': cd,
+                       'results': results,
+                       'total_results': total_results})
+    return render(request, 'blog/main.html', {'form': form})
 
 
 class ViewPost(LoginRequiredMixin, DetailView):
