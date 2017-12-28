@@ -110,12 +110,18 @@ STATICFILES_DIRS = [
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Elasticsearch configuration
-ES_URL = urlparse(os.environ.get('BONSAI_URL') or 'http://127.0.0.1:9200/')
+ES_URL = urlparse('http://127.0.0.1:9200/')
+HAYSTACK_URL = '{}://{}:{}'.format(ES_URL.scheme, ES_URL.hostname, ES_URL.port)
+
+if os.environ.get('BONSAI_URL'):
+    ES_URL = urlparse(os.environ.get('BONSAI_URL'))
+    HAYSTACK_URL = '{}://{}:{}'.format(ES_URL.scheme, ES_URL.hostname, 443)
+
 HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.BaseSignalProcessor'
 HAYSTACK_CONNECTIONS = {
     'default': {
         'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
-        'URL': ES_URL.scheme + '://' + ES_URL.hostname + ':' + str(ES_URL.port),
+        'URL': HAYSTACK_URL,
         'INDEX_NAME': 'haystack',
     }
 }
