@@ -16,8 +16,8 @@ urlpatterns = [
     url(r"^new-tag/popup/$", NewTagPopUp.as_view(), name="new-tag-popup"),
     url(r"^post/(?P<slug>[\w\-]+)/$", ViewPost.as_view(), name="view-post"),
     url(r"^post/edit/(?P<pk>[0-9]+)/$", EditPost.as_view(), name="edit-post"),
+    url(r"^search/$", post_search, name='post_search'),
 
     url(r"^login/$", custom_login, name="login"),
     url(r"^logout/$", auth_views.logout_then_login, name="logout"),
-    url(r'^search/$', post_search, name='post_search'),
 ]

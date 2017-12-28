@@ -71,7 +71,6 @@ def post_search(request):
 
     if 'query' in request.GET:
         form = SearchForm(request.GET)
-        # import ipdb; ipdb.set_trace()
         if form.is_valid():
             cd = form.cleaned_data
             results = SearchQuerySet().models(Posts).filter(content=cd['query']).load_all()
@@ -79,12 +78,13 @@ def post_search(request):
             # count total results
             total_results = results.count()
         return render(request,
-                      'blog/main.html',
+                      'search/search.html',
                       {'form': form,
+                       'tags': get_associated_tags(),
                        'cd': cd,
                        'results': results,
                        'total_results': total_results})
-    return render(request, 'blog/main.html', {'form': form})
+    return render(request, 'search/search.html', {'form': form})
 
 
 class ViewPost(LoginRequiredMixin, DetailView):
