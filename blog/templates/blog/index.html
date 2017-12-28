@@ -3,6 +3,7 @@
 
 {% block content %}
     <section class="blog_posts">
+        <!-- posts -->
         {% block posts %}
             {% if posts %}
                 {% for post in posts %}
@@ -30,30 +31,10 @@
         {% endblock posts %}
     </section>
 
-    <nav class="blog_navigation">
-        <h3>Search</h3>
-        <div id="search">
-            <form action="/blog/search/" method="get">
-                <input type="text" name="query">
-                <input type="submit" value="Search">
-            </form>
-        </div>
-        <h3>Menu</h3>
-        <ul>
-            <li><a href="{% url 'blog:new-post' %}">Create New Post</a></li>
-            <li><a href="{% url 'blog:new-tag' %}">Create New Tag</a></li>
-        </ul>
-        {% if tags %}
-        <nav class="tags_menu">
-            <h3>Tags</h3>
-            <ul>
-            {% for t_obj in tags %}
-                <li><a href="{% url 'blog:posts_in_tag' t_obj.tag__slug %}">{{ t_obj.tag__name }}</a> {{ t_obj.tag__count }}</li>
-            {% endfor %}
-            </ul>
-        </nav>
-        {% endif %}
-    </nav>
+    <!-- blog navigation -->
+    {% include "includes/blog_navigation.html" %}
+
+    <!-- blog posts pagination -->
     <div class="pagination">
         <span class="step-links">
             {% if posts.has_previous %}

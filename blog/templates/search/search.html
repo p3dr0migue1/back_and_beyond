@@ -1,0 +1,19 @@
+{% extends "blog/base.html" %}
+{% load blog_tags %}
+
+{% block content %}
+    <!-- search results -->
+    <h3>Posts containing "{{ cd.query }}"</h3>
+    <p>Search returned {{ total_results }} result{{ total_results|pluralize }}</p>
+
+    {% for result in results %}
+        {% with post=result.object %}
+            <h4><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h4>
+            {{ post.content|truncatewords:5 }}
+        {% endwith %}
+    {% endfor %}
+
+    <!-- blog navigation -->
+    {% include "includes/blog_navigation.html" %}
+
+{% endblock content %}
