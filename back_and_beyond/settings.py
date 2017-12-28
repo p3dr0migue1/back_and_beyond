@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 """
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+import certifi
 import os
 import dj_database_url
 
@@ -123,6 +124,10 @@ HAYSTACK_CONNECTIONS = {
         'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
         'URL': HAYSTACK_URL,
         'INDEX_NAME': 'haystack',
+        'KWARGS': {
+            'verify_certs': True,
+            'ca_certs': certifi.where(),  # Path to the Certifi bundle.
+        },
     }
 }
 

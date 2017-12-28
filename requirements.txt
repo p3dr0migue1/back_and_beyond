@@ -1,5 +1,6 @@
 # pip install -r requirements/base.txt
 coverage==4.3.4
+certifi==0.0.8
 dj-database-url==0.4.2
 django-haystack>=1.0.0,<2.6.1
 Django==1.9
