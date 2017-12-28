@@ -111,11 +111,11 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Elasticsearch configuration
 ES_URL = urlparse(os.environ.get('BONSAI_URL') or 'http://127.0.0.1:9200/')
-import ipdb; ipdb.set_trace()
+HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.BaseSignalProcessor'
 HAYSTACK_CONNECTIONS = {
     'default': {
         'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
-        'URL': ES_URL.scheme + '://' + ES_URL.hostname + ':443',
+        'URL': ES_URL.scheme + '://' + ES_URL.hostname + ':' + str(ES_URL.port),
         'INDEX_NAME': 'haystack',
     }
 }
