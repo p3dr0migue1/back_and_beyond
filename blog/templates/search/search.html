@@ -1,19 +1,27 @@
 {% extends "blog/base.html" %}
+{% load highlight %}
 {% load blog_tags %}
 
 {% block content %}
     <!-- search results -->
-    <h3>Posts containing "{{ cd.query }}"</h3>
-    <p>Search returned {{ total_results }} result{{ total_results|pluralize }}</p>
+    <section class="search_results">
+        {% if "query" in request.GET %}
+            <div class="results_header">
+                <h3>Posts containing "{{ cd.query }}"</h3>
+                <p>Search returned {{ total_results }} result{{ total_results|pluralize }}</p>
+            </div>
+            {% for result in results %}
+                {% with post=result.object %}
+                    <article class="post">
+                        <h2><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
+                        {% highlight post.content with request.GET.query max_length 150 %}
 
-    {% for result in results %}
-        {% with post=result.object %}
-            <h4><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h4>
-            {{ post.content|truncatewords:5 }}
-        {% endwith %}
-    {% endfor %}
+                    </article>
+                {% endwith %}
+            {% endfor %}
+        {% endif %}
+    </section>
 
     <!-- blog navigation -->
     {% include "includes/blog_navigation.html" %}
-
 {% endblock content %}
