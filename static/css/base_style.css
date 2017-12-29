@@ -9,10 +9,10 @@ html {
 }
 
 body {
-    /*background-color: white;*/
     background-color: #f7f7f7;
     color: #3F3F3F;
-    font-family: sans-serif;
+    font-family: monospace;
+    font-size: 14px;
 }
 
 aside, article {
@@ -26,6 +26,10 @@ a {
 
 a:hover {
     text-decoration: underline;
+}
+
+p {
+    line-height: 1.49;
 }
 
 /* ========== page ========== */
@@ -49,7 +53,7 @@ a:hover {
 
 .header h1 {
     margin: 0.2em auto 0.2em;
-    font-size: 3em;
+    font-size: 1.7em;
 }
 
 .page-head h1 a {
@@ -60,18 +64,16 @@ a:hover {
 
 .menu {
     display: inline-block;
-
-}
-
-.menu {
-    margin-bottom: 2em;
+    margin: 0.67em;
 }
 
 .menu ul li {
     margin: 0em 0em 0em 2em;
-    letter-spacing: 0.2em;
-    font-variant: unicase;
     display: inline-block;
+}
+
+.menu ul li a {
+    font-size: 1.2em;
 }
 
 /* code snippets */
@@ -90,16 +92,8 @@ code {
 }
 
 pre, code {
-    font-size: 16px;
-}
-
-pre, code {
-    padding: 3px;
+    padding: 1px 3px;
     margin: 10px 0px;
-}
-
-.page-content .pagination {
-    margin: 4em 0em;
 }
 
 /* ========== footer ========== */

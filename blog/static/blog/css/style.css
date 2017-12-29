@@ -20,7 +20,37 @@
     margin: 0em 0em 2em 0em;
 }
 
-.blog_posts .post h2 {
+#search input[type="text"] {
+    padding: 0.3em;
+    font-family: monospace;
+    width: 190px;
+}
+
+#search input[type="submit"] {
+    padding: 0.3em;
+    width: 70px;
+}
+
+.search_results .post {
+    padding: 0px 20px 5px 0px;
+    margin: 0em 0em 1em 0em;
+}
+
+.search_results .results_header {
+    margin-bottom: 2.5em;
+}
+
+.search_results .highlighted {
+    background-color: #EAE421;
+    padding: 0.2em;
+}
+
+.search_results h3 a {
+    color: #353535;
+}
+
+.blog_posts .post h2,
+.search_results .post h2 {
     font-weight: normal;
 }
 
@@ -29,23 +59,34 @@
     color: #353535;
 }
 
-.post_footer {
+.blog_posts .post_footer {
     margin-top: 0.5em;
 }
 
+.post_detail .post_footer {
+    margin-top: 0.9em;
+}
+
 .post span.post-date {
-    /*float: right;*/
     font-size: 14px;
     margin-right: 0.5em;
 }
 
 .page-content {
     margin: 2% 8%;
+    overflow: hidden;
 }
 
-.page-content .blog_posts {
+.page-content .blog_posts,
+.page-content .post_detail,
+.page-content .search_results,
+.page-content .pagination {
     width: 70%;
     display: inline-block;
+}
+
+.page-content .pagination {
+    margin: 1em 0em 3em;
 }
 
 .page-content .blog_navigation {
@@ -61,7 +102,7 @@
 .blog_navigation ul li {
     list-style-type: square;
     font-variant: all-petite-caps;
-    font-size: 1.2em;
+    font-size: 1.3em;
     letter-spacing: 0.2em;
 }
 
@@ -76,7 +117,7 @@
 .post .post-content {
     clear: both;
     margin: 0;
-    padding: 1.5em .1em;
+    padding: 2.5em .1em;
 }
 
 .post-content p,
@@ -132,6 +173,10 @@
     padding: 5px 5px;
 }
 
+#id_title {
+    font-family: monospace;
+}
+
 .title,
 .markdown_text,
 .status,
@@ -162,8 +207,12 @@
 }
 
 textarea#id_content {
-    width: 800px;
+    width: 99.5%;
     height: 500px;
+}
+
+.not_bold {
+    font-weight: normal;
 }
 
 /* ======== side menu ======== */

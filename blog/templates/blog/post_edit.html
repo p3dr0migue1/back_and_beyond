@@ -1,7 +1,7 @@
 {% extends "blog/base.html" %}
 
 {% block content %}
-    <h3>Editing Post: {{ posts.title }}</h3>
+    <h3>Editing Post: <span class="not_bold">{{ posts.title }}</span></h3>
     <form method="POST" class="post-form">
         {% csrf_token %}
         {% for field in form %}

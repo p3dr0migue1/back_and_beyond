@@ -25,7 +25,7 @@ def custom_login(request):
 
 def pagination(request, object_list):
     # show 7 posts per page
-    paginator = Paginator(object_list, 10)
+    paginator = Paginator(object_list, 6)
     page = request.GET.get('page')
 
     try:
@@ -77,13 +77,15 @@ def post_search(request):
 
             # count total results
             total_results = results.count()
-        return render(request,
-                      'search/search.html',
-                      {'form': form,
-                       'tags': get_associated_tags(),
-                       'cd': cd,
-                       'results': results,
-                       'total_results': total_results})
+            return render(request,
+                          'search/search.html',
+                          {'form': form,
+                           'tags': get_associated_tags(),
+                           'cd': cd,
+                           'results': results,
+                           'total_results': total_results})
+        else:
+            return render(request, 'search/search.html', {'form': form})
     return render(request, 'search/search.html', {'form': form})
 
 
