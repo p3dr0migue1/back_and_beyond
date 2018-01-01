@@ -78,8 +78,7 @@ p {
 
 /* code snippets */
 .post .codehilite pre {
-    background: #272822;
-    border: 1px solid #272822;
+    border: 1px solid #C3C5B6;
     width: auto;
     overflow: auto;
     letter-spacing: normal;
@@ -92,7 +91,7 @@ code {
 }
 
 pre, code {
-    padding: 1px 3px;
+    padding: 5px 8px;
     margin: 10px 0px;
 }
 
