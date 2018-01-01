@@ -33,7 +33,7 @@
 
 .search_results .post {
     padding: 0px 20px 5px 0px;
-    margin: 0em 0em 1em 0em;
+    margin: 0em 0em 3em 0em;
 }
 
 .search_results .results_header {
@@ -45,13 +45,17 @@
     padding: 0.2em;
 }
 
-.search_results h3 a {
+/*.search_results h3 a {
     color: #353535;
-}
+}*/
 
 .blog_posts .post h2,
 .search_results .post h2 {
     font-weight: normal;
+}
+
+.search_results .post h2 {
+    margin-bottom: 0.3em;
 }
 
 .post h2 a {
