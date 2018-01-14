@@ -77,10 +77,18 @@ class PostTags(models.Model):
         verbose_name_plural = "post tags"
 
     @classmethod
-    def get_tags_associated_with_posts(cls):
-        return cls.objects.filter(post__status=2)\
-                          .values('tag__name', 'tag__slug')\
-                          .annotate(Count('tag'))\
+    def posts_in_tags_queryset(cls):
+        """
+        Returns a queryset in the form of:
+        [
+            {'tag__name': 'CSS', 'tag__slug': 'css', 'posts': 3},
+            {'tag__name': 'Python', 'tag__slug': 'python', 'posts': 6},
+            {'tag__name': 'Django', 'tag__slug': 'django', 'posts': 2},
+        ]
+        """
+        return cls.objects.values('tag__name', 'tag__slug')\
+                          .annotate(posts=Count('post'))\
+                          .filter(post__status=2)\
                           .order_by('tag__name')
 
     def __str__(self):

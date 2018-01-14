@@ -1,3 +1,6 @@
+import math
+from itertools import chain
+
 from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import login as django_login
@@ -13,8 +16,23 @@ from .models import Posts, PostTags, Tag
 from .forms import PostsForm, TagsForm, SearchForm
 
 
-def get_associated_tags():
-    return PostTags.get_tags_associated_with_posts()
+def word_cloud():
+    post_tags = PostTags.posts_in_tags_queryset()
+    result = []
+
+    if post_tags:
+        maximum = max(list(chain(*post_tags.values_list('posts'))))
+
+        for obj in post_tags.iterator():
+            percent = math.floor((obj['posts'] * 100) / maximum)
+            if percent <= 60:
+                obj['css_class'] = 'tag-cloud_small'
+            elif 60 < percent <= 80:
+                obj['css_class'] = 'tag-cloud_medium'
+            else:
+                obj['css_class'] = 'tag-cloud_large'
+            result.append(obj)
+    return result
 
 
 def custom_login(request):
@@ -50,8 +68,7 @@ def index(request):
     post_list = Posts.objects.order_by('-date_created').filter(status=2)
     posts = pagination(request, post_list)
 
-    context = {'tags': get_associated_tags(), 'posts': posts}
-
+    context = {'tags': word_cloud(), 'posts': posts}
     return render(request, 'blog/index.html', context)
 
 
@@ -61,7 +78,7 @@ def posts_in_tag(request, tag_slug):
                              .order_by('-date_created')\
                              .filter(status=2)
     posts = pagination(request, post_list)
-    context = {'tags': get_associated_tags(), 'posts': posts}
+    context = {'tags': word_cloud(), 'posts': posts}
 
     return render(request, 'blog/posts_in_tag.html', context)
 
@@ -80,7 +97,7 @@ def post_search(request):
             return render(request,
                           'search/search.html',
                           {'form': form,
-                           'tags': get_associated_tags(),
+                           'tags': word_cloud(),
                            'cd': cd,
                            'results': results,
                            'total_results': total_results})
@@ -97,7 +114,7 @@ class ViewPost(LoginRequiredMixin, DetailView):
         self.object = self.get_object()
         context = self.get_context_data(
             post=self.object,
-            tags=get_associated_tags()
+            tags=word_cloud()
         )
         return self.render_to_response(context)
 
