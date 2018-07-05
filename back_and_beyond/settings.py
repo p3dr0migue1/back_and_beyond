@@ -74,7 +74,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'back_and_beyond.wsgi.application'
 DATABASES = {
-    'default': dj_database_url.config(default=os.environ.get('JAWSDB_URL'))
+    'default': dj_database_url.config(default=os.environ.get('DATABASE_URL'))
 }
 
 # Change 'default' database configuration with $DATABASE_URL.
