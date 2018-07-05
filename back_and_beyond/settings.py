@@ -28,7 +28,7 @@ PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = "alsdfja8fwu4r034r8ure8g'234345373754987987"
 
-DEBUG = bool(os.environ.get('DEBUG', 'False'))
+DEBUG = eval(os.environ.get('DEBUG', 'False'))
 
 # Application definition
 INSTALLED_APPS = (
