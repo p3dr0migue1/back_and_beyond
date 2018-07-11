@@ -1,3 +1,5 @@
+import uuid
+
 from django.db import models
 from django.db.models import Count
 from django.core.urlresolvers import reverse
@@ -7,6 +9,7 @@ from django.template.defaultfilters import slugify
 class Tag(models.Model):
     name = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(max_length=120, unique=True)
+    # uuid = models.UUIDField(default=uuid.uuid4, editable=False)
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
@@ -45,6 +48,7 @@ class Posts(models.Model):
     likes = models.IntegerField(default=0)
     status = models.IntegerField(choices=POST_STATUS, default=1)
     tags = models.ManyToManyField(Tag, through='PostTags')
+    # uuid = models.UUIDField(default=uuid.uuid4, editable=False)
     objects = PostsManager()
     published = PublishedManager()
 
@@ -72,6 +76,7 @@ class Posts(models.Model):
 class PostTags(models.Model):
     post = models.ForeignKey(Posts)
     tag = models.ForeignKey(Tag)
+    # uuid = models.UUIDField(default=uuid.uuid4, editable=False)
 
     class Meta:
         verbose_name_plural = "post tags"
