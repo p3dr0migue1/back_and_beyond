@@ -9,7 +9,7 @@ html {
 }
 
 body {
-    background-color: #f7f7f7;
+    background-color: #FFFFFF;
     color: #3F3F3F;
     font-family: monospace;
     font-size: 14px;
@@ -20,7 +20,7 @@ aside, article {
 }
 
 a {
-    color: #0000EE;
+    color: #AD0727;
     text-decoration: none;
 }
 
@@ -64,7 +64,6 @@ a:hover {
 
 }
 
-
 p {
     line-height: 1.49;
     font-size: 18px;
@@ -84,9 +83,8 @@ h2 {
   display: block;
   width: 100%;
   overflow: hidden;
-  /*background-color: #a9b5af52;*/
-  background-color: #ffffff;
-  border-bottom: 10px solid #DE1B1A;
+  background-color: #A9B5AF52;
+  border-bottom: 1px solid #B6B6B6;
 }
 
 .header {
@@ -128,13 +126,13 @@ h2 {
 }
 
 code {
-    /*background-color: #FFCA92;*/
-    background-color: #EAE581;
+    background-color: rgba(27,31,35,0.05);
     color: #0F0F0F;
+    font-size: 16.5px;
 }
 
 pre, code {
-    padding: 5px 8px;
+    padding: 2px 8px;
     margin: 10px 0px;
 }
 
