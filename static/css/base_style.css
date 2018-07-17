@@ -83,7 +83,7 @@ h2 {
   display: block;
   width: 100%;
   overflow: hidden;
-  background-color: #A9B5AF52;
+  background-color: #FF5522;
   border-bottom: 1px solid #B6B6B6;
 }
 
@@ -95,6 +95,7 @@ h2 {
 .header h1 {
     margin: 0.2em auto 0.2em;
     font-size: 1.7em;
+    color: #292828;
 }
 
 .page-head h1 a {
@@ -115,6 +116,7 @@ h2 {
 
 .menu ul li a {
     font-size: 1.2em;
+    color: #680A1C;
 }
 
 /* code snippets */
