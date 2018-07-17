@@ -1,5 +1,5 @@
 {% block blog_navigation %}
-    <nav class="blog_navigation">
+    <nav class="blog-navigation">
 
         <!-- search form -->
         {% block searchform %}
@@ -12,19 +12,21 @@
             </div>
         {% endblock searchform %}
 
-        <h3>Menu</h3>
-        <ul>
-            <li><a href="{% url 'blog:new-post' %}">Create New Post</a></li>
-            <li><a href="{% url 'blog:new-tag' %}">Create New Tag</a></li>
-        </ul>
+        <nav class="sidebar-menu">
+          <h3>Menu</h3>
+          <ul>
+              <li><a href="{% url 'blog:new-post' %}">Create New Post</a></li>
+              <li><a href="{% url 'blog:new-tag' %}">Create New Tag</a></li>
+          </ul>
+        </nav>
 
         <!-- tags -->
         {% if tags %}
-        <nav class="tags_menu">
+        <nav class="tags-menu">
             <h3>Tags</h3>
             <ul>
             {% for t_obj in tags %}
-                <li><a class="{{ t_obj.css_class }}" href="{% url 'blog:posts_in_tag' t_obj.tag__slug %}">{{ t_obj.tag__name }}</a></li>
+                <li class="{% cycle 'odd_tag' 'even_tag' %}"><a class="{{ t_obj.css_class }}" href="{% url 'blog:posts_in_tag' t_obj.tag__slug %}">{{ t_obj.tag__name }}</a></li>
             {% endfor %}
             </ul>
         </nav>
