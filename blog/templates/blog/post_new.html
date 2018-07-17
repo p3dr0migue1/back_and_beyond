@@ -16,8 +16,10 @@
             {{ field.errors }}
         </div>
         {% endfor %}
-        <button type="submit" class="save btn btn-default">Save</button>
-        <a href="{% url 'blog:index' %}" class="cancel">Cancel</a>
+        <div class='btn-group'>
+            <button type="submit" class="save">Save</button>
+            <a href="{% url 'blog:index' %}" class="cancel">Cancel</a>
+        </div>
     </form>
 {% endspaceless %}
 {% endblock %}
