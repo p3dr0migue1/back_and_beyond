@@ -203,7 +203,7 @@
 }
 
 .post-form .content {
-    width: 75%;
+    width: 73%;
     margin: 0% 5% 1% 0%;
 }
 
@@ -320,7 +320,7 @@
 }
 
 .tags-menu ul li {
-    width: 190px;
+    min-width: 47%;
     float: left;
 }
 
