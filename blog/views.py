@@ -43,7 +43,7 @@ def custom_login(request):
 
 def pagination(request, object_list):
     # show 7 posts per page
-    paginator = Paginator(object_list, 6)
+    paginator = Paginator(object_list, 7)
     page = request.GET.get('page')
 
     try:
@@ -66,9 +66,10 @@ def index(request):
     :param request:  a get request
     """
     post_list = Posts.objects.order_by('-date_created').filter(status=2)
+    post_tags = PostTags.posts_in_tags_queryset()
     posts = pagination(request, post_list)
 
-    context = {'tags': word_cloud(), 'posts': posts}
+    context = {'tags': post_tags, 'posts': posts}
     return render(request, 'blog/index.html', context)
 
 
@@ -77,8 +78,9 @@ def posts_in_tag(request, tag_slug):
     post_list = Posts.objects.get_posts_in_tag(tag_slug)\
                              .order_by('-date_created')\
                              .filter(status=2)
+    post_tags = PostTags.posts_in_tags_queryset()
     posts = pagination(request, post_list)
-    context = {'tags': word_cloud(), 'posts': posts}
+    context = {'tags': post_tags, 'posts': posts}
 
     return render(request, 'blog/posts_in_tag.html', context)
 
