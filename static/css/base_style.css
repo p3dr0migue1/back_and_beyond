@@ -13,6 +13,12 @@ body {
     color: #3F3F3F;
     font-family: monospace;
     font-size: 14px;
+    display: flex;
+    flex-direction: column;
+}
+
+html, body {
+    height: 100%;
 }
 
 aside, article {
@@ -75,6 +81,10 @@ h2 {
 }
 
 /* ========== page ========== */
+#page {
+    flex: 1 0 auto;
+}
+
 #page, #login-page {
     display: block;
 }
@@ -139,8 +149,29 @@ pre, code {
 }
 
 /* ========== footer ========== */
-#page footer {
-    clear: both;
+.footer {
+    flex-shrink: 0;
+    padding: 0em 2em 2em;
+}
+
+.footer a {
+    text-decoration: none;
+    margin-left: 0.2em;
+}
+
+.icon-brands::before {
+    font-family: "Font Awesome 5 Brands";
+    color: #FF5522;
+}
+
+.linkedin::before {
+    content: "\f0e1";  /* this is your text. You can also use UTF-8 character codes as I do here */
+    font-size: 1.5em;
+ }
+
+.github::before {
+    content: "\f09b";
+    font-size: 1.5em;
 }
 
 #credits p {
