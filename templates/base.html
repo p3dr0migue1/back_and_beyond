@@ -4,6 +4,10 @@
 <head>
     <title>Back &amp; Beyond</title>
 </head>
+<link rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
+      integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
+      crossorigin="anonymous">
 <link rel="stylesheet" type="text/css" href="{% static 'css/base_style.css' %}" />
 <link rel="stylesheet" type="text/css" href="{% static 'css/codehilite.css' %}" />
 {% block extra_links %}
@@ -21,6 +25,18 @@
         {% block app_content %}
         {% endblock app_content %}
     </div>
+    <footer class="footer">
+        <div id="credits">
+            <p>Made by Pedro Curado
+                <a class="icon-brands linkedin"
+                   href="https://www.linkedin.com/in/pedrocurado/"
+                   target="_blank"></a>
+                <a class="icon-brands github"
+                   href="https://github.com/p3dr0migue1"
+                   target="_blank"></a>
+            </p>
+        </div>
+    </footer>
 {% block js %}
 {% endblock js %}
 </body>
