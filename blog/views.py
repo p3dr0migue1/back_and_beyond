@@ -7,7 +7,7 @@ from django.contrib.auth.views import login as django_login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
-from django.views.generic import DetailView, FormView, UpdateView
+from django.views.generic import DetailView, FormView, ListView, UpdateView
 from django.conf import settings
 
 from haystack.query import SearchQuerySet
@@ -66,12 +66,52 @@ def index(request):
 
     :param request:  a get request
     """
-    post_list = Posts.objects.order_by('-date_created').filter(status=2)
+    staff_user = request.user.is_staff
+
+    if staff_user:
+        post_list = Posts.objects.order_by('-date_created')
+    else:
+        post_list = Posts.objects.order_by('-date_created').filter(status=2)
     post_tags = PostTags.posts_in_tags_queryset()
     posts = pagination(request, post_list)
 
-    context = {'tags': post_tags, 'posts': posts}
+    context = {'staff_user': staff_user, 'tags': post_tags, 'posts': posts}
     return render(request, 'blog/index.html', context)
+
+
+class PostList(LoginRequiredMixin, ListView):
+    model = Posts
+    paginate_by = 7
+    template_name = 'blog/index.html'
+
+    def get_context_data(self, **kwargs):
+        queryset = kwargs.pop('object_list', self.object_list)
+        page_size = self.get_paginate_by(queryset)
+        context = {
+            'paginator': None,
+            'page_obj': None,
+            'is_paginated': False,
+            'posts': None,
+            'tags': None,
+            'staff_user': self.request.user.is_staff,
+        }
+
+        if page_size:
+            paginator, page, queryset, is_paginated = self.paginate_queryset(queryset, page_size)
+            context['paginator'] = paginator
+            context['page_obj'] = page
+            context['is_paginated'] = is_paginated
+            context['posts'] = queryset
+            context['tags'] = PostTags.posts_in_tags_queryset()
+
+        return super().get_context_data(**context)
+
+    def get_queryset(self):
+        if self.request.user.is_staff:
+            queryset = Posts.objects.order_by('-date_created')
+        else:
+            queryset = Posts.objects.order_by('-date_created').filter(status=2)
+        return queryset
 
 
 @login_required
@@ -116,6 +156,7 @@ class ViewPost(LoginRequiredMixin, DetailView):
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
         context = self.get_context_data(
+            staff_user=request.user.is_staff,
             post=self.object,
             tags=word_cloud()
         )
