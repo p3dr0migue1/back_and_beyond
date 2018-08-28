@@ -12,13 +12,15 @@
             </div>
         {% endblock searchform %}
 
-        <nav class="sidebar-menu">
-          <h3>Menu</h3>
-          <ul>
-              <li><a href="{% url 'blog:new-post' %}">Create New Post</a></li>
-              <li><a href="{% url 'blog:new-tag' %}">Create New Tag</a></li>
-          </ul>
-        </nav>
+        {% if staff_user %}
+            <nav class="sidebar-menu">
+              <h3>Menu</h3>
+              <ul>
+                  <li><a href="{% url 'blog:new-post' %}">Create New Post</a></li>
+                  <li><a href="{% url 'blog:new-tag' %}">Create New Tag</a></li>
+              </ul>
+            </nav>
+        {% endif %}
 
         <!-- tags -->
         {% if tags %}
