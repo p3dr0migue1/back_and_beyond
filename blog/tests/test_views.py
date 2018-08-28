@@ -11,44 +11,54 @@ from ..views import index, NewPost, NewTag
 class TestTags(TestCase):
     def setUp(self):
         self.factory = RequestFactory()
-        self.user = User.objects.create_superuser(
+
+        # create non staff user
+        self.non_staff_user = User.objects.create(
+            username='larry',
+            email='larry@mail.co.uk',
+        )
+        self.non_staff_user.set_password('larry86#')
+        self.non_staff_user.save()
+
+        # create staff user
+        self.staff_user = User.objects.create_superuser(
             'pedro',
             'pedro@mail.co.uk',
-            'admin'
+            'pedro30#',
         )
 
-    def test_new_tag_page_rendering(self):
+    def test_rendering_new_tag_page_as_a_staff_user(self):
         request = self.factory.get('new-tag')
-        request.user = self.user
+        request.user = self.staff_user
         response = NewTag.as_view()(request)
 
         self.assertTrue(response.status_code, 200)
 
-    def test_new_tag_created(self):
+    def test_creating_a_new_tag_as_a_staff_user(self):
         form_addr = reverse('blog:new-tag')
         params = {'name': 'Europe Holidays'}
 
-        self.client.login(username='pedro', password='admin')
+        self.client.login(username='pedro', password='pedro30#')
         response = self.client.post(form_addr, params)
 
         self.assertTrue(Tag.objects.filter(name=params['name']).exists())
         self.assertTrue(response.status_code, 302)
         self.assertEqual(response.url, '/')
 
-    def test_new_tag_name_required(self):
+    def test_creating_a_new_tag_requires_a_tag_name(self):
         form_addr = reverse('blog:new-tag')
 
-        self.client.login(username='pedro', password='admin')
+        self.client.login(username='pedro', password='pedro30#')
         response = self.client.post(form_addr, {})
 
         self.assertEqual(response.status_code, 200)
         self.assertFormError(response, 'form', 'name', 'This field is required.')
 
-    def test_new_tag_popup_created(self):
+    def test_creating_a_new_tag_in_popup_window_as_a_staff_user(self):
         form_addr = reverse('blog:new-tag-popup')
         params = {'name': 'Weekend Escapades'}
 
-        self.client.login(username='pedro', password='admin')
+        self.client.login(username='pedro', password='pedro30#')
         response = self.client.post(form_addr, params)
 
         self.assertTrue(Tag.objects.filter(name=params['name']).exists())
@@ -56,10 +66,10 @@ class TestTags(TestCase):
         # ToDo
         # mock assert handle_pop_add is called
 
-    def test_new_tag_popup_name_required(self):
+    def test_creating_a_new_tag_in_popup_window_requires_a_tag_name(self):
         form_addr = reverse('blog:new-tag-popup')
 
-        self.client.login(username='pedro', password='admin')
+        self.client.login(username='pedro', password='pedro30#')
         response = self.client.post(form_addr, {})
 
         self.assertEqual(response.status_code, 200)
@@ -69,10 +79,20 @@ class TestTags(TestCase):
 class TestPosts(TestCase):
     def setUp(self):
         self.factory = RequestFactory()
-        self.user = User.objects.create_superuser(
+
+        # create non staff user
+        self.non_staff_user = User.objects.create(
+            username='larry',
+            email='larry@mail.co.uk',
+        )
+        self.non_staff_user.set_password('larry86#')
+        self.non_staff_user.save()
+
+        # create staff user
+        self.staff_user = User.objects.create_superuser(
             'pedro',
             'pedro@mail.co.uk',
-            'admin'
+            'pedro30#'
         )
 
     def test_access_index_view_with_logout_user(self):
@@ -82,14 +102,14 @@ class TestPosts(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, '/login/?next=/')
 
-    def test_index_view(self):
+    def test_index_view_for_non_staff_users_displays_ok(self):
         request = self.factory.get('/')
-        request.user = self.user
+        request.user = self.non_staff_user
         response = index(request)
         self.assertEqual(response.status_code, 200)
         self.assertTrue(b'<h3>No posts to display yet..</h3>' in response.content)
 
-    def test_index_view_displays_only_published_posts(self):
+    def test_index_view_for_non_staff_users_displays_only_published_posts(self):
         Posts.objects.bulk_create(
             [
                 Posts(
@@ -120,24 +140,24 @@ class TestPosts(TestCase):
         )
 
         request = self.factory.get('/')
-        request.user = self.user
+        request.user = self.non_staff_user
         response = index(request)
 
         self.assertEqual(response.status_code, 200)
         self.assertTrue(b'The first post' in response.content)
         self.assertTrue(b'Show and tell' in response.content)
-        # self.assertFalse(b'Dont tell anyone' in response.content)
-        self.assertContains(response, '<article class="post">', count=4)
+        self.assertFalse(b'Dont tell anyone' in response.content)
+        self.assertContains(response, '<article class="post">', count=2)
 
-    def test_new_post_page(self):
+    def test_new_post_view_for_staff_users_displays_ok(self):
         page_url = reverse('blog:new-post')
 
-        self.client.login(username='pedro', password='admin')
+        self.client.login(username='pedro', password='pedro30#')
         response = self.client.get(page_url)
 
-        self.assertTrue(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
 
-    def test_create_a_new_post(self):
+    def test_create_a_new_post_with_staff_user(self):
         tag = Tag.objects.create(name='Magazine')
         page_url = reverse('blog:new-post')
         form_content = {
@@ -147,7 +167,7 @@ class TestPosts(TestCase):
             'status': 1,
         }
 
-        self.client.login(username='pedro', password='admin')
+        self.client.login(username='pedro', password='pedro30#')
 
         response = self.client.post(page_url, form_content)
 
@@ -162,7 +182,7 @@ class TestPosts(TestCase):
             'content': 'This is a draft post!',
         }
 
-        self.client.login(username='pedro', password='admin')
+        self.client.login(username='pedro', password='pedro30#')
 
         response = self.client.post(page_url, form_content)
 
@@ -170,7 +190,7 @@ class TestPosts(TestCase):
         self.assertFormError(response, 'form', 'tags', 'This field is required.')
         self.assertFalse(Posts.objects.filter(title=form_content['title']).exists())
 
-    def test_view_post(self):
+    def test_view_post_as_a_non_staff_user_displays_ok(self):
         tag = Tag.objects.create(name='Cryptocurrency')
         post = Posts.objects.create(
             title='The Future of Cryptocurrency',
@@ -180,7 +200,7 @@ class TestPosts(TestCase):
         page_url = reverse('blog:view-post', kwargs={'slug': post.slug})
 
         # login
-        self.client.login(username='pedro', password='admin')
+        self.client.login(username='larry', password='larry86#')
         response = self.client.get(page_url)
 
         self.assertEqual(response.status_code, 200)
