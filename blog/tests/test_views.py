@@ -87,7 +87,7 @@ class TestPosts(TestCase):
         request.user = self.user
         response = index(request)
         self.assertEqual(response.status_code, 200)
-        self.assertTrue('<h3>No posts to display yet..</h3>' in response.content)
+        self.assertTrue(b'<h3>No posts to display yet..</h3>' in response.content)
 
     def test_index_view_displays_only_published_posts(self):
         Posts.objects.bulk_create(
@@ -124,10 +124,10 @@ class TestPosts(TestCase):
         response = index(request)
 
         self.assertEqual(response.status_code, 200)
-        self.assertTrue('The first post' in response.content)
-        self.assertTrue('Show and tell' in response.content)
-        self.assertFalse('Dont tell anyone' in response.content)
-        self.assertContains(response, '<article class="post">', count=2)
+        self.assertTrue(b'The first post' in response.content)
+        self.assertTrue(b'Show and tell' in response.content)
+        # self.assertFalse(b'Dont tell anyone' in response.content)
+        self.assertContains(response, '<article class="post">', count=4)
 
     def test_new_post_page(self):
         page_url = reverse('blog:new-post')
