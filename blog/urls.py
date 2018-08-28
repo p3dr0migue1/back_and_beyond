@@ -2,15 +2,15 @@ from django.conf.urls import url
 from django.contrib.auth import views as auth_views
 
 from .views import (
-    custom_login,
     EditPost,
     NewPost,
     NewTag,
     NewTagPopUp,
-    post_search,
-    posts_in_tag,
     PostList,
     ViewPost,
+    custom_login,
+    post_search,
+    posts_in_tag,
 )
 
 
