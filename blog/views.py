@@ -36,12 +36,6 @@ def word_cloud():
     return result
 
 
-def custom_login(request):
-    if request.user.is_authenticated():
-        return redirect(settings.LOGIN_REDIRECT_URL)
-    return django_login(request)
-
-
 def pagination(request, object_list):
     # show 7 posts per page
     paginator = Paginator(object_list, 7)
@@ -59,24 +53,10 @@ def pagination(request, object_list):
     return pages
 
 
-@login_required
-def index(request):
-    """
-    Returns all posts ordered by date of creation (new post first)
-
-    :param request:  a get request
-    """
-    staff_user = request.user.is_staff
-
-    if staff_user:
-        post_list = Posts.objects.order_by('-date_created')
-    else:
-        post_list = Posts.objects.order_by('-date_created').filter(status=2)
-    post_tags = PostTags.posts_in_tags_queryset()
-    posts = pagination(request, post_list)
-
-    context = {'staff_user': staff_user, 'tags': post_tags, 'posts': posts}
-    return render(request, 'blog/index.html', context)
+def custom_login(request):
+    if request.user.is_authenticated():
+        return redirect(settings.LOGIN_REDIRECT_URL)
+    return django_login(request)
 
 
 class PostList(LoginRequiredMixin, ListView):
