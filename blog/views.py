@@ -103,8 +103,13 @@ def posts_in_tag(request, tag_slug):
                              .order_by('-date_created')\
                              .filter(status=2)
     post_tags = PostTags.posts_in_tags_queryset()
-    posts = pagination(request, post_list)
-    context = {'tags': post_tags, 'posts': posts}
+    page = pagination(request, post_list)
+    context = {
+        'page_obj': page,
+        'posts': page.object_list,
+        'staff_user': request.user.is_staff,
+        'tags': post_tags,
+    }
 
     return render(request, 'blog/posts_in_tag.html', context)
 
