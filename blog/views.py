@@ -1,19 +1,19 @@
 import math
 from itertools import chain
 
-from django.shortcuts import render, redirect, HttpResponse
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.views import login as django_login
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.core.urlresolvers import reverse
-from django.views.generic import DetailView, FormView, ListView, UpdateView
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import login as django_login
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.core.urlresolvers import reverse
+from django.shortcuts import HttpResponse, redirect, render
+from django.views.generic import DetailView, FormView, ListView, UpdateView
 
 from haystack.query import SearchQuerySet
 
-from .forms import PostsForm, TagsForm, SearchForm
-from .models import Posts, PostTags, Tag
+from .forms import PostsForm, SearchForm, TagsForm
+from .models import PostTags, Posts, Tag
 from .utils import StaffUserMixin
 
 
@@ -77,7 +77,10 @@ class PostList(LoginRequiredMixin, ListView):
         }
 
         if page_size:
-            paginator, page, queryset, is_paginated = self.paginate_queryset(queryset, page_size)
+            paginator, page, queryset, is_paginated = self.paginate_queryset(
+                queryset,
+                page_size
+            )
             context['paginator'] = paginator
             context['page_obj'] = page
             context['is_paginated'] = is_paginated
@@ -113,7 +116,9 @@ def post_search(request):
         form = SearchForm(request.GET)
         if form.is_valid():
             cd = form.cleaned_data
-            results = SearchQuerySet().models(Posts).filter(content=cd['query']).load_all()
+            results = SearchQuerySet().models(Posts)\
+                                      .filter(content=cd['query'])\
+                                      .load_all()
 
             # count total results
             total_results = results.count()
@@ -148,7 +153,6 @@ class NewPost(LoginRequiredMixin, StaffUserMixin, FormView):
     form_class = PostsForm
     success_url = None
 
-
     def form_valid(self, form):
         tags = form.cleaned_data['tags']
         post = form.save(commit=False)
@@ -157,7 +161,10 @@ class NewPost(LoginRequiredMixin, StaffUserMixin, FormView):
         for tag in tags:
             PostTags.objects.create(post=post, tag=tag)
 
-        self.success_url = reverse('blog:view-post', kwargs={'slug': post.slug})
+        self.success_url = reverse(
+            'blog:view-post',
+            kwargs={'slug': post.slug}
+        )
         return super(NewPost, self).form_valid(form)
 
     def form_invalid(self, form):
