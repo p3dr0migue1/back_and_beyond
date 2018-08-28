@@ -12,8 +12,9 @@ from django.conf import settings
 
 from haystack.query import SearchQuerySet
 
-from .models import Posts, PostTags, Tag
 from .forms import PostsForm, TagsForm, SearchForm
+from .models import Posts, PostTags, Tag
+from .utils import StaffUserMixin
 
 
 def word_cloud():
@@ -121,7 +122,7 @@ class ViewPost(LoginRequiredMixin, DetailView):
         return self.render_to_response(context)
 
 
-class NewPost(LoginRequiredMixin, FormView):
+class NewPost(LoginRequiredMixin, StaffUserMixin, FormView):
     template_name = 'blog/post_new.html'
     form_class = PostsForm
     success_url = None
@@ -142,7 +143,7 @@ class NewPost(LoginRequiredMixin, FormView):
         return super(NewPost, self).form_invalid(form)
 
 
-class NewTag(LoginRequiredMixin, FormView):
+class NewTag(LoginRequiredMixin, StaffUserMixin, FormView):
     form_class = TagsForm
     success_url = "/"
     template_name = "blog/tag_new.html"
@@ -155,7 +156,7 @@ class NewTag(LoginRequiredMixin, FormView):
         return super(NewTag, self).form_invalid(form)
 
 
-class NewTagPopUp(LoginRequiredMixin, FormView):
+class NewTagPopUp(LoginRequiredMixin, StaffUserMixin, FormView):
     form_class = TagsForm
     template_name = "blog/tag_popup.html"
 
@@ -176,7 +177,7 @@ def handle_pop_add(new_object):
     return HttpResponse(dismiss_popup)
 
 
-class EditPost(LoginRequiredMixin, UpdateView):
+class EditPost(LoginRequiredMixin, StaffUserMixin, UpdateView):
     model = Posts
     template_name = 'blog/post_edit.html'
     form_class = PostsForm
