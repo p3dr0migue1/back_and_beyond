@@ -6,7 +6,7 @@ from .views import (
     EditPost,
     NewPost,
     NewTag,
-    NewTagPopUp
+    NewTagPopUp,
     post_search,
     posts_in_tag,
     PostList,

@@ -5,7 +5,7 @@ from django.core.urlresolvers import reverse
 from django.test import Client
 
 from ..models import Tag, Posts, PostTags
-from ..views import index, NewPost, NewTag
+from ..views import index, NewPost, NewTag, PostList
 
 
 class TestTags(TestCase):
@@ -98,16 +98,16 @@ class TestPosts(TestCase):
     def test_access_index_view_with_logout_user(self):
         request = self.factory.get('/')
         request.user = AnonymousUser()
-        response = index(request)
+        response = PostList.as_view()(request)
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, '/login/?next=/')
 
     def test_index_view_for_non_staff_users_displays_ok(self):
         request = self.factory.get('/')
         request.user = self.non_staff_user
-        response = index(request)
+        response = PostList.as_view()(request)
         self.assertEqual(response.status_code, 200)
-        self.assertTrue(b'<h3>No posts to display yet..</h3>' in response.content)
+        self.assertTrue('<h3>No posts to display yet..</h3>' in response.rendered_content)
 
     def test_index_view_for_non_staff_users_displays_only_published_posts(self):
         Posts.objects.bulk_create(
@@ -141,12 +141,12 @@ class TestPosts(TestCase):
 
         request = self.factory.get('/')
         request.user = self.non_staff_user
-        response = index(request)
+        response = PostList.as_view()(request)
 
         self.assertEqual(response.status_code, 200)
-        self.assertTrue(b'The first post' in response.content)
-        self.assertTrue(b'Show and tell' in response.content)
-        self.assertFalse(b'Dont tell anyone' in response.content)
+        self.assertTrue('The first post' in response.rendered_content)
+        self.assertTrue('Show and tell' in response.rendered_content)
+        self.assertFalse('Dont tell anyone' in response.rendered_content)
         self.assertContains(response, '<article class="post">', count=2)
 
     def test_new_post_view_for_staff_users_displays_ok(self):
