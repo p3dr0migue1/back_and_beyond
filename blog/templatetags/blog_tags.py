@@ -10,5 +10,12 @@ register = template.Library()
 @register.filter(name='markdown')
 def markdown_format(text):
     return mark_safe(
-        markdown.markdown(text, ["markdown.extensions.extra", "codehilite"])
+        markdown.markdown(
+            text,
+            [
+                "markdown.extensions.extra",
+                "markdown.extensions.toc",
+                "codehilite",
+            ]
+        )
     )
