@@ -154,7 +154,7 @@ class PostDetail(LoginRequiredMixin, DetailView):
         return self.render_to_response(context)
 
 
-class NewPost(LoginRequiredMixin, StaffUserMixin, FormView):
+class PostCreate(LoginRequiredMixin, StaffUserMixin, FormView):
     template_name = 'blog/post_new.html'
     form_class = PostsForm
     success_url = None
@@ -171,10 +171,10 @@ class NewPost(LoginRequiredMixin, StaffUserMixin, FormView):
             'blog:view-post',
             kwargs={'slug': post.slug}
         )
-        return super(NewPost, self).form_valid(form)
+        return super().form_valid(form)
 
     def form_invalid(self, form):
-        return super(NewPost, self).form_invalid(form)
+        return super().form_invalid(form)
 
 
 class NewTag(LoginRequiredMixin, StaffUserMixin, FormView):

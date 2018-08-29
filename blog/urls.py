@@ -2,9 +2,9 @@ from django.conf.urls import url
 from django.contrib.auth import views as auth_views
 
 from .views import (
-    NewPost,
     NewTag,
     NewTagPopUp,
+    PostCreate,
     PostDetail,
     PostList,
     PostUpdate,
@@ -21,7 +21,7 @@ urlpatterns = [
     url(r"^login/$", custom_login, name="login"),
     url(r"^logout/$", auth_views.logout_then_login, name="logout"),
 
-    url(r"^new-post/$", NewPost.as_view(), name="new-post"),
+    url(r"^new-post/$", PostCreate.as_view(), name="new-post"),
     url(r"^new-tag/$", NewTag.as_view(), name="new-tag"),
     url(r"^new-tag/popup/$", NewTagPopUp.as_view(), name="new-tag-popup"),
     url(r"^post/(?P<slug>[\w\-]+)/$", PostDetail.as_view(), name="view-post"),
