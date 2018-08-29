@@ -5,7 +5,7 @@ from django.core.urlresolvers import reverse
 from django.test import Client
 
 from ..models import Tag, Posts, PostTags
-from ..views import NewPost, NewTag, PostList
+from ..views import NewTag, PostCreate, PostList
 
 
 class TestTags(TestCase):
