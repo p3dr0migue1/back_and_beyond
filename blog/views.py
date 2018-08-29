@@ -139,7 +139,7 @@ def post_search(request):
     return render(request, 'search/search.html', {'form': form})
 
 
-class ViewPost(LoginRequiredMixin, DetailView):
+class PostDetail(LoginRequiredMixin, DetailView):
     model = Posts
     template_name = 'blog/post_detail.html'
 
