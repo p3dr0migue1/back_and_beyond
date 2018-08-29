@@ -206,3 +206,71 @@ class TestPosts(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.request['PATH_INFO'], page_url)
         self.assertContains(response, 'The Future of Cryptocurrency')
+
+    def test_post_update_view_displays_ok(self):
+        tag = Tag.objects.create(name='Cryptocurrency')
+        post = Posts.objects.create(
+            title='The Future of Cryptocurrency',
+            content='Lorem ipsum content',
+            status=2,)
+        post_tags = PostTags.objects.create(post=post, tag=tag)
+        page_url = reverse('blog:edit-post', kwargs={'pk': post.pk})
+
+        # login
+        self.client.login(username='pedro', password='pedro30#')
+        response = self.client.get(page_url)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.request['PATH_INFO'], page_url)
+
+    def test_post_update_valid_form(self):
+        tag = Tag.objects.create(name='Cryptocurrency')
+        post = Posts.objects.create(
+            title='The Future of Cryptocurrency',
+            content='Lorem ipsum content',
+            status=2,)
+        post_tags = PostTags.objects.create(post=post, tag=tag)
+        
+        page_url = reverse('blog:edit-post', kwargs={'pk': post.pk})
+        post_update = {
+            'pk': post.pk,
+            'title': 'Time out!',
+            'content': 'This is a post update',
+            'tags': tag.id,
+            'status': 2,
+        }
+
+        self.client.login(username='pedro', password='pedro30#')
+        response = self.client.post(page_url, post_update)
+        post = Posts.objects.get(pk=post.pk)
+
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(post.title, post_update['title'])
+        self.assertEqual(post.content, post_update['content'])
+
+    def test_post_update_without_title_returns_invalid_form(self):
+        tag = Tag.objects.create(name='Cryptocurrency')
+        post = Posts.objects.create(
+            title='The Future of Cryptocurrency',
+            content='Lorem ipsum content',
+            status=2,)
+        post_tags = PostTags.objects.create(post=post, tag=tag)
+        
+        page_url = reverse('blog:edit-post', kwargs={'pk': post.pk})
+        post_update = {
+            'pk': post.pk,
+            'title': '',
+            'content': 'This is a post update',
+            'tags': tag.id,
+            'status': 2,
+        }
+
+        self.client.login(username='pedro', password='pedro30#')
+        response = self.client.post(page_url, post_update)
+        form = response.context_data['form']
+        expected_form_error = {'title': ['This field is required.']}
+
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse(form.is_valid())
+        self.assertEqual(form.errors, expected_form_error)
+        
