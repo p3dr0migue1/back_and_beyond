@@ -2,12 +2,12 @@ from django.conf.urls import url
 from django.contrib.auth import views as auth_views
 
 from .views import (
-    EditPost,
     NewPost,
     NewTag,
     NewTagPopUp,
     PostDetail,
     PostList,
+    PostUpdate,
     custom_login,
     post_search,
     posts_in_tag,
@@ -25,7 +25,7 @@ urlpatterns = [
     url(r"^new-tag/$", NewTag.as_view(), name="new-tag"),
     url(r"^new-tag/popup/$", NewTagPopUp.as_view(), name="new-tag-popup"),
     url(r"^post/(?P<slug>[\w\-]+)/$", PostDetail.as_view(), name="view-post"),
-    url(r"^post/edit/(?P<pk>[0-9]+)/$", EditPost.as_view(), name="edit-post"),
+    url(r"^post/edit/(?P<pk>[0-9]+)/$", PostUpdate.as_view(), name="edit-post"),
     url(r"^search/$", post_search, name='post_search'),
     url(r"^tag/(?P<tag_slug>[\w\-]+)/$", posts_in_tag, name="posts_in_tag"),
 ]

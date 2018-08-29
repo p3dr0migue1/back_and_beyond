@@ -9,6 +9,7 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.core.urlresolvers import reverse
 from django.shortcuts import HttpResponse, redirect, render
 from django.views.generic import DetailView, FormView, ListView, UpdateView
+from django.views.generic.edit import ModelFormMixin
 
 from haystack.query import SearchQuerySet
 
@@ -210,33 +211,26 @@ def handle_pop_add(new_object):
     return HttpResponse(dismiss_popup)
 
 
-class EditPost(LoginRequiredMixin, StaffUserMixin, UpdateView):
-    model = Posts
-    template_name = 'blog/post_edit.html'
+class PostUpdate(LoginRequiredMixin, StaffUserMixin, UpdateView):
     form_class = PostsForm
+    model = Posts
+    success_url = None
+    template_name = 'blog/post_edit.html'
 
-    def get(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        form_class = self.get_form_class()
-        form = self.get_form(form_class)
-        return self.render_to_response(self.get_context_data(form=form))
+    def form_valid(self, form):
+        tags = form.cleaned_data['tags']
+        post = form.save(commit=False)
+        post.save()
+        post.tags.clear()
 
-    def post(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        form_class = self.get_form_class()
-        form = self.get_form(form_class)
+        for tag in tags:
+            PostTags.objects.create(post=post, tag=tag)
 
-        if form.is_valid():
-            tags = form.cleaned_data['tags']
-            post = form.save(commit=False)
-            post.save()
-
-            post.tags.clear()
-            for tag in tags:
-                PostTags.objects.create(post=post, tag=tag)
-            return redirect('blog:view-post', slug=post.slug)
-        else:
-            return self.form_invalid(form)
+        self.success_url = reverse(
+            'blog:view-post',
+            kwargs={'slug': post.slug}
+        )
+        return super(ModelFormMixin, self).form_valid(form)
 
     def form_invalid(self, form):
         return self.render_to_response(self.get_context_data(form=form))
