@@ -8,7 +8,10 @@
       {% if posts %}
         {% for post in posts %}
           <article class="post">
-            <h2><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
+            <h2>
+              <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+              {% if post.status == 1 %}<span class="draft">Draft</span>{% endif %}
+            </h2>
             <div class="post_footer">
               <span class="post-date"> {{ post.date_created|date:'D d M Y' }}</span>
 
@@ -39,14 +42,14 @@
   <!-- blog posts pagination -->
   <div class="pagination">
       <span class="step-links">
-          {% if posts.has_previous %}
-              <a href="?page={{ posts.previous_page_number }}">previous</a>
+          {% if page_obj.has_previous %}
+              <a href="?page={{ page_obj.previous_page_number }}">previous</a>
           {% endif %}
           <span class="current">
-              Page {{ posts.number }} of {{ posts.paginator.num_pages }}.
+              Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
           </span>
-          {% if posts.has_next %}
-              <a href="?page={{ posts.next_page_number }}">next</a>
+          {% if page_obj.has_next %}
+              <a href="?page={{ page_obj.next_page_number }}">next</a>
           {% endif %}
       </span>
   </div>
