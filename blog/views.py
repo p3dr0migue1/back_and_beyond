@@ -14,7 +14,7 @@ from django.views.generic.edit import ModelFormMixin
 from haystack.query import SearchQuerySet
 
 from .forms import PostsForm, SearchForm, TagsForm
-from .models import PostTags, Posts, Tag
+from .models import Posts, PostTags, Tag
 from .utils import StaffUserMixin
 
 
@@ -202,20 +202,20 @@ class PostUpdate(LoginRequiredMixin, StaffUserMixin, UpdateView):
         return self.render_to_response(self.get_context_data(form=form))
 
 
-class NewTag(LoginRequiredMixin, StaffUserMixin, FormView):
+class TagCreate(LoginRequiredMixin, StaffUserMixin, FormView):
     form_class = TagsForm
     success_url = "/"
     template_name = "blog/tag_new.html"
 
     def form_valid(self, form):
         form.save()
-        return super(NewTag, self).form_valid(form)
+        return super().form_valid(form)
 
     def form_invalid(self, form):
-        return super(NewTag, self).form_invalid(form)
+        return super().form_invalid(form)
 
 
-class NewTagPopUp(LoginRequiredMixin, StaffUserMixin, FormView):
+class TagCreatePopUp(LoginRequiredMixin, StaffUserMixin, FormView):
     form_class = TagsForm
     template_name = "blog/tag_popup.html"
 
@@ -226,7 +226,7 @@ class NewTagPopUp(LoginRequiredMixin, StaffUserMixin, FormView):
         return handle_pop_add(tag_obj)
 
     def form_invalid(self, form):
-        return super(NewTagPopUp, self).form_invalid(form)
+        return super().form_invalid(form)
 
 
 def handle_pop_add(new_object):
