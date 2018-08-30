@@ -60,44 +60,6 @@ def custom_login(request):
     return django_login(request)
 
 
-class PostList(LoginRequiredMixin, ListView):
-    model = Posts
-    paginate_by = 7
-    template_name = 'blog/index.html'
-
-    def get_context_data(self, **kwargs):
-        queryset = kwargs.pop('object_list', self.object_list)
-        page_size = self.get_paginate_by(queryset)
-        context = {
-            'paginator': None,
-            'page_obj': None,
-            'is_paginated': False,
-            'posts': None,
-            'tags': None,
-            'staff_user': self.request.user.is_staff,
-        }
-
-        if page_size:
-            paginator, page, queryset, is_paginated = self.paginate_queryset(
-                queryset,
-                page_size
-            )
-            context['paginator'] = paginator
-            context['page_obj'] = page
-            context['is_paginated'] = is_paginated
-            context['posts'] = queryset
-            context['tags'] = PostTags.posts_in_tags_queryset()
-
-        return super().get_context_data(**context)
-
-    def get_queryset(self):
-        if self.request.user.is_staff:
-            queryset = Posts.objects.order_by('-date_created')
-        else:
-            queryset = Posts.objects.order_by('-date_created').filter(status=2)
-        return queryset
-
-
 @login_required
 def posts_in_tag(request, tag_slug):
     post_list = Posts.objects.get_posts_in_tag(tag_slug)\
@@ -140,20 +102,6 @@ def post_search(request):
     return render(request, 'search/search.html', {'form': form})
 
 
-class PostDetail(LoginRequiredMixin, DetailView):
-    model = Posts
-    template_name = 'blog/post_detail.html'
-
-    def get(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        context = self.get_context_data(
-            staff_user=request.user.is_staff,
-            post=self.object,
-            tags=word_cloud()
-        )
-        return self.render_to_response(context)
-
-
 class PostCreate(LoginRequiredMixin, StaffUserMixin, FormView):
     template_name = 'blog/post_new.html'
     form_class = PostsForm
@@ -175,6 +123,83 @@ class PostCreate(LoginRequiredMixin, StaffUserMixin, FormView):
 
     def form_invalid(self, form):
         return super().form_invalid(form)
+
+
+class PostDetail(LoginRequiredMixin, DetailView):
+    model = Posts
+    template_name = 'blog/post_detail.html'
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        context = self.get_context_data(
+            staff_user=request.user.is_staff,
+            post=self.object,
+            tags=word_cloud()
+        )
+        return self.render_to_response(context)
+
+
+class PostList(LoginRequiredMixin, ListView):
+    model = Posts
+    paginate_by = 7
+    template_name = 'blog/index.html'
+
+    def get_context_data(self, **kwargs):
+        queryset = kwargs.pop('object_list', self.object_list)
+        page_size = self.get_paginate_by(queryset)
+        context = {
+            'paginator': None,
+            'page_obj': None,
+            'is_paginated': False,
+            'posts': None,
+            'tags': None,
+            'staff_user': self.request.user.is_staff,
+        }
+
+        if page_size:
+            paginator, page, queryset, is_paginated = self.paginate_queryset(
+                queryset,
+                page_size
+            )
+            context['paginator'] = paginator
+            context['page_obj'] = page
+            context['is_paginated'] = is_paginated
+            context['posts'] = queryset
+            context['tags'] = PostTags.posts_in_tags_queryset()
+
+        return super().get_context_data(**context)
+
+    def get_queryset(self):
+        if self.request.user.is_staff:
+            queryset = Posts.objects.order_by('-date_created')
+        else:
+            queryset = Posts.objects.order_by('-date_created').filter(status=2)
+        return queryset
+
+
+class PostUpdate(LoginRequiredMixin, StaffUserMixin, UpdateView):
+    form_class = PostsForm
+    model = Posts
+    success_url = None
+    template_name = 'blog/post_edit.html'
+
+    def form_valid(self, form):
+        tags = form.cleaned_data['tags']
+        post = form.save(commit=False)
+        post.save()
+        post.tags.clear()
+
+        for tag in tags:
+            PostTags.objects.create(post=post, tag=tag)
+
+        self.success_url = reverse(
+            'blog:view-post',
+            kwargs={'slug': post.slug}
+        )
+        return super(ModelFormMixin, self).form_valid(form)
+
+    def form_invalid(self, form):
+        return self.render_to_response(self.get_context_data(form=form))
 
 
 class NewTag(LoginRequiredMixin, StaffUserMixin, FormView):
@@ -209,28 +234,3 @@ def handle_pop_add(new_object):
                      'opener.dismissAddAnotherPopup(window, "{}", "{}");'
                      '</script>'.format(new_object._get_pk_val(), new_object))
     return HttpResponse(dismiss_popup)
-
-
-class PostUpdate(LoginRequiredMixin, StaffUserMixin, UpdateView):
-    form_class = PostsForm
-    model = Posts
-    success_url = None
-    template_name = 'blog/post_edit.html'
-
-    def form_valid(self, form):
-        tags = form.cleaned_data['tags']
-        post = form.save(commit=False)
-        post.save()
-        post.tags.clear()
-
-        for tag in tags:
-            PostTags.objects.create(post=post, tag=tag)
-
-        self.success_url = reverse(
-            'blog:view-post',
-            kwargs={'slug': post.slug}
-        )
-        return super(ModelFormMixin, self).form_valid(form)
-
-    def form_invalid(self, form):
-        return self.render_to_response(self.get_context_data(form=form))
