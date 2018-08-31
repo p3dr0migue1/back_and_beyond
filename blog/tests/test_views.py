@@ -4,8 +4,8 @@ from django.contrib.sessions.middleware import SessionMiddleware
 from django.core.urlresolvers import reverse
 from django.test import Client
 
-from ..models import Tag, Posts, PostTags
-from ..views import NewTag, PostCreate, PostList
+from ..models import Posts, PostTags, Tag
+from ..views import PostCreate, PostList, TagCreate
 
 
 class TestTags(TestCase):
@@ -30,7 +30,7 @@ class TestTags(TestCase):
     def test_rendering_new_tag_page_as_a_staff_user(self):
         request = self.factory.get('new-tag')
         request.user = self.staff_user
-        response = NewTag.as_view()(request)
+        response = TagCreate.as_view()(request)
 
         self.assertTrue(response.status_code, 200)
 

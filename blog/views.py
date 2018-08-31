@@ -1,12 +1,8 @@
-import math
-from itertools import chain
-
 from django.conf import settings
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import login as django_login
-from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.core.urlresolvers import reverse
+from django.http import Http404
 from django.shortcuts import HttpResponse, redirect, render
 from django.views.generic import DetailView, FormView, ListView, UpdateView
 from django.views.generic.edit import ModelFormMixin
@@ -14,50 +10,76 @@ from django.views.generic.edit import ModelFormMixin
 from haystack.query import SearchQuerySet
 
 from .forms import PostsForm, SearchForm, TagsForm
-from .models import PostTags, Posts, Tag
-from .utils import StaffUserMixin
-
-
-def word_cloud():
-    post_tags = PostTags.posts_in_tags_queryset()
-    result = []
-
-    if post_tags:
-        maximum = max(list(chain(*post_tags.values_list('posts'))))
-
-        for obj in post_tags.iterator():
-            percent = math.floor((obj['posts'] * 100) / maximum)
-            if percent <= 60:
-                obj['css_class'] = 'tag-cloud_small'
-            elif 60 < percent <= 80:
-                obj['css_class'] = 'tag-cloud_medium'
-            else:
-                obj['css_class'] = 'tag-cloud_large'
-            result.append(obj)
-    return result
-
-
-def pagination(request, object_list):
-    # show 7 posts per page
-    paginator = Paginator(object_list, 7)
-    page = request.GET.get('page')
-
-    try:
-        pages = paginator.page(page)
-    except PageNotAnInteger:
-        # if page is not an integer, deliver first page.
-        pages = paginator.page(1)
-    except EmptyPage:
-        # if page is out of range (e.g. 9999), deliver
-        # last page of results.
-        pages = paginator.page(paginator.num_pages)
-    return pages
+from .models import Posts, PostTags, Tag
+from .utils import StaffUserMixin, pagination
 
 
 def custom_login(request):
     if request.user.is_authenticated():
         return redirect(settings.LOGIN_REDIRECT_URL)
     return django_login(request)
+
+
+def post_search(request):
+    form = SearchForm()
+
+    if 'query' in request.GET:
+        form = SearchForm(request.GET)
+        if form.is_valid():
+            cd = form.cleaned_data
+            results = SearchQuerySet().models(Posts)\
+                                      .filter(content=cd['query'])\
+                                      .load_all()
+
+            # count total results
+            total_results = results.count()
+            return render(request,
+                          'search/search.html',
+                          {'form': form,
+                           'tags': PostTags.posts_in_tags_queryset(),
+                           'cd': cd,
+                           'results': results,
+                           'total_results': total_results})
+        else:
+            return render(request, 'search/search.html', {'form': form})
+    return render(request, 'search/search.html', {'form': form})
+
+
+class PostCreate(LoginRequiredMixin, StaffUserMixin, FormView):
+    template_name = 'blog/post_new.html'
+    form_class = PostsForm
+    success_url = None
+
+    def form_valid(self, form):
+        tags = form.cleaned_data['tags']
+        post = form.save(commit=False)
+        post.save()
+
+        for tag in tags:
+            PostTags.objects.create(post=post, tag=tag)
+
+        self.success_url = reverse(
+            'blog:view-post',
+            kwargs={'slug': post.slug}
+        )
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        return super().form_invalid(form)
+
+
+class PostDetail(LoginRequiredMixin, DetailView):
+    model = Posts
+    template_name = 'blog/post_detail.html'
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        context = self.get_context_data(
+            staff_user=request.user.is_staff,
+            post=self.object,
+            tags=PostTags.posts_in_tags_queryset()
+        )
+        return self.render_to_response(context)
 
 
 class PostList(LoginRequiredMixin, ListView):
@@ -98,119 +120,6 @@ class PostList(LoginRequiredMixin, ListView):
         return queryset
 
 
-@login_required
-def posts_in_tag(request, tag_slug):
-    post_list = Posts.objects.get_posts_in_tag(tag_slug)\
-                             .order_by('-date_created')\
-                             .filter(status=2)
-    post_tags = PostTags.posts_in_tags_queryset()
-    page = pagination(request, post_list)
-    context = {
-        'page_obj': page,
-        'posts': page.object_list,
-        'staff_user': request.user.is_staff,
-        'tags': post_tags,
-    }
-
-    return render(request, 'blog/posts_in_tag.html', context)
-
-
-def post_search(request):
-    form = SearchForm()
-
-    if 'query' in request.GET:
-        form = SearchForm(request.GET)
-        if form.is_valid():
-            cd = form.cleaned_data
-            results = SearchQuerySet().models(Posts)\
-                                      .filter(content=cd['query'])\
-                                      .load_all()
-
-            # count total results
-            total_results = results.count()
-            return render(request,
-                          'search/search.html',
-                          {'form': form,
-                           'tags': word_cloud(),
-                           'cd': cd,
-                           'results': results,
-                           'total_results': total_results})
-        else:
-            return render(request, 'search/search.html', {'form': form})
-    return render(request, 'search/search.html', {'form': form})
-
-
-class PostDetail(LoginRequiredMixin, DetailView):
-    model = Posts
-    template_name = 'blog/post_detail.html'
-
-    def get(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        context = self.get_context_data(
-            staff_user=request.user.is_staff,
-            post=self.object,
-            tags=word_cloud()
-        )
-        return self.render_to_response(context)
-
-
-class PostCreate(LoginRequiredMixin, StaffUserMixin, FormView):
-    template_name = 'blog/post_new.html'
-    form_class = PostsForm
-    success_url = None
-
-    def form_valid(self, form):
-        tags = form.cleaned_data['tags']
-        post = form.save(commit=False)
-        post.save()
-
-        for tag in tags:
-            PostTags.objects.create(post=post, tag=tag)
-
-        self.success_url = reverse(
-            'blog:view-post',
-            kwargs={'slug': post.slug}
-        )
-        return super().form_valid(form)
-
-    def form_invalid(self, form):
-        return super().form_invalid(form)
-
-
-class NewTag(LoginRequiredMixin, StaffUserMixin, FormView):
-    form_class = TagsForm
-    success_url = "/"
-    template_name = "blog/tag_new.html"
-
-    def form_valid(self, form):
-        form.save()
-        return super(NewTag, self).form_valid(form)
-
-    def form_invalid(self, form):
-        return super(NewTag, self).form_invalid(form)
-
-
-class NewTagPopUp(LoginRequiredMixin, StaffUserMixin, FormView):
-    form_class = TagsForm
-    template_name = "blog/tag_popup.html"
-
-    def form_valid(self, form):
-        tag_name = form.cleaned_data["name"]
-        tag_obj = Tag(name=tag_name)
-        tag_obj.save()
-        return handle_pop_add(tag_obj)
-
-    def form_invalid(self, form):
-        return super(NewTagPopUp, self).form_invalid(form)
-
-
-def handle_pop_add(new_object):
-    dismiss_popup = ('<script type="text/javascript">'
-                     'opener.dismissAddAnotherPopup(window, "{}", "{}");'
-                     '</script>'.format(new_object._get_pk_val(), new_object))
-    return HttpResponse(dismiss_popup)
-
-
 class PostUpdate(LoginRequiredMixin, StaffUserMixin, UpdateView):
     form_class = PostsForm
     model = Posts
@@ -234,3 +143,74 @@ class PostUpdate(LoginRequiredMixin, StaffUserMixin, UpdateView):
 
     def form_invalid(self, form):
         return self.render_to_response(self.get_context_data(form=form))
+
+
+class PostsInTag(LoginRequiredMixin, DetailView):
+    model = Posts
+    paginate_by = 7
+    slug_url_kwarg = 'tag_slug'
+    template_name = 'blog/posts_in_tag.html'
+
+    def get_context_data(self, **kwargs):
+        queryset = self.object
+        page_number = self.request.GET.get('page') or 1
+        paginator, page, queryset, is_paginated = pagination(
+            queryset,
+            self.paginate_by,
+            page_number,
+        )
+        context = {
+            'paginator': paginator,
+            'page_obj': page,
+            'is_paginated': is_paginated,
+            'posts': queryset,
+            'staff_user': self.request.user.is_staff,
+            'tags': PostTags.posts_in_tags_queryset(),
+        }
+
+        return super().get_context_data(**context)
+
+    def get_object(self, queryset=None):
+        slug = self.kwargs.get(self.slug_url_kwarg)
+
+        try:
+            obj = Posts.objects.get_posts_in_tag(slug)\
+                               .order_by('-date_created')\
+                               .filter(status=2)
+        except Posts.DoesNotExist:
+            raise Http404
+        return obj
+
+
+class TagCreate(LoginRequiredMixin, StaffUserMixin, FormView):
+    form_class = TagsForm
+    success_url = "/"
+    template_name = "blog/tag_new.html"
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        return super().form_invalid(form)
+
+
+class TagCreatePopUp(LoginRequiredMixin, StaffUserMixin, FormView):
+    form_class = TagsForm
+    template_name = "blog/tag_popup.html"
+
+    def form_valid(self, form):
+        tag_name = form.cleaned_data["name"]
+        tag_obj = Tag(name=tag_name)
+        tag_obj.save()
+        return handle_pop_add(tag_obj)
+
+    def form_invalid(self, form):
+        return super().form_invalid(form)
+
+
+def handle_pop_add(new_object):
+    dismiss_popup = ('<script type="text/javascript">'
+                     'opener.dismissAddAnotherPopup(window, "{}", "{}");'
+                     '</script>'.format(new_object._get_pk_val(), new_object))
+    return HttpResponse(dismiss_popup)
