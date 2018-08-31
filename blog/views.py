@@ -2,11 +2,10 @@ import math
 from itertools import chain
 
 from django.conf import settings
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import login as django_login
-from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.core.urlresolvers import reverse
+from django.http import Http404
 from django.shortcuts import HttpResponse, redirect, render
 from django.views.generic import DetailView, FormView, ListView, UpdateView
 from django.views.generic.edit import ModelFormMixin
@@ -15,7 +14,7 @@ from haystack.query import SearchQuerySet
 
 from .forms import PostsForm, SearchForm, TagsForm
 from .models import Posts, PostTags, Tag
-from .utils import StaffUserMixin
+from .utils import StaffUserMixin, pagination
 
 
 def word_cloud():
@@ -37,44 +36,10 @@ def word_cloud():
     return result
 
 
-def pagination(request, object_list):
-    # show 7 posts per page
-    paginator = Paginator(object_list, 7)
-    page = request.GET.get('page')
-
-    try:
-        pages = paginator.page(page)
-    except PageNotAnInteger:
-        # if page is not an integer, deliver first page.
-        pages = paginator.page(1)
-    except EmptyPage:
-        # if page is out of range (e.g. 9999), deliver
-        # last page of results.
-        pages = paginator.page(paginator.num_pages)
-    return pages
-
-
 def custom_login(request):
     if request.user.is_authenticated():
         return redirect(settings.LOGIN_REDIRECT_URL)
     return django_login(request)
-
-
-@login_required
-def posts_in_tag(request, tag_slug):
-    post_list = Posts.objects.get_posts_in_tag(tag_slug)\
-                             .order_by('-date_created')\
-                             .filter(status=2)
-    post_tags = PostTags.posts_in_tags_queryset()
-    page = pagination(request, post_list)
-    context = {
-        'page_obj': page,
-        'posts': page.object_list,
-        'staff_user': request.user.is_staff,
-        'tags': post_tags,
-    }
-
-    return render(request, 'blog/posts_in_tag.html', context)
 
 
 def post_search(request):
@@ -200,6 +165,43 @@ class PostUpdate(LoginRequiredMixin, StaffUserMixin, UpdateView):
 
     def form_invalid(self, form):
         return self.render_to_response(self.get_context_data(form=form))
+
+
+class PostsInTag(LoginRequiredMixin, DetailView):
+    model = Posts
+    paginate_by = 7
+    slug_url_kwarg = 'tag_slug'
+    template_name = 'blog/posts_in_tag.html'
+
+    def get_context_data(self, **kwargs):
+        queryset = self.object
+        page_number = self.request.GET.get('page') or 1
+        paginator, page, queryset, is_paginated = pagination(
+            queryset,
+            self.paginate_by,
+            page_number,
+        )
+        context = {
+            'paginator': paginator,
+            'page_obj': page,
+            'is_paginated': is_paginated,
+            'posts': queryset,
+            'staff_user': self.request.user.is_staff,
+            'tags': PostTags.posts_in_tags_queryset(),
+        }
+
+        return super().get_context_data(**context)
+
+    def get_object(self, queryset=None):
+        slug = self.kwargs.get(self.slug_url_kwarg)
+
+        try:
+            obj = Posts.objects.get_posts_in_tag(slug)\
+                               .order_by('-date_created')\
+                               .filter(status=2)
+        except Posts.DoesNotExist:
+            raise Http404
+        return obj
 
 
 class TagCreate(LoginRequiredMixin, StaffUserMixin, FormView):
