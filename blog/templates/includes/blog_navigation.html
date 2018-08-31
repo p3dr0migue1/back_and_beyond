@@ -12,13 +12,15 @@
             </div>
         {% endblock searchform %}
 
-        <nav class="sidebar-menu">
-          <h3>Menu</h3>
-          <ul>
-              <li><a href="{% url 'blog:new-post' %}">Create New Post</a></li>
-              <li><a href="{% url 'blog:new-tag' %}">Create New Tag</a></li>
-          </ul>
-        </nav>
+        {% if staff_user %}
+            <nav class="sidebar-menu">
+              <h3>Menu</h3>
+              <ul>
+                  <li><a href="{% url 'blog:new-post' %}">Create New Post</a></li>
+                  <li><a href="{% url 'blog:new-tag' %}">Create New Tag</a></li>
+              </ul>
+            </nav>
+        {% endif %}
 
         <!-- tags -->
         {% if tags %}
@@ -26,7 +28,9 @@
             <h3>Tags</h3>
             <ul>
             {% for t_obj in tags %}
-                <li class="{% cycle 'odd_tag' 'even_tag' %}"><a class="{{ t_obj.css_class }}" href="{% url 'blog:posts_in_tag' t_obj.tag__slug %}">{{ t_obj.tag__name }}</a></li>
+                <li class="{% cycle 'odd_tag' 'even_tag' %}">
+                    <a href="{% url 'blog:posts_in_tag' t_obj.tag__slug %}">{{ t_obj.tag__name }}</a>
+                </li>
             {% endfor %}
             </ul>
         </nav>
