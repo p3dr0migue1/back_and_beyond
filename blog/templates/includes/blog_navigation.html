@@ -28,7 +28,9 @@
             <h3>Tags</h3>
             <ul>
             {% for t_obj in tags %}
-                <li class="{% cycle 'odd_tag' 'even_tag' %}"><a class="{{ t_obj.css_class }}" href="{% url 'blog:posts_in_tag' t_obj.tag__slug %}">{{ t_obj.tag__name }}</a></li>
+                <li class="{% cycle 'odd_tag' 'even_tag' %}">
+                    <a href="{% url 'blog:posts_in_tag' t_obj.tag__slug %}">{{ t_obj.tag__name }}</a>
+                </li>
             {% endfor %}
             </ul>
         </nav>

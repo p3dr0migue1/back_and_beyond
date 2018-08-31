@@ -1,6 +1,3 @@
-import math
-from itertools import chain
-
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import login as django_login
@@ -15,25 +12,6 @@ from haystack.query import SearchQuerySet
 from .forms import PostsForm, SearchForm, TagsForm
 from .models import Posts, PostTags, Tag
 from .utils import StaffUserMixin, pagination
-
-
-def word_cloud():
-    post_tags = PostTags.posts_in_tags_queryset()
-    result = []
-
-    if post_tags:
-        maximum = max(list(chain(*post_tags.values_list('posts'))))
-
-        for obj in post_tags.iterator():
-            percent = math.floor((obj['posts'] * 100) / maximum)
-            if percent <= 60:
-                obj['css_class'] = 'tag-cloud_small'
-            elif 60 < percent <= 80:
-                obj['css_class'] = 'tag-cloud_medium'
-            else:
-                obj['css_class'] = 'tag-cloud_large'
-            result.append(obj)
-    return result
 
 
 def custom_login(request):
@@ -58,7 +36,7 @@ def post_search(request):
             return render(request,
                           'search/search.html',
                           {'form': form,
-                           'tags': word_cloud(),
+                           'tags': PostTags.posts_in_tags_queryset(),
                            'cd': cd,
                            'results': results,
                            'total_results': total_results})
@@ -99,7 +77,7 @@ class PostDetail(LoginRequiredMixin, DetailView):
         context = self.get_context_data(
             staff_user=request.user.is_staff,
             post=self.object,
-            tags=word_cloud()
+            tags=PostTags.posts_in_tags_queryset()
         )
         return self.render_to_response(context)
 
