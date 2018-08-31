@@ -6,11 +6,11 @@ from .views import (
     PostDetail,
     PostList,
     PostUpdate,
+    PostsInTag,
     TagCreate,
     TagCreatePopUp,
     custom_login,
     post_search,
-    posts_in_tag,
 )
 
 
@@ -27,5 +27,5 @@ urlpatterns = [
     url(r"^post/(?P<slug>[\w\-]+)/$", PostDetail.as_view(), name="view-post"),
     url(r"^post/edit/(?P<pk>[0-9]+)/$", PostUpdate.as_view(), name="edit-post"),
     url(r"^search/$", post_search, name='post_search'),
-    url(r"^tag/(?P<tag_slug>[\w\-]+)/$", posts_in_tag, name="posts_in_tag"),
+    url(r"^tag/(?P<tag_slug>[\w\-]+)/$", PostsInTag.as_view(), name="posts_in_tag"),
 ]
