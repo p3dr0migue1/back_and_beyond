@@ -4,7 +4,8 @@ from django.contrib.sessions.middleware import SessionMiddleware
 from django.core.urlresolvers import reverse
 from django.test import Client
 
-from ..models import Posts, PostTags, Tag
+from ..models import Posts, Tag
+from ..services import PostTagsService
 from ..views import PostCreate, PostList, TagCreate
 
 
@@ -196,7 +197,7 @@ class TestPosts(TestCase):
             title='The Future of Cryptocurrency',
             content='Lorem ipsum content',
             status=2,)
-        post_tags = PostTags.objects.create(post=post, tag=tag)
+        post_tags = PostTagsService.create(post, tag)
         page_url = reverse('blog:view-post', kwargs={'slug': post.slug})
 
         # login
@@ -213,7 +214,7 @@ class TestPosts(TestCase):
             title='The Future of Cryptocurrency',
             content='Lorem ipsum content',
             status=2,)
-        post_tags = PostTags.objects.create(post=post, tag=tag)
+        post_tags = PostTagsService.create(post, tag)
         page_url = reverse('blog:edit-post', kwargs={'pk': post.pk})
 
         # login
@@ -229,7 +230,7 @@ class TestPosts(TestCase):
             title='The Future of Cryptocurrency',
             content='Lorem ipsum content',
             status=2,)
-        post_tags = PostTags.objects.create(post=post, tag=tag)
+        post_tags = PostTagsService.create(post, tag)
         
         page_url = reverse('blog:edit-post', kwargs={'pk': post.pk})
         post_update = {
@@ -254,7 +255,7 @@ class TestPosts(TestCase):
             title='The Future of Cryptocurrency',
             content='Lorem ipsum content',
             status=2,)
-        post_tags = PostTags.objects.create(post=post, tag=tag)
+        post_tags = PostTagsService.create(post, tag)
         
         page_url = reverse('blog:edit-post', kwargs={'pk': post.pk})
         post_update = {
