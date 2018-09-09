@@ -37,6 +37,22 @@ class PostService:
         """
         return Posts.objects.filter(status=2)
 
+    @staticmethod
+    def similar_posts(tags_ids, post_id):
+        """
+        Return a queryset with latest 3 posts that
+        contain 1 or more of the same tags.
+
+        :param tags_ids: a List
+        :param post_id:  an Integer
+        :return:         a Queryset
+        """
+        posts = Posts.objects.filter(status=2)\
+                             .filter(tags__in=tags_ids)\
+                             .exclude(id=post_id)
+        return posts.annotate(same_tags=Count('tags'))\
+                    .order_by('-same_tags', '-date_created')[:3]
+
 
 class PostTagsService:
     @staticmethod

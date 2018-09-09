@@ -75,9 +75,15 @@ class PostDetail(LoginRequiredMixin, DetailView):
 
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
+        # [4, 5, 6]
+        post_tags_ids = self.object.tags.values_list('id', flat=True)
+        service = PostService()
+        similar_posts = service.similar_posts(post_tags_ids, self.object.id)
+
         context = self.get_context_data(
             staff_user=request.user.is_staff,
             post=self.object,
+            similar_posts=similar_posts,
             tags=PostTagsService.tags_in_published_posts()
         )
         return self.render_to_response(context)
