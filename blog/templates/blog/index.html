@@ -11,6 +11,8 @@
             <h2>
               <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
               {% if post.status == 1 %}<span class="draft">Draft</span>{% endif %}
+              {% if post.status == 3 %}<span class="private">Private</span>{% endif %}
+              {% if post.status == 4 %}<span class="archived">Archived</span>{% endif %}
             </h2>
             <div class="post_footer">
               <span class="post-date"> {{ post.date_created|date:'D d M Y' }}</span>
