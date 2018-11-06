@@ -10,7 +10,8 @@ from django.views.generic.edit import ModelFormMixin
 from haystack.query import SearchQuerySet
 
 from .forms import PostsForm, SearchForm, TagsForm
-from .models import Posts, PostTags, Tag
+from .models import Posts, Tag
+from .services import PostService, PostTagsService
 from .utils import StaffUserMixin, pagination
 
 
@@ -36,7 +37,7 @@ def post_search(request):
             return render(request,
                           'search/search.html',
                           {'form': form,
-                           'tags': PostTags.posts_in_tags_queryset(),
+                           'tags': PostTagsService.tags_in_published_posts(),
                            'cd': cd,
                            'results': results,
                            'total_results': total_results})
@@ -56,7 +57,7 @@ class PostCreate(LoginRequiredMixin, StaffUserMixin, FormView):
         post.save()
 
         for tag in tags:
-            PostTags.objects.create(post=post, tag=tag)
+            PostTagsService.create(post, tag)
 
         self.success_url = reverse(
             'blog:view-post',
@@ -74,10 +75,16 @@ class PostDetail(LoginRequiredMixin, DetailView):
 
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
+        # [4, 5, 6]
+        post_tags_ids = self.object.tags.values_list('id', flat=True)
+        service = PostService()
+        similar_posts = service.similar_posts(post_tags_ids, self.object.id)
+
         context = self.get_context_data(
             staff_user=request.user.is_staff,
             post=self.object,
-            tags=PostTags.posts_in_tags_queryset()
+            similar_posts=similar_posts,
+            tags=PostTagsService.tags_in_published_posts()
         )
         return self.render_to_response(context)
 
@@ -108,15 +115,15 @@ class PostList(LoginRequiredMixin, ListView):
             context['page_obj'] = page
             context['is_paginated'] = is_paginated
             context['posts'] = queryset
-            context['tags'] = PostTags.posts_in_tags_queryset()
+            context['tags'] = PostTagsService.tags_in_published_posts()
 
         return super().get_context_data(**context)
 
     def get_queryset(self):
         if self.request.user.is_staff:
-            queryset = Posts.objects.order_by('-date_created')
+            queryset = PostService.order_by('-date_created', is_staff=True)
         else:
-            queryset = Posts.objects.order_by('-date_created').filter(status=2)
+            queryset = PostService.order_by('-date_created')
         return queryset
 
 
@@ -133,7 +140,7 @@ class PostUpdate(LoginRequiredMixin, StaffUserMixin, UpdateView):
         post.tags.clear()
 
         for tag in tags:
-            PostTags.objects.create(post=post, tag=tag)
+            PostTagsService.create(post, tag)
 
         self.success_url = reverse(
             'blog:view-post',
@@ -165,18 +172,16 @@ class PostsInTag(LoginRequiredMixin, DetailView):
             'is_paginated': is_paginated,
             'posts': queryset,
             'staff_user': self.request.user.is_staff,
-            'tags': PostTags.posts_in_tags_queryset(),
+            'tags': PostTagsService.tags_in_published_posts(),
         }
 
         return super().get_context_data(**context)
 
     def get_object(self, queryset=None):
-        slug = self.kwargs.get(self.slug_url_kwarg)
+        tag_slug = self.kwargs.get(self.slug_url_kwarg)
 
         try:
-            obj = Posts.objects.get_posts_in_tag(slug)\
-                               .order_by('-date_created')\
-                               .filter(status=2)
+            obj = PostService.get_posts_in_tag(tag_slug)
         except Posts.DoesNotExist:
             raise Http404
         return obj

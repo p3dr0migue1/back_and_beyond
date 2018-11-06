@@ -1,39 +1,52 @@
 {% block blog_navigation %}
-    <nav class="blog-navigation">
+  <nav class="blog-navigation">
 
-        <!-- search form -->
-        {% block searchform %}
-            <h3>Search</h3>
-            <div id="search">
-                <form action="/search/" method="get">
-                    <input type="text" name="query">
-                    <input type="submit" value="Search">
-                </form>
-            </div>
-        {% endblock searchform %}
+    <!-- search form -->
+    {% block searchform %}
+      <!-- <h3>Search</h3> -->
+      <div id="search">
+        <form action="/search/" method="get">
+          <input type="text" name="query">
+          <button type="submit" class="btn btn-search">Search</button>
+        </form>
+      </div>
+    {% endblock searchform %}
 
-        {% if staff_user %}
-            <nav class="sidebar-menu">
-              <h3>Menu</h3>
-              <ul>
-                  <li><a href="{% url 'blog:new-post' %}">Create New Post</a></li>
-                  <li><a href="{% url 'blog:new-tag' %}">Create New Tag</a></li>
-              </ul>
-            </nav>
-        {% endif %}
+    {% if staff_user %}
+      <nav class="sidebar-menu">
+        <h3>Menu</h3>
+        <ul>
+          <li><a href="{% url 'blog:new-post' %}">Create New Post</a></li>
+          <li><a href="{% url 'blog:new-tag' %}">Create New Tag</a></li>
+        </ul>
+      </nav>
+    {% endif %}
 
-        <!-- tags -->
-        {% if tags %}
-        <nav class="tags-menu">
-            <h3>Tags</h3>
-            <ul>
-            {% for t_obj in tags %}
-                <li class="{% cycle 'odd_tag' 'even_tag' %}">
-                    <a href="{% url 'blog:posts_in_tag' t_obj.tag__slug %}">{{ t_obj.tag__name }}</a>
-                </li>
-            {% endfor %}
-            </ul>
-        </nav>
-        {% endif %}
-    </nav>
+    {% if similar_posts %}
+      <!-- similar posts -->
+      <nav class="similar-posts">
+        <h3>Similar Posts</h3>
+        <ul>
+        {% for p in similar_posts %}
+          <li><a href="{{ p.get_absolute_url }}">{{ p.title }}</a></li>
+        {% endfor %}
+        </ul>
+      </nav>
+    {% endif %}
+
+    {% if tags %}
+      <!-- tags -->
+      <nav class="tags-menu">
+        <h3>Tags</h3>
+        <ul>
+        {% for t_obj in tags %}
+          <li class="{% cycle 'odd_tag' 'even_tag' %}">
+            <a href="{% url 'blog:posts_in_tag' t_obj.tag__slug %}">{{ t_obj.tag__name }}</a>
+          </li>
+        {% endfor %}
+        </ul>
+      </nav>
+    {% endif %}
+
+  </nav>
 {% endblock blog_navigation %}
