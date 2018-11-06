@@ -8,6 +8,7 @@
 <link rel="stylesheet" type="text/css" href="{% static 'blog/css/style.css' %}" />
 <link rel="stylesheet" type="text/css" href="{% static 'fonts/stylesheet.css' %}" />
 <body>
+    {% spaceless %}
     <div id="page">
     <h1>New tag</h1>
     <form method="POST" class="tag-form">
@@ -19,9 +20,10 @@
             {{ field.errors }}
         </div>
         {% endfor %}
-        <button type="submit" class="save btn btn-default">Save</button>
-        <a href="#" onclick="window.close();return false;" class="cancel">Cancel</a>
+        <button type="submit" class="btn btn-save">Save</button>
+        <a href="#" onclick="window.close();return false;" class="btn btn-cancel">Cancel</a>
     </form>
     </div>
+    {% endspaceless %}
 </body>
 </html>

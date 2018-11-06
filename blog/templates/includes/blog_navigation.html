@@ -3,11 +3,11 @@
 
     <!-- search form -->
     {% block searchform %}
-      <h3>Search</h3>
+      <!-- <h3>Search</h3> -->
       <div id="search">
         <form action="/search/" method="get">
           <input type="text" name="query">
-          <input type="submit" value="Search">
+          <button type="submit" class="btn btn-search">Search</button>
         </form>
       </div>
     {% endblock searchform %}

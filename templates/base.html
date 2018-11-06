@@ -8,6 +8,9 @@
       href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
       integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
       crossorigin="anonymous">
+
+<link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro" rel="stylesheet">
+
 <link rel="stylesheet" type="text/css" href="{% static 'css/base_style.css' %}" />
 <link rel="stylesheet" type="text/css" href="{% static 'css/codehilite.css' %}" />
 {% block extra_links %}
@@ -17,7 +20,7 @@
         <div class="page-head">
             <div class="header">
                 {% block header %}
-                    <h1>/back/&amp;/beyond</h1>
+                    <h1><a href="{% url 'blog:index' %}">/back/&amp;/beyond</a></h1>
                 {% endblock header %}
             </div>
             {% include "includes/navbar.html" %}
