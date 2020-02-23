@@ -13,6 +13,7 @@ import certifi
 import os
 import dj_database_url
 
+
 try:
     from urllib.parse import urlparse
 except ImportError:
@@ -39,9 +40,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
-    'haystack',
+    # 'haystack',
     'blog',
-    'notifications',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -83,7 +83,10 @@ DATABASES['default'].update(dj_database_url.config(conn_max_age=500))
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Allow all host headers
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [
+    '*',
+    'backandbeyond.herokuapp.com'
+]
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
@@ -112,27 +115,27 @@ STATICFILES_DIRS = [
 # https://warehouse.python.org/project/whitenoise/
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# Elasticsearch configuration
-ES_URL = urlparse('http://127.0.0.1:9200/')
-HAYSTACK_URL = '{}://{}:{}'.format(ES_URL.scheme, ES_URL.hostname, ES_URL.port)
+# # Elasticsearch configuration
+# ES_URL = urlparse('http://127.0.0.1:9200/')
+# HAYSTACK_URL = '{}://{}:{}'.format(ES_URL.scheme, ES_URL.hostname, ES_URL.port)
 
-if os.environ.get('BONSAI_URL'):
-    ES_URL = urlparse(os.environ.get('BONSAI_URL'))
-    HAYSTACK_URL = '{}://{}:{}'.format(ES_URL.scheme, ES_URL.hostname, 443)
+# if os.environ.get('BONSAI_URL'):
+#     ES_URL = urlparse(os.environ.get('BONSAI_URL'))
+#     HAYSTACK_URL = '{}://{}:{}'.format(ES_URL.scheme, ES_URL.hostname, 443)
 
-HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.BaseSignalProcessor'
-HAYSTACK_CONNECTIONS = {
-    'default': {
-        'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
-        'URL': HAYSTACK_URL,
-        'INDEX_NAME': 'haystack',
-        'KWARGS': {
-            'verify_certs': True,
-            'ca_certs': certifi.where(),  # Path to the Certifi bundle.
-        },
-    }
-}
+# HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.BaseSignalProcessor'
+# HAYSTACK_CONNECTIONS = {
+#     'default': {
+#         'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
+#         'URL': HAYSTACK_URL,
+#         'INDEX_NAME': 'haystack',
+#         'KWARGS': {
+#             'verify_certs': True,
+#             'ca_certs': certifi.where(),  # Path to the Certifi bundle.
+#         },
+#     }
+# }
 
 
-if ES_URL.username:
-    HAYSTACK_CONNECTIONS['default']['KWARGS'] = {"http_auth": ES_URL.username + ':' + ES_URL.password}
+# if ES_URL.username:
+#     HAYSTACK_CONNECTIONS['default']['KWARGS'] = {"http_auth": ES_URL.username + ':' + ES_URL.password}

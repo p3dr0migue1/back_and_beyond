@@ -1,16 +1,24 @@
-FROM python:3
+FROM python:3.5-alpine
+
 ENV PYTHONUNBUFFERED 1
-RUN mkdir /code
+
+RUN apk add --update --no-cache \
+        python3-dev \
+        libmemcached \
+        libmemcached-dev \
+        postgresql-dev \
+        postgresql-client \
+    && apk add --virtual .build-deps gcc musl-dev
+
+COPY requirements.txt /code/
+RUN python -m pip install --upgrade pip \
+    && python -m pip install -r /code/requirements.txt --no-cache-dir \
+    && apk --purge del .build-deps gcc musl-dev
+
+COPY . /code
+
+RUN adduser -D pedro
+USER pedro
+
 WORKDIR /code
-ADD requirements.txt /code/
-
-RUN apt-get update && \
-    apt-get -y install --no-install-recommends \
-    python3-dev \
-    libmemcached11 \
-    libmemcached-dev \
-    postgresql-client 
-RUN pip install --upgrade pdbpp && pip install -r requirements.txt
-
-ADD . /code/
-
+CMD [ "./wait-for-it.sh" ]

@@ -1,7 +1,28 @@
 [![Build Status](https://travis-ci.org/p3dr0migue1/back_and_beyond.svg?branch=master)](https://travis-ci.org/p3dr0migue1/back_and_beyond) [![codecov](https://codecov.io/gh/p3dr0migue1/back_and_beyond/branch/master/graph/badge.svg)](https://codecov.io/gh/p3dr0migue1/back_and_beyond)
 
+# Back&Beyond
+
 ## Install docker for your OS
 
-## Pull the Elasticsearch docker image
+## Clone this repo
+```sh
+git clone git@github.com:p3dr0migue1/back_and_beyond.git
+```
 
-## Pull the MySQL docker image
+## Create an environment file
+Create an environment file named `.env` and add the following variables
+```sh
+DATABASE_URL=postgres://user:test@db:5432/backandbeyond
+DEBUG=True
+```
+
+## Development with Docker & docker-compose
+Build the image
+```sh
+docker-compose build
+```
+
+Start containers
+```sh
+docker-compose up
+```

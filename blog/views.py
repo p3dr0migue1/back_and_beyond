@@ -7,7 +7,7 @@ from django.shortcuts import HttpResponse, redirect, render
 from django.views.generic import DetailView, FormView, ListView, UpdateView
 from django.views.generic.edit import ModelFormMixin
 
-from haystack.query import SearchQuerySet
+# from haystack.query import SearchQuerySet
 
 from .forms import PostsForm, SearchForm, TagsForm
 from .models import Posts, Tag
@@ -21,29 +21,29 @@ def custom_login(request):
     return django_login(request)
 
 
-def post_search(request):
-    form = SearchForm()
+# def post_search(request):
+#     form = SearchForm()
 
-    if 'query' in request.GET:
-        form = SearchForm(request.GET)
-        if form.is_valid():
-            cd = form.cleaned_data
-            results = SearchQuerySet().models(Posts)\
-                                      .filter(content=cd['query'])\
-                                      .load_all()
+#     if 'query' in request.GET:
+#         form = SearchForm(request.GET)
+#         if form.is_valid():
+#             cd = form.cleaned_data
+#             results = SearchQuerySet().models(Posts)\
+#                                       .filter(content=cd['query'])\
+#                                       .load_all()
 
-            # count total results
-            total_results = results.count()
-            return render(request,
-                          'search/search.html',
-                          {'form': form,
-                           'tags': PostTagsService.tags_in_published_posts(),
-                           'cd': cd,
-                           'results': results,
-                           'total_results': total_results})
-        else:
-            return render(request, 'search/search.html', {'form': form})
-    return render(request, 'search/search.html', {'form': form})
+#             # count total results
+#             total_results = results.count()
+#             return render(request,
+#                           'search/search.html',
+#                           {'form': form,
+#                            'tags': PostTagsService.tags_in_published_posts(),
+#                            'cd': cd,
+#                            'results': results,
+#                            'total_results': total_results})
+#         else:
+#             return render(request, 'search/search.html', {'form': form})
+#     return render(request, 'search/search.html', {'form': form})
 
 
 class PostCreate(LoginRequiredMixin, StaffUserMixin, FormView):
