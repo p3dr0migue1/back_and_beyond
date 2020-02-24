@@ -2,4 +2,4 @@ build:
   docker:
     web: Dockerfile
 run:
-  web: gunicorn back_and_beyond.wsgi:application
+  web: python manage.py collectstatic --no-input && gunicorn back_and_beyond.wsgi:application
