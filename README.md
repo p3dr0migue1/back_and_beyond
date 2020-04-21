@@ -26,3 +26,5 @@ Start containers
 ```sh
 docker-compose up
 ```
+
+* [Install required libraries](docs/development.md#install-project-dependencies)
