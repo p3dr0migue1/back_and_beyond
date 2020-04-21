@@ -28,3 +28,6 @@ docker-compose up
 ```
 
 * [Install required libraries](docs/development.md#install-project-dependencies)
+* [Run the API server](docs/development.md#run-the-api-server)
+* [Running tests](docs/development.md#running-tests)
+
