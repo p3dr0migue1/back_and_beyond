@@ -13,7 +13,7 @@ services:
     ports:
       - "8000:8000"
   db:
-    image: postgres:9.6
+    image: postgres:9.6-alpine
     container_name: db
     environment:
       - LC_ALL=C.UTF-8
