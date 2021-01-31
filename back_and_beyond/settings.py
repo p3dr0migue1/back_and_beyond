@@ -114,28 +114,3 @@ STATICFILES_DIRS = [
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
-# # Elasticsearch configuration
-# ES_URL = urlparse('http://127.0.0.1:9200/')
-# HAYSTACK_URL = '{}://{}:{}'.format(ES_URL.scheme, ES_URL.hostname, ES_URL.port)
-
-# if os.environ.get('BONSAI_URL'):
-#     ES_URL = urlparse(os.environ.get('BONSAI_URL'))
-#     HAYSTACK_URL = '{}://{}:{}'.format(ES_URL.scheme, ES_URL.hostname, 443)
-
-# HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.BaseSignalProcessor'
-# HAYSTACK_CONNECTIONS = {
-#     'default': {
-#         'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
-#         'URL': HAYSTACK_URL,
-#         'INDEX_NAME': 'haystack',
-#         'KWARGS': {
-#             'verify_certs': True,
-#             'ca_certs': certifi.where(),  # Path to the Certifi bundle.
-#         },
-#     }
-# }
-
-
-# if ES_URL.username:
-#     HAYSTACK_CONNECTIONS['default']['KWARGS'] = {"http_auth": ES_URL.username + ':' + ES_URL.password}
