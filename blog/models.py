@@ -1,4 +1,4 @@
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.db import models
 
 from django.template.defaultfilters import slugify
@@ -56,8 +56,8 @@ class Posts(models.Model):
 
 
 class PostTags(models.Model):
-	post = models.ForeignKey(Posts)
-	tag = models.ForeignKey(Tag)
+	post = models.ForeignKey('Posts', on_delete=models.CASCADE)
+	tag = models.ForeignKey('Tag', on_delete=models.CASCADE)
 	# uuid = models.UUIDField(default=uuid.uuid4, editable=False)
 
 	class Meta:

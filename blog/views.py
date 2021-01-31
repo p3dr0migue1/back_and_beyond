@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.views import login as django_login
-from django.core.urlresolvers import reverse
+from django.contrib.auth import login as django_login
+from django.urls import reverse
 from django.http import Http404
 from django.shortcuts import HttpResponse, redirect, render
 from django.views.generic import DetailView, FormView, ListView, UpdateView
