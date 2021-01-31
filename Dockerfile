@@ -1,18 +1,22 @@
-FROM python:3.5-alpine AS builder
-
 ENV PYTHONUNBUFFERED 1
 
-COPY requirements.txt /code/
-
-RUN apk add --no-cache libmemcached-dev \
+RUN apk add --update --no-cache \
+        python3-dev \
+        libmemcached \
+        libmemcached-dev \
         postgresql-dev \
         postgresql-client \
-    && apk add --no-cache --virtual .build-deps gcc musl-dev \
+    && apk add --virtual .build-deps gcc musl-dev
+
+COPY requirements.txt /code/
+RUN python -m pip install --upgrade pip \
     && python -m pip install -r /code/requirements.txt --no-cache-dir \
     && apk --purge del .build-deps gcc musl-dev
 
-FROM builder as final
+COPY . /code
 
-WORKDIR /code/
+RUN adduser -D pedro
+USER pedro
 
+WORKDIR /code
 CMD [ "./wait-for-it.sh" ]
