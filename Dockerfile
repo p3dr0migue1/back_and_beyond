@@ -8,7 +8,8 @@ RUN apk add --no-cache libmemcached-dev \
         postgresql-dev \
         postgresql-client \
     && apk add --no-cache --virtual .build-deps gcc musl-dev \
-    && python -m pip install -r /code/requirements.txt --no-cache-dir \
+    && pip install --upgrade pip \
+    && pip install -r /code/requirements.txt --no-cache-dir \
     && apk --purge del .build-deps gcc musl-dev
 
 FROM builder as final
