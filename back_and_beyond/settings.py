@@ -111,11 +111,6 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
 
-print('in settings file')
-print(BASE_DIR)
-print(STATIC_ROOT)
-print(STATICFILES_DIRS)
-
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
