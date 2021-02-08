@@ -18,7 +18,7 @@ before_script:
 
 # command to run tests
 script:
-  - coverage run manage.py test
+  - python manage.py collectstatic --noinput --clear && coverage run manage.py test
 
 # run coverage
 after_success:
