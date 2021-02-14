@@ -1,9 +1,8 @@
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth import login as django_login
 from django.urls import reverse
 from django.http import Http404
-from django.shortcuts import HttpResponse, redirect, render
+from django.shortcuts import HttpResponse
 from django.views.generic import DetailView, FormView, ListView, UpdateView
 from django.views.generic.edit import ModelFormMixin
 
@@ -13,12 +12,6 @@ from .forms import PostsForm, SearchForm, TagsForm
 from .models import Posts, Tag
 from .services import PostService, PostTagsService
 from .utils import StaffUserMixin, pagination
-
-
-def custom_login(request):
-    if request.user.is_authenticated():
-        return redirect(settings.LOGIN_REDIRECT_URL)
-    return django_login(request)
 
 
 # def post_search(request):

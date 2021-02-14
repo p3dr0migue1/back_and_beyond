@@ -1,7 +1,7 @@
 from django.test import TestCase, RequestFactory
 from django.contrib.auth.models import AnonymousUser, User
 from django.contrib.sessions.middleware import SessionMiddleware
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.test import Client
 
 from ..models import Posts, Tag
@@ -231,7 +231,7 @@ class TestPosts(TestCase):
             content='Lorem ipsum content',
             status=2,)
         post_tags = PostTagsService.create(post, tag)
-        
+
         page_url = reverse('blog:edit-post', kwargs={'pk': post.pk})
         post_update = {
             'pk': post.pk,
@@ -256,7 +256,7 @@ class TestPosts(TestCase):
             content='Lorem ipsum content',
             status=2,)
         post_tags = PostTagsService.create(post, tag)
-        
+
         page_url = reverse('blog:edit-post', kwargs={'pk': post.pk})
         post_update = {
             'pk': post.pk,
@@ -274,4 +274,4 @@ class TestPosts(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertFalse(form.is_valid())
         self.assertEqual(form.errors, expected_form_error)
-        
+

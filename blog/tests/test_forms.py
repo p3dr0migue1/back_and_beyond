@@ -1,7 +1,7 @@
 from django.test import TestCase, RequestFactory
 from django.contrib.auth.models import AnonymousUser, User
 from django.contrib.sessions.middleware import SessionMiddleware
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.test import Client
 
 from ..forms import PostsForm, TagsForm
