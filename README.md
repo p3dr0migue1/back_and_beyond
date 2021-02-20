@@ -26,3 +26,18 @@ Start containers
 ```sh
 docker-compose up
 ```
+
+## Running tests
+Running all tests
+```sh
+./manage.py test
+```
+
+Running specific test module
+```sh
+./manage.py test blog.tests.TestTags.test_creating_a_new_tag_in_popup_window_requires_a_tag_name
+```
+
+Running one test case
+```sh
+./manage.py test test_views.
