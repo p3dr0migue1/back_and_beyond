@@ -125,10 +125,6 @@
     font-weight: 400;
 }
 
-.codehilite {
-    font-size: 16.5px;
-}
-
 .post-content h3 {
     font-size: 20px;
     margin: 0px 0px 15px;
@@ -156,14 +152,13 @@
     letter-spacing: normal;
 }
 
+
 code {
-    background-color: rgba(27,31,35,0.05);
-    color: #0F0F0F;
     font-size: 16.5px;
 }
 
 pre, code {
-    padding: 2px 8px;
+    padding: 6px 3px;
     margin: 10px 0px;
 }
 
