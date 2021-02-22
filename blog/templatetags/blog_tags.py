@@ -12,10 +12,6 @@ def markdown_format(text):
     return mark_safe(
         markdown.markdown(
             text,
-            [
-                "markdown.extensions.extra",
-                "markdown.extensions.toc",
-                "codehilite",
-            ]
+            extensions=['extra', 'toc', 'admonition', 'codehilite'],
         )
     )
