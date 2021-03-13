@@ -22,3 +22,11 @@ services:
       - POSTGRES_DB=backandbeyond
     ports:
       - "5432:5432"
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.4.0
+    container_name: elasticsearch
+    environment:
+      - xpack.security.enabled=false
+      - discovery.type=single-node
+    ports:
+      - 9200:9200
