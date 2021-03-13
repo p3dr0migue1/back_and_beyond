@@ -2,41 +2,49 @@ from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
 from django.http import Http404
-from django.shortcuts import HttpResponse
+from django.shortcuts import HttpResponse, render
 from django.views.generic import DetailView, FormView, ListView, UpdateView
 from django.views.generic.edit import ModelFormMixin
+from elasticsearch_dsl.query import MultiMatch
 
-# from haystack.query import SearchQuerySet
-
+# App imports
+from .documents import PostDocument
 from .forms import PostsForm, SearchForm, TagsForm
 from .models import Posts, Tag
 from .services import PostService, PostTagsService
 from .utils import StaffUserMixin, pagination
 
 
-# def post_search(request):
-#     form = SearchForm()
+def post_search(request):
+    form = SearchForm()
 
-#     if 'query' in request.GET:
-#         form = SearchForm(request.GET)
-#         if form.is_valid():
-#             cd = form.cleaned_data
-#             results = SearchQuerySet().models(Posts)\
-#                                       .filter(content=cd['query'])\
-#                                       .load_all()
+    if 'query' in request.GET:
+        form = SearchForm(request.GET)
+        if form.is_valid():
+            data = form.cleaned_data
+            query = MultiMatch(
+                query=data['query'],
+                fields=['title', 'content']
+            )
+            search = PostDocument.search().query(query)
+            results = search.to_queryset()
 
-#             # count total results
-#             total_results = results.count()
-#             return render(request,
-#                           'search/search.html',
-#                           {'form': form,
-#                            'tags': PostTagsService.tags_in_published_posts(),
-#                            'cd': cd,
-#                            'results': results,
-#                            'total_results': total_results})
+            # count total results
+            total_results = results.count()
+            return render(
+                request,
+                'search/search.html',
+                {
+                    'form': form,
+                    'tags': PostTagsService.tags_in_published_posts(),
+                    'data': data,
+                    'results': results,
+                    'total_results': total_results
+                }
+            )
 #         else:
 #             return render(request, 'search/search.html', {'form': form})
-#     return render(request, 'search/search.html', {'form': form})
+    return render(request, 'search/search.html', {'form': form})
 
 
 class PostCreate(LoginRequiredMixin, StaffUserMixin, FormView):
