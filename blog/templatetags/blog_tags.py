@@ -15,3 +15,9 @@ def markdown_format(text):
             extensions=['extra', 'toc', 'admonition', 'codehilite'],
         )
     )
+
+
+@register.filter
+def highlight_search(text, search):
+    highlighted = text.replace(search, '<span class="highlight">{}</span>'.format(search))
+    return mark_safe(highlighted)
