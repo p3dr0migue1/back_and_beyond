@@ -115,7 +115,7 @@ STATICFILES_DIRS = [
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Elasticsearch Bonsai URL
-ES_URL = urlparse(os.environ.get('BONSAI_URL') or 'http:0.0.0.0:9200/')
+ES_URL = os.environ.get('BONSAI_URL') or '127.0.0.1:9200'
 
 # Django Elasticsearch configuration
 ELASTICSEARCH_DSL = {
