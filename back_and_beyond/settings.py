@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
+    'django_elasticsearch_dsl',
     'blog',
 )
 
@@ -112,3 +113,13 @@ STATICFILES_DIRS = [
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# Elasticsearch Bonsai URL
+ES_URL = os.environ.get('BONSAI_URL') or '127.0.0.1:9200'
+
+# Django Elasticsearch configuration
+ELASTICSEARCH_DSL = {
+    'default': {
+        'hosts': ES_URL
+    },
+}

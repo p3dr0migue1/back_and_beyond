@@ -10,7 +10,7 @@ from .views import (
     PostsInTag,
     TagCreate,
     TagCreatePopUp,
-    # post_search,
+    post_search,
 )
 
 app_name = "blog"
@@ -27,6 +27,6 @@ urlpatterns = [
     url(r"^new-tag/popup/$", TagCreatePopUp.as_view(), name="new-tag-popup"),
     url(r"^post/(?P<slug>[\w\-]+)/$", PostDetail.as_view(), name="view-post"),
     url(r"^post/edit/(?P<pk>[0-9]+)/$", PostUpdate.as_view(), name="edit-post"),
-    # url(r"^search/$", post_search, name='post_search'),
+    url(r"^search/$", post_search, name='post_search'),
     url(r"^tag/(?P<tag_slug>[\w\-]+)/$", PostsInTag.as_view(), name="posts_in_tag"),
 ]
